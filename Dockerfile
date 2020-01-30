@@ -10,7 +10,7 @@ RUN npm install
 
 COPY tsconfig.json ./
 COPY src ./src
-COPY public ./
+COPY public ./public
 # build here for CI verification
 RUN npm run build
 
