@@ -10,13 +10,12 @@ RUN npm install
 
 COPY tsconfig.json ./
 COPY src ./src
+COPY public ./
 # build here for CI verification
 RUN npm run build
 
 # and remove build output
 RUN npm run clean
-
-COPY public /app/public
 
 # building here so that appropriate env variables can be inserted outside of CI
 CMD npm run serve
