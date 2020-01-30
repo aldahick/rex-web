@@ -7,7 +7,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .ts .",
+    "lint": "eslint --ext .ts,.tsx .",
     "generate": "npm run generate:graphql",
     "generate:graphql": "graphql-codegen --config codegen.graphql.yml"
   },

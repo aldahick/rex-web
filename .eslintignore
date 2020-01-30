@@ -1,2 +1,2 @@
-scripts
 src/graphql/types.ts
+*.d.ts

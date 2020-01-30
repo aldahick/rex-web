@@ -1,4 +1,4 @@
-FROM node:12.13.1-alpine
+FROM node:12.14.1-alpine
 
 EXPOSE 5000
 
@@ -11,7 +11,7 @@ RUN npm install
 COPY tsconfig.json ./
 COPY src ./src
 # build here for CI verification
-RUN npm run compile
+RUN npm run build
 
 # and remove build output
 RUN npm run clean
