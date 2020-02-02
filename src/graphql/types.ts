@@ -49,7 +49,8 @@ export enum IContainerStatus {
   Running = 'RUNNING',
   Starting = 'STARTING',
   Stopped = 'STOPPED',
-  Dead = 'DEAD'
+  Dead = 'DEAD',
+  Unknown = 'UNKNOWN'
 }
 
 export type IContainerVariable = {
@@ -63,6 +64,12 @@ export type ICreateContainerInput = {
   image: Scalars['String'],
   tag: Scalars['String'],
   hostId: Scalars['String'],
+};
+
+export type ICreateHostInput = {
+  name: Scalars['String'],
+  hostname: Scalars['String'],
+  dockerEndpoint: Scalars['String'],
 };
 
 export type IHost = {
@@ -82,9 +89,12 @@ export type IMutation = {
   updateContainerPorts: Scalars['Boolean'],
   setContainerVariable: Scalars['Boolean'],
   removeContainerVariable: Scalars['Boolean'],
+  startContainer: Scalars['Boolean'],
+  stopContainer: Scalars['Boolean'],
+  redeployContainer: Scalars['Boolean'],
+  createHost: IHost,
   addPermissionsToRole: Scalars['Boolean'],
   createRole: IRole,
-  createHost: IHost,
   addRoleToUser: Scalars['Boolean'],
   createUser: IUser,
 };
@@ -124,6 +134,26 @@ export type IMutationRemoveContainerVariableArgs = {
 };
 
 
+export type IMutationStartContainerArgs = {
+  containerId: Scalars['String']
+};
+
+
+export type IMutationStopContainerArgs = {
+  containerId: Scalars['String']
+};
+
+
+export type IMutationRedeployContainerArgs = {
+  containerId: Scalars['String']
+};
+
+
+export type IMutationCreateHostArgs = {
+  host: ICreateHostInput
+};
+
+
 export type IMutationAddPermissionsToRoleArgs = {
   roleId: Scalars['String'],
   permissions: Array<IRolePermissionInput>
@@ -132,12 +162,6 @@ export type IMutationAddPermissionsToRoleArgs = {
 
 export type IMutationCreateRoleArgs = {
   name: Scalars['String']
-};
-
-
-export type IMutationCreateHostArgs = {
-  name: Scalars['String'],
-  hostname: Scalars['String']
 };
 
 
@@ -156,9 +180,9 @@ export type IQuery = {
   hello: Scalars['String'],
   container: IContainer,
   containers: Array<IContainer>,
-  roles: Array<IRole>,
   host: IHost,
   hosts: Array<IHost>,
+  roles: Array<IRole>,
   user: IUser,
 };
 

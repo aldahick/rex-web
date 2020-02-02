@@ -6,8 +6,8 @@ import { callMutationSafe } from "../../util/graphql";
 import { DialogForm } from "../DialogForm";
 
 const MUTATION_CREATE_HOST = gql`
-mutation Web_CreateHost($name: String!, $hostname: String!) {
-  host: createHost(name: $name, hostname: $hostname) {
+mutation Web_CreateHost($host: CreateHostInput!) {
+  createHost(host: $host) {
     _id
   }
 }
@@ -25,10 +25,13 @@ export const AddHostForm: React.FC<AddHostFormProps> = ({ onSubmit }) => {
       fields={{
         name: {},
         hostname: {},
+        dockerEndpoint: {},
       }}
       title="Add Host"
-      onSubmit={async ({ name, hostname }) => {
-        await callMutationSafe(createHost, { name, hostname });
+      onSubmit={async ({ name, hostname, dockerEndpoint }) => {
+        await callMutationSafe(createHost, {
+          host: { name, hostname, dockerEndpoint },
+        });
         await onSubmit();
         return `Successfully added host "${name}"`;
       }}

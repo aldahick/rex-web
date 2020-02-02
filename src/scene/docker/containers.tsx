@@ -7,6 +7,8 @@ import { checkQueryResult, callMutationSafe } from "../../util/graphql";
 import { createDTColumn } from "../../util/dataTable";
 import { AddContainerForm } from "../../component/docker/AddContainerForm";
 import { useStatusMessages } from "../../util/statusMessages";
+import { RedeployContainerButton } from "../../component/docker/buttons/RedeployContainerButton";
+import { StartStopContainerButton } from "../../component/docker/buttons/StartStopContainerButton";
 
 const QUERY_CONTAINERS = gql`
 query Web_Containers {
@@ -57,6 +59,16 @@ export const DockerContainersScene: React.FC = () => {
           createDTColumn("image"),
           createDTColumn("host.name", "Host"),
           createDTColumn("tag"),
+          createDTColumn("_id", " ", {
+            filter: false,
+            sort: false,
+            customBodyRender: (_, { rowIndex }) => (
+              <>
+                <StartStopContainerButton container={containers[rowIndex]} onSubmit={refetch} />
+                <RedeployContainerButton container={containers[rowIndex]} onSubmit={refetch} />
+              </>
+            ),
+          }),
         ]}
         data={containers}
         title="Containers"
