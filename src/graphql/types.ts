@@ -59,6 +59,11 @@ export type IContainerVariable = {
   value: Scalars['String'],
 };
 
+export type IContainerVariableInput = {
+  name: Scalars['String'],
+  value: Scalars['String'],
+};
+
 export type ICreateContainerInput = {
   name: Scalars['String'],
   image: Scalars['String'],
@@ -87,6 +92,7 @@ export type IMutation = {
   createContainer: IContainer,
   deleteContainers: Scalars['Boolean'],
   updateContainerPorts: Scalars['Boolean'],
+  updateContainerVariables: Scalars['Boolean'],
   setContainerVariable: Scalars['Boolean'],
   removeContainerVariable: Scalars['Boolean'],
   startContainer: Scalars['Boolean'],
@@ -118,6 +124,12 @@ export type IMutationDeleteContainersArgs = {
 export type IMutationUpdateContainerPortsArgs = {
   containerId: Scalars['String'],
   ports: Array<IContainerPortInput>
+};
+
+
+export type IMutationUpdateContainerVariablesArgs = {
+  containerId: Scalars['String'],
+  variables: Array<IContainerVariableInput>
 };
 
 

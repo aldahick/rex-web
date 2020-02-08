@@ -9,6 +9,7 @@ import { AddContainerForm } from "../../component/docker/AddContainerForm";
 import { useStatusMessages } from "../../util/statusMessages";
 import { RedeployContainerButton } from "../../component/docker/buttons/RedeployContainerButton";
 import { StartStopContainerButton } from "../../component/docker/buttons/StartStopContainerButton";
+import { EditContainerVariablesForm } from "../../component/docker/EditContainerVariablesForm";
 
 const QUERY_CONTAINERS = gql`
 query Web_Containers {
@@ -20,6 +21,15 @@ query Web_Containers {
     status
     host {
       name
+    }
+    variables {
+      name
+      value
+    }
+    ports {
+      containerPort
+      hostPort
+      hostBindIp
     }
   }
 }
@@ -48,39 +58,53 @@ export const DockerContainersScene: React.FC = () => {
     }
   };
 
-  return checkQueryResult<{ containers: IQuery["containers"] }>(({ containers }, { refetch }) => (
-    <>
-      {statusMessages.render()}
-      <AddContainerForm onSubmit={refetch} />
-      <MUIDataTable
-        columns={[
-          createDTColumn("name"),
-          createDTColumn("status"),
-          createDTColumn("image"),
-          createDTColumn("host.name", "Host"),
-          createDTColumn("tag"),
-          createDTColumn("_id", " ", {
-            filter: false,
-            sort: false,
-            customBodyRender: (_, { rowIndex }) => (
-              <>
-                <StartStopContainerButton container={containers[rowIndex]} onSubmit={refetch} />
-                <RedeployContainerButton container={containers[rowIndex]} onSubmit={refetch} />
-              </>
+  return checkQueryResult<{ containers: IQuery["containers"] }>(({ containers }, { refetch }) => {
+    const columns = [
+      createDTColumn("name"),
+      createDTColumn("status"),
+      createDTColumn("image"),
+      createDTColumn("host.name", "Host"),
+      createDTColumn("tag"),
+      createDTColumn("_id", " ", {
+        filter: false,
+        sort: false,
+        customBodyRender: (_, { rowIndex }) => (
+          <>
+            <StartStopContainerButton container={containers[rowIndex]} onSubmit={refetch} />
+            <RedeployContainerButton container={containers[rowIndex]} onSubmit={refetch} />
+          </>
+        ),
+      }),
+    ];
+    return (
+      <>
+        {statusMessages.render()}
+        <AddContainerForm onSubmit={refetch} />
+        <MUIDataTable
+          columns={columns}
+          data={containers}
+          title="Containers"
+          options={{
+            onRowsDelete: (evt: any) => {
+              const { data } = evt as { data: { dataIndex: number }[] };
+              onDelete(data.map(d => containers[d.dataIndex]))
+                .then(() => refetch())
+                .catch(err => statusMessages.setErrorMessage(err.message));
+            },
+            expandableRows: true,
+            renderExpandableRow: (_, { dataIndex }) => (
+              <tr>
+                <td colSpan={columns.length + 1}>
+                  <EditContainerVariablesForm
+                    container={containers[dataIndex]}
+                    onSubmit={refetch}
+                  />
+                </td>
+              </tr>
             ),
-          }),
-        ]}
-        data={containers}
-        title="Containers"
-        options={{
-          onRowsDelete: (evt: any) => {
-            const { data } = evt as { data: { dataIndex: number }[] };
-            onDelete(data.map(d => containers[d.dataIndex]))
-              .then(() => refetch())
-              .catch(err => statusMessages.setErrorMessage(err.message));
-          },
-        }}
-      />
-    </>
-  ))(containersResult);
+          }}
+        />
+      </>
+    );
+  })(containersResult);
 };
