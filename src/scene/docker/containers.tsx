@@ -13,6 +13,7 @@ import { StartStopContainerButton } from "../../component/docker/buttons/StartSt
 import { EditContainerVariablesForm } from "../../component/docker/EditContainerVariablesForm";
 import { Grids } from "../../component/Grids";
 import { EditContainerVolumesForm } from "../../component/docker/EditContainerVolumesForm";
+import { EditContainerPortsForm } from "../../component/docker/EditContainerPortsForm";
 
 const QUERY_CONTAINERS = gql`
 query Web_Containers {
@@ -102,19 +103,27 @@ export const DockerContainersScene: React.FC = () => {
             renderExpandableRow: (_, { dataIndex }) => (
               <tr>
                 <td colSpan={columns.length + 1}>
-                  <Grids direction="column" alignItems="center">
-                    <Typography variant="h6">Environment Variables</Typography>
-                    <EditContainerVariablesForm
-                      container={containers[dataIndex]}
-                      onSubmit={refetch}
-                    />
-                  </Grids>
-                  <Grids direction="column" alignItems="center">
-                    <Typography variant="h5">Volumes</Typography>
-                    <EditContainerVolumesForm
-                      container={containers[dataIndex]}
-                      onSubmit={refetch}
-                    />
+                  <Grids itemProps={{ xs: 12, md: 6 }}>
+                    {[{
+                      label: "Environment Variables",
+                      form: EditContainerVariablesForm,
+                    }, {
+                      label: "Ports",
+                      form: EditContainerPortsForm,
+                    }, {
+                      label: "Volumes",
+                      form: EditContainerVolumesForm,
+                    }].map(({ label, form: Form }) => (
+                      <Grids key={label} direction="column" alignItems="center">
+                        <Typography variant="h5">
+                          {label}
+                        </Typography>
+                        <Form
+                          container={containers[dataIndex]}
+                          onSubmit={refetch}
+                        />
+                      </Grids>
+                    ))}
                   </Grids>
                 </td>
               </tr>

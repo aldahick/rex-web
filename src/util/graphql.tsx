@@ -1,4 +1,5 @@
 import { Typography } from "@material-ui/core";
+import * as _ from "lodash";
 import React from "react";
 import { MutationFunction, QueryComponentOptions, QueryResult } from "react-apollo";
 import { PopupMessage } from "../component/PopupMessage";
@@ -43,3 +44,9 @@ export const checkQueryResult = <Data, >(
     }
     return callback(data, result);
   };
+
+export const removeTypename = <T extends { __typename?: string }>(value: T): Omit<T, "__typename"> => {
+  const newValue = _.cloneDeep(value);
+  delete newValue.__typename;
+  return newValue;
+};

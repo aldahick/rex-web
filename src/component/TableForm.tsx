@@ -7,13 +7,22 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useStatusMessages } from "../util/statusMessages";
 import { Table } from "./Table";
 
+interface TableFormColumn {
+  isOptional?: boolean;
+  label?: string;
+}
+
 interface TableFormProps<Key extends string> {
-  keys: Key[];
+  columns: {
+    [key in Key]: TableFormColumn;
+  };
   rows: {[key in Key]: string}[];
   onSubmit: (newRows: {[key in Key]: string}[]) => Promise<any>;
 }
 
-export const TableForm = <Key extends string>({ keys, rows: originalRows, onSubmit }: TableFormProps<Key>) => {
+export const TableForm = <Key extends string>({ columns, rows: originalRows, onSubmit }: TableFormProps<Key>) => {
+  const keys = Object.keys(columns) as Key[];
+
   const statusMessages = useStatusMessages();
   const [rows, setRows] = useState<{[key in Key]: string}[]>(originalRows);
   const [newRow, setNewRow] = useState<{[key in Key]?: string}>({});
@@ -37,9 +46,12 @@ export const TableForm = <Key extends string>({ keys, rows: originalRows, onSubm
 
   const onAdd = () => {
     setRows(() => {
-      const missingKeys = keys.filter(k => !newRow[k]);
-      if (missingKeys.length > 0) {
-        statusMessages.setErrorMessage(`Missing required fields: ${missingKeys.join(", ")}`);
+      const missingColumns = Object.entries<TableFormColumn>(columns)
+        .filter(([key, { isOptional }]) => !isOptional && !newRow[key as Key]);
+      if (missingColumns.length > 0) {
+        statusMessages.setErrorMessage(`Missing required fields: ${
+          missingColumns.map(([key]) => key).join(", ")
+        }`);
         return rows;
       }
       setNewRow({});

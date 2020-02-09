@@ -2,7 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { useMutation } from "react-apollo";
 import { IContainer, IMutationUpdateContainerVariablesArgs } from "../../graphql/types";
-import { callMutationSafe } from "../../util/graphql";
+import { callMutationSafe, removeTypename } from "../../util/graphql";
 import { TableForm } from "../TableForm";
 
 const MUTATION_UPDATE_CONTAINER_VARIABLES = gql`
@@ -21,8 +21,11 @@ export const EditContainerVariablesForm: React.FC<EditContainerVariablesFormProp
 
   return (
     <TableForm
-      keys={["name", "value"]}
-      rows={container.variables}
+      columns={{
+        name: {},
+        value: {},
+      }}
+      rows={container.variables.map(removeTypename)}
       onSubmit={async variables => {
         await callMutationSafe(updateContainerVariables, {
           containerId: container._id,
