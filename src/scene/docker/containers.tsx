@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery, useMutation } from "react-apollo";
 import gql from "graphql-tag";
 import MUIDataTable from "mui-datatables";
+import { Typography } from "@material-ui/core";
 import { IQuery, IContainer } from "../../graphql/types";
 import { checkQueryResult, callMutationSafe } from "../../util/graphql";
 import { createDTColumn } from "../../util/dataTable";
@@ -10,6 +11,8 @@ import { useStatusMessages } from "../../util/statusMessages";
 import { RedeployContainerButton } from "../../component/docker/buttons/RedeployContainerButton";
 import { StartStopContainerButton } from "../../component/docker/buttons/StartStopContainerButton";
 import { EditContainerVariablesForm } from "../../component/docker/EditContainerVariablesForm";
+import { Grids } from "../../component/Grids";
+import { EditContainerVolumesForm } from "../../component/docker/EditContainerVolumesForm";
 
 const QUERY_CONTAINERS = gql`
 query Web_Containers {
@@ -25,6 +28,10 @@ query Web_Containers {
     variables {
       name
       value
+    }
+    volumes {
+      containerPath
+      hostPath
     }
     ports {
       containerPort
@@ -95,10 +102,20 @@ export const DockerContainersScene: React.FC = () => {
             renderExpandableRow: (_, { dataIndex }) => (
               <tr>
                 <td colSpan={columns.length + 1}>
-                  <EditContainerVariablesForm
-                    container={containers[dataIndex]}
-                    onSubmit={refetch}
-                  />
+                  <Grids direction="column" alignItems="center">
+                    <Typography variant="h6">Environment Variables</Typography>
+                    <EditContainerVariablesForm
+                      container={containers[dataIndex]}
+                      onSubmit={refetch}
+                    />
+                  </Grids>
+                  <Grids direction="column" alignItems="center">
+                    <Typography variant="h5">Volumes</Typography>
+                    <EditContainerVolumesForm
+                      container={containers[dataIndex]}
+                      onSubmit={refetch}
+                    />
+                  </Grids>
                 </td>
               </tr>
             ),
