@@ -4,7 +4,7 @@ import {
   TableRow, TableCell, Button, TextField, IconButton, Grid,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { useStatusMessages } from "../util/statusMessages";
+import { useStatusMessages } from "../../util/statusMessages";
 import { Table } from "./Table";
 
 interface TableFormColumn {

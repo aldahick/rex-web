@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { useMutation } from "react-apollo";
 import { IContainer, IMutationUpdateContainerVariablesArgs } from "../../graphql/types";
 import { callMutationSafe, removeTypename } from "../../util/graphql";
-import { TableForm } from "../TableForm";
+import { TableForm } from "../util/TableForm";
 
 const MUTATION_UPDATE_CONTAINER_VARIABLES = gql`
 mutation Web_UpdateContainerVariables($containerId: String!, $variables: [ContainerVariableInput!]!) {

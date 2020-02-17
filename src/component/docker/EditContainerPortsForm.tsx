@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { useMutation } from "react-apollo";
 import { IContainer, IMutationUpdateContainerPortsArgs } from "../../graphql/types";
 import { callMutationSafe } from "../../util/graphql";
-import { TableForm } from "../TableForm";
+import { TableForm } from "../util/TableForm";
 
 const MUTATION_UPDATE_CONTAINER_PORTS = gql`
 mutation Web_UpdateContainerPorts($containerId: String!, $ports: [ContainerPortInput!]!) {

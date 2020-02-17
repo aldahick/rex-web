@@ -11,7 +11,7 @@ import { useStatusMessages } from "../../util/statusMessages";
 import { RedeployContainerButton } from "../../component/docker/buttons/RedeployContainerButton";
 import { StartStopContainerButton } from "../../component/docker/buttons/StartStopContainerButton";
 import { EditContainerVariablesForm } from "../../component/docker/EditContainerVariablesForm";
-import { Grids } from "../../component/Grids";
+import { Grids } from "../../component/util/Grids";
 import { EditContainerVolumesForm } from "../../component/docker/EditContainerVolumesForm";
 import { EditContainerPortsForm } from "../../component/docker/EditContainerPortsForm";
 

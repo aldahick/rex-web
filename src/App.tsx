@@ -14,7 +14,7 @@ import { scenes } from "./scenes";
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: "Open Sans",
+    // fontFamily: "Open Sans",
     caption: {
       fontSize: "14px",
     },

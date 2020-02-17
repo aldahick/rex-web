@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PopupMessage } from "../component/PopupMessage";
+import { PopupMessage } from "../component/util/PopupMessage";
 
 export const useStatusMessages = () => {
   const [successMessage, setSuccessMessage] = useState<string>();

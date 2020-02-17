@@ -5,7 +5,7 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import * as _ from "lodash";
 import { Grids } from "./Grids";
-import { useStatusMessages } from "../util/statusMessages";
+import { useStatusMessages } from "../../util/statusMessages";
 
 type OnChange = (value: string) => void;
 

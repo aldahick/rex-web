@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import { IMutationCreateContainerArgs } from "../../graphql/types";
 import { callMutationSafe } from "../../util/graphql";
 import { HostSelect } from "./HostSelect";
-import { DialogForm } from "../DialogForm";
+import { DialogForm } from "../util/DialogForm";
 
 const MUTATION_CREATE_CONTAINER = gql`
 mutation Web_CreateContainer($container: CreateContainerInput!) {

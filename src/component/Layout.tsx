@@ -5,6 +5,7 @@ import { Navbar } from "./Navbar";
 const useStyles = makeStyles({
   content: {
     width: "100%",
+    marginTop: "4em",
   },
 });
 

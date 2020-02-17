@@ -2,11 +2,13 @@ import GoogleLogin, { GoogleLoginResponseOffline, GoogleLoginResponse } from "re
 import { useMutation } from "react-apollo";
 import React, { useState } from "react";
 import gql from "graphql-tag";
+import { Typography } from "@material-ui/core";
 import { IMutation, IMutationCreateAuthTokenArgs, IAuthToken } from "../../graphql/types";
 import { UserState } from "./UserState";
 import { callMutationSafe } from "../../util/graphql";
 import { Config } from "../../Config";
-import { PopupMessage } from "../PopupMessage";
+import { PopupMessage } from "../util/PopupMessage";
+import { Grids } from "../util/Grids";
 
 const MUTATION_CREATE_AUTH_TOKEN = gql`
 mutation Web_CreateAuthToken($googleIdToken: String!) {
@@ -52,16 +54,21 @@ export const LoginButton: React.FC = () => {
   return (
     <>
       <PopupMessage text={errorMessage} severity="error" />
-      <GoogleLogin
-        clientId={Config.googleClientId}
-        buttonText="Log In"
-        onSuccess={onGoogleAuth}
-        onFailure={err => {
-          // eslint-disable-next-line no-console
-          console.error(err);
-          setErrorMessage(err.message);
-        }}
-      />
+      <Grids justify="center">
+        <GoogleLogin
+          clientId={Config.googleClientId}
+          buttonText="Log In"
+          onSuccess={onGoogleAuth}
+          style={{ fontWeight: "bold" }}
+          onFailure={err => {
+            // eslint-disable-next-line no-console
+            console.error(err);
+            setErrorMessage(err.message);
+          }}
+        >
+          <Typography style={{ fontWeight: 500 }}>Log In</Typography>
+        </GoogleLogin>
+      </Grids>
     </>
   );
 };

@@ -3,7 +3,7 @@ import { useMutation } from "react-apollo";
 import gql from "graphql-tag";
 import { IMutationCreateHostArgs } from "../../graphql/types";
 import { callMutationSafe } from "../../util/graphql";
-import { DialogForm } from "../DialogForm";
+import { DialogForm } from "../util/DialogForm";
 
 const MUTATION_CREATE_HOST = gql`
 mutation Web_CreateHost($host: CreateHostInput!) {

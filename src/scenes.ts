@@ -2,8 +2,14 @@ import { SceneDefinition } from "./util/SceneDefinition";
 import { DevScene } from "./scene/dev";
 import { DockerHostsScene } from "./scene/docker/hosts";
 import { DockerContainersScene } from "./scene/docker/containers";
+import { NavbarGroups } from "./component/Navbar/NavbarGroups";
+import { IndexScene } from "./scene";
 
 export const scenes: SceneDefinition[] = [
+  {
+    route: "/",
+    component: IndexScene,
+  },
   {
     route: "/dev",
     component: DevScene,
@@ -13,7 +19,8 @@ export const scenes: SceneDefinition[] = [
     component: DockerContainersScene,
     authCheck: can => can.read("container"),
     navbar: {
-      title: "Docker Containers",
+      title: "Containers",
+      group: NavbarGroups.docker,
     },
   },
   {
@@ -21,7 +28,8 @@ export const scenes: SceneDefinition[] = [
     component: DockerHostsScene,
     authCheck: can => can.read("host"),
     navbar: {
-      title: "Docker Hosts",
+      title: "Hosts",
+      group: NavbarGroups.docker,
     },
   },
 ];

@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import { Grids } from "../component/Grids";
+import { Grids } from "../component/util/Grids";
 import { UserState } from "../component/auth";
 
 export const DevScene = () => (
