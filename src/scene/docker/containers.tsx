@@ -23,6 +23,7 @@ query Web_Containers {
     image
     tag
     status
+    networkName
     host {
       name
     }
@@ -73,6 +74,7 @@ export const DockerContainersScene: React.FC = () => {
       createDTColumn("image"),
       createDTColumn("host.name", "Host"),
       createDTColumn("tag"),
+      createDTColumn("networkName"),
       createDTColumn("_id", " ", {
         filter: false,
         sort: false,

@@ -28,6 +28,7 @@ export type IContainer = {
   tag: Scalars['String'],
   status: IContainerStatus,
   host: IHost,
+  networkName: Scalars['String'],
   ports: Array<IContainerPort>,
   variables: Array<IContainerVariable>,
   volumes: Array<IContainerVolume>,
@@ -81,6 +82,7 @@ export type ICreateContainerInput = {
   image: Scalars['String'],
   tag: Scalars['String'],
   hostId: Scalars['String'],
+  networkName: Scalars['String'],
 };
 
 export type ICreateHostInput = {
@@ -100,22 +102,25 @@ export type IHost = {
 export type IMutation = {
    __typename?: 'Mutation',
   hello: Scalars['String'],
+  createAuthToken: IAuthToken,
   createContainer: IContainer,
   deleteContainers: Scalars['Boolean'],
   updateContainerPorts: Scalars['Boolean'],
   updateContainerVariables: Scalars['Boolean'],
-  setContainerVariable: Scalars['Boolean'],
-  removeContainerVariable: Scalars['Boolean'],
   updateContainerVolumes: Scalars['Boolean'],
   startContainer: Scalars['Boolean'],
   stopContainer: Scalars['Boolean'],
   redeployContainer: Scalars['Boolean'],
-  createAuthToken: IAuthToken,
   createHost: IHost,
   addPermissionsToRole: Scalars['Boolean'],
   createRole: IRole,
   addRoleToUser: Scalars['Boolean'],
   createUser: IUser,
+};
+
+
+export type IMutationCreateAuthTokenArgs = {
+  googleIdToken: Scalars['String']
 };
 
 
@@ -141,19 +146,6 @@ export type IMutationUpdateContainerVariablesArgs = {
 };
 
 
-export type IMutationSetContainerVariableArgs = {
-  containerId: Scalars['String'],
-  name: Scalars['String'],
-  value: Scalars['String']
-};
-
-
-export type IMutationRemoveContainerVariableArgs = {
-  containerId: Scalars['String'],
-  name: Scalars['String']
-};
-
-
 export type IMutationUpdateContainerVolumesArgs = {
   containerId: Scalars['String'],
   volumes: Array<IContainerVolumeInput>
@@ -172,11 +164,6 @@ export type IMutationStopContainerArgs = {
 
 export type IMutationRedeployContainerArgs = {
   containerId: Scalars['String']
-};
-
-
-export type IMutationCreateAuthTokenArgs = {
-  googleIdToken: Scalars['String']
 };
 
 
