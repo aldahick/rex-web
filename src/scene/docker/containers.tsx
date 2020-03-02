@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "react-apollo";
 import gql from "graphql-tag";
 import MUIDataTable from "mui-datatables";
 import { Typography } from "@material-ui/core";
-import { IQuery, IContainer } from "../../graphql/types";
+import { IQuery, IContainer, IMutationDeleteContainersArgs } from "../../graphql/types";
 import { checkQueryResult, callMutationSafe } from "../../util/graphql";
 import { createDTColumn } from "../../util/dataTable";
 import { AddContainerForm } from "../../component/docker/AddContainerForm";
@@ -52,7 +52,7 @@ mutation Web_DeleteContainers($ids: [String!]!) {
 
 export const DockerContainersScene: React.FC = () => {
   const containersResult = useQuery(QUERY_CONTAINERS);
-  const [deleteContainers] = useMutation(MUTATION_DELETE_CONTAINERS);
+  const [deleteContainers] = useMutation<{}, IMutationDeleteContainersArgs>(MUTATION_DELETE_CONTAINERS);
   const statusMessages = useStatusMessages();
 
   const onDelete = async (containers: IContainer[]) => {

@@ -4,6 +4,7 @@ import { DockerHostsScene } from "./scene/docker/hosts";
 import { DockerContainersScene } from "./scene/docker/containers";
 import { NavbarGroups } from "./component/Navbar/NavbarGroups";
 import { IndexScene } from "./scene";
+import { WikiPagesScene } from "./scene/wikiPages";
 
 export const scenes: SceneDefinition[] = [
   {
@@ -30,6 +31,14 @@ export const scenes: SceneDefinition[] = [
     navbar: {
       title: "Hosts",
       group: NavbarGroups.docker,
+    },
+  },
+  {
+    route: "/wikiPages",
+    component: WikiPagesScene,
+    authCheck: can => can.read("wikiPage"),
+    navbar: {
+      title: "Wiki Pages",
     },
   },
 ];

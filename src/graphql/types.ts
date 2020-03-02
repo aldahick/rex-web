@@ -6,6 +6,7 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
+  DateTime: Date,
   Upload: File,
 };
 
@@ -91,6 +92,7 @@ export type ICreateHostInput = {
   dockerEndpoint: Scalars['String'],
 };
 
+
 export type IHost = {
    __typename?: 'Host',
   _id: Scalars['String'],
@@ -116,6 +118,7 @@ export type IMutation = {
   createRole: IRole,
   addRoleToUser: Scalars['Boolean'],
   createUser: IUser,
+  fetchWikiPagesUntil: IProgress,
 };
 
 
@@ -193,19 +196,54 @@ export type IMutationCreateUserArgs = {
   email: Scalars['String']
 };
 
+
+export type IMutationFetchWikiPagesUntilArgs = {
+  firstPageName: Scalars['String'],
+  untilPageName: Scalars['String']
+};
+
+export type IProgress = {
+   __typename?: 'Progress',
+  _id: Scalars['String'],
+  action: Scalars['String'],
+  createdAt: Scalars['DateTime'],
+  status: IProgressStatus,
+  logs: Array<IProgressLog>,
+};
+
+export type IProgressLog = {
+   __typename?: 'ProgressLog',
+  createdAt: Scalars['DateTime'],
+  text: Scalars['String'],
+};
+
+export enum IProgressStatus {
+  Created = 'CREATED',
+  InProgress = 'IN_PROGRESS',
+  Complete = 'COMPLETE',
+  Errored = 'ERRORED'
+}
+
 export type IQuery = {
    __typename?: 'Query',
   hello: Scalars['String'],
   container: IContainer,
   containers: Array<IContainer>,
+  progress: IProgress,
   host: IHost,
   hosts: Array<IHost>,
   roles: Array<IRole>,
   user: IUser,
+  wikiPage: IWikiPage,
 };
 
 
 export type IQueryContainerArgs = {
+  id: Scalars['String']
+};
+
+
+export type IQueryProgressArgs = {
   id: Scalars['String']
 };
 
@@ -217,6 +255,11 @@ export type IQueryHostArgs = {
 
 export type IQueryUserArgs = {
   id?: Maybe<Scalars['String']>
+};
+
+
+export type IQueryWikiPageArgs = {
+  name: Scalars['String']
 };
 
 export type IRole = {
@@ -244,5 +287,12 @@ export type IUser = {
   email: Scalars['String'],
   roles?: Maybe<Array<IRole>>,
   permissions?: Maybe<Array<IRolePermission>>,
+};
+
+export type IWikiPage = {
+   __typename?: 'WikiPage',
+  _id: Scalars['String'],
+  name: Scalars['String'],
+  firstLinkedPage?: Maybe<IWikiPage>,
 };
 
