@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import gql from "graphql-tag";
+import * as _ from "lodash";
 import { useQuery } from "react-apollo";
 import { checkQueryResult } from "../util/graphql";
 import {
@@ -36,7 +37,10 @@ export const MediaScene: React.FC = () => {
         <MediaContentView selectedKey={selectedKey()} />
       )}
       {selectedType === IMediaItemType.Series && (
-        <MediaSeries selectedKey={selectedKey()} items={mediaItems} />
+        <MediaSeries
+          selectedKey={selectedKey()}
+          items={_.sortBy(mediaItems, ({ key }) => Number(key.split(".")[0]))}
+        />
       )}
     </Grids>
   ))(useQuery<any, IQueryMediaItemsArgs>(QUERY_MEDIA_ITEMS, {
