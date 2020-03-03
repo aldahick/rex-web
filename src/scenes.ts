@@ -5,6 +5,7 @@ import { DockerContainersScene } from "./scene/docker/containers";
 import { NavbarGroups } from "./component/Navbar/NavbarGroups";
 import { IndexScene } from "./scene";
 import { WikiPagesScene } from "./scene/wikiPages";
+import { MediaScene } from "./scene/media";
 
 export const scenes: SceneDefinition[] = [
   {
@@ -31,6 +32,14 @@ export const scenes: SceneDefinition[] = [
     navbar: {
       title: "Hosts",
       group: NavbarGroups.docker,
+    },
+  },
+  {
+    route: "/media",
+    component: MediaScene,
+    authCheck: can => can.read("mediaItem"),
+    navbar: {
+      title: "Media",
     },
   },
   {

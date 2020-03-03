@@ -8,6 +8,7 @@
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
     "class-methods-use-this": "off",
+    "jsx-a11y/media-has-caption": "off",
     "max-classes-per-file": "off",
     "no-undef": "off",
     "quotes": ["error", "double", { "avoidEscape": true }],

@@ -25,11 +25,10 @@ export const callMutationSafe = async <Data, Variables>(
   return res.data;
 };
 
-// Trailing comma is necessary because Typescript thinks <Data> is a JSX tag otherwise
-export const checkQueryResult = <Data, >(
-  callback: (data: Data, result: QueryResult<Data>) => JSX.Element | null,
+export const checkQueryResult = <Data, Variables = {}>(
+  callback: (data: Data, result: QueryResult<Data, Variables>) => JSX.Element | null,
   loadingCallback?: () => JSX.Element | null,
-): QueryComponentOptions["children"] => (result: QueryResult<Data>) => {
+): QueryComponentOptions<Data, Variables>["children"] => (result: QueryResult<Data, Variables>) => {
     const { loading, data, error } = result;
     if (loading) {
       return loadingCallback ? loadingCallback() : <Typography style={{ textAlign: "center" }}>Loading...</Typography>;
