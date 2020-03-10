@@ -3,7 +3,7 @@ import { useMutation } from "react-apollo";
 import React, { useState } from "react";
 import gql from "graphql-tag";
 import { Typography } from "@material-ui/core";
-import { IMutation, IMutationCreateAuthTokenArgs, IAuthToken } from "../../graphql/types";
+import { IMutation, IAuthToken, IMutationCreateAuthTokenGoogleArgs } from "../../graphql/types";
 import { UserState } from "./UserState";
 import { callMutationSafe } from "../../util/graphql";
 import { Config } from "../../Config";
@@ -11,8 +11,8 @@ import { PopupMessage } from "../util/PopupMessage";
 import { Grids } from "../util/Grids";
 
 const MUTATION_CREATE_AUTH_TOKEN = gql`
-mutation Web_CreateAuthToken($googleIdToken: String!) {
-  authToken: createAuthToken(googleIdToken: $googleIdToken) {
+mutation Web_CreateAuthTokenGoogle($googleIdToken: String!) {
+  authToken: createAuthTokenGoogle(googleIdToken: $googleIdToken) {
     token
     user {
       roles {
@@ -29,7 +29,7 @@ mutation Web_CreateAuthToken($googleIdToken: String!) {
 
 export const LoginButton: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState();
-  const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthToken"] }, IMutationCreateAuthTokenArgs>(MUTATION_CREATE_AUTH_TOKEN);
+  const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenGoogle"] }, IMutationCreateAuthTokenGoogleArgs>(MUTATION_CREATE_AUTH_TOKEN);
 
   const onGoogleAuth = async (
     res: GoogleLoginResponse | GoogleLoginResponseOffline,

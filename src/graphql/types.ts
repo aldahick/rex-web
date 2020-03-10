@@ -116,7 +116,6 @@ export enum IMediaItemType {
 export type IMutation = {
    __typename?: 'Mutation',
   hello: Scalars['String'],
-  createAuthToken: IAuthToken,
   createContainer: IContainer,
   deleteContainers: Scalars['Boolean'],
   updateContainerPorts: Scalars['Boolean'],
@@ -125,17 +124,15 @@ export type IMutation = {
   startContainer: Scalars['Boolean'],
   stopContainer: Scalars['Boolean'],
   redeployContainer: Scalars['Boolean'],
+  createAuthTokenGoogle: IAuthToken,
+  createAuthTokenLocal: IAuthToken,
   createHost: IHost,
   addPermissionsToRole: Scalars['Boolean'],
   createRole: IRole,
   addRoleToUser: Scalars['Boolean'],
   createUser: IUser,
+  setUserPassword: Scalars['Boolean'],
   fetchWikiPagesUntil: IProgress,
-};
-
-
-export type IMutationCreateAuthTokenArgs = {
-  googleIdToken: Scalars['String']
 };
 
 
@@ -182,6 +179,17 @@ export type IMutationRedeployContainerArgs = {
 };
 
 
+export type IMutationCreateAuthTokenGoogleArgs = {
+  googleIdToken: Scalars['String']
+};
+
+
+export type IMutationCreateAuthTokenLocalArgs = {
+  username: Scalars['String'],
+  password: Scalars['String']
+};
+
+
 export type IMutationCreateHostArgs = {
   host: ICreateHostInput
 };
@@ -205,7 +213,15 @@ export type IMutationAddRoleToUserArgs = {
 
 
 export type IMutationCreateUserArgs = {
-  email: Scalars['String']
+  email: Scalars['String'],
+  username?: Maybe<Scalars['String']>,
+  password?: Maybe<Scalars['String']>
+};
+
+
+export type IMutationSetUserPasswordArgs = {
+  userId: Scalars['String'],
+  password: Scalars['String']
 };
 
 
@@ -241,11 +257,11 @@ export type IQuery = {
   hello: Scalars['String'],
   container: IContainer,
   containers: Array<IContainer>,
-  mediaItems: Array<IMediaItem>,
   host: IHost,
   hosts: Array<IHost>,
-  progress: IProgress,
+  mediaItems: Array<IMediaItem>,
   roles: Array<IRole>,
+  progress: IProgress,
   user: IUser,
   wikiPage: IWikiPage,
 };
@@ -256,13 +272,13 @@ export type IQueryContainerArgs = {
 };
 
 
-export type IQueryMediaItemsArgs = {
-  dir: Scalars['String']
+export type IQueryHostArgs = {
+  id: Scalars['String']
 };
 
 
-export type IQueryHostArgs = {
-  id: Scalars['String']
+export type IQueryMediaItemsArgs = {
+  dir: Scalars['String']
 };
 
 
@@ -303,6 +319,7 @@ export type IUser = {
    __typename?: 'User',
   _id: Scalars['String'],
   email: Scalars['String'],
+  username?: Maybe<Scalars['String']>,
   roles?: Maybe<Array<IRole>>,
   permissions?: Maybe<Array<IRolePermission>>,
 };
