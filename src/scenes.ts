@@ -6,11 +6,16 @@ import { NavbarGroups } from "./component/Navbar/NavbarGroups";
 import { IndexScene } from "./scene";
 import { WikiPagesScene } from "./scene/wikiPages";
 import { MediaScene } from "./scene/media";
+import { LoginScene } from "./scene/login";
 
 export const scenes: SceneDefinition[] = [
   {
     route: "/",
     component: IndexScene,
+  },
+  {
+    route: "/login",
+    component: LoginScene,
   },
   {
     route: "/dev",

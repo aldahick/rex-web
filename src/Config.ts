@@ -9,5 +9,7 @@ const required = (key: string): string => {
 export class Config {
   static readonly apiUrl = required("REACT_APP_API_URL");
 
+  static readonly baseUrl = required("REACT_APP_BASE_URL");
+
   static readonly googleClientId = required("REACT_APP_GOOGLE_CLIENT_ID");
 }

@@ -6,6 +6,8 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  Button,
+  Link,
 } from "@material-ui/core";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -13,7 +15,6 @@ import * as _ from "lodash";
 import React, { useState } from "react";
 import { UserState } from "../auth";
 import { scenes } from "../../scenes";
-import { LoginButton } from "../auth/LoginButton";
 import { LogoutButton } from "../auth/LogoutButton";
 import { SceneDefinition } from "../../util/SceneDefinition";
 import { NavbarItemProps, NavbarItem } from "./NavbarItem";
@@ -44,6 +45,7 @@ const useStyles = makeStyles(theme => ({
   titleText: {
     fontWeight: 600,
     marginLeft: "1em",
+    flexGrow: 1,
   },
 }));
 
@@ -56,7 +58,9 @@ const toNavbarItemProps = (scene: SceneDefinition): NavbarItemProps => ({
 const renderDrawer = () => (
   <div style={{ width: 250 }}>
     <List>
-      {!UserState.isAuthenticated && <LoginButton />}
+      {!UserState.isAuthenticated && (
+        <NavbarItem title="Log In" url="/login" nested={false} />
+      )}
       {UserState.isAuthenticated && (
         Object.entries(_.groupBy(scenes.filter(
           ({ navbar, authCheck }) => !!navbar && (
@@ -89,8 +93,15 @@ export const Navbar: React.FC = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.titleText}>
-            Rex
+              Rex
           </Typography>
+          {!UserState.isAuthenticated && (
+            <Button color="secondary" variant="contained">
+              <Link href="/login" color="inherit">
+                Log In
+              </Link>
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer}>
