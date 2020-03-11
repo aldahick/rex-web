@@ -62,6 +62,12 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
       .catch(err => statusMessages.setErrorMessage(err.message));
   };
 
+  const checkEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key.toLowerCase() === "enter") {
+      submit();
+    }
+  };
+
   return (
     <>
       {statusMessages.render()}
@@ -83,6 +89,7 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
                         autoFocus={i === 0}
                         fullWidth
                         onChange={evt => onFieldChange(fieldKey, evt.target.value)}
+                        onKeyDown={checkEnterKey}
                       />
                     )}
                 </Fragment>

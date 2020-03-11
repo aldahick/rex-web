@@ -30,8 +30,8 @@ interface LocalAuthFormProps {
 }
 
 export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess, statusMessages }) => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenLocal"] }, IMutationCreateAuthTokenLocalArgs>(MUTATION_CREATE_AUTH_TOKEN_LOCAL);
 
   const onSubmit = async () => {
@@ -44,18 +44,27 @@ export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess, statusM
     }
   };
 
+  const checkEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key.toLowerCase() === "enter") {
+      // should never catch
+      onSubmit().catch(console.log);
+    }
+  };
+
   return (
     <Grids direction="column" alignItems="center">
       <TextField
         label="Username"
         value={username}
         onChange={evt => setUsername(evt.target.value)}
+        onKeyDown={checkEnterKey}
       />
       <TextField
         label="Password"
         type="password"
         value={password}
         onChange={evt => setPassword(evt.target.value)}
+        onKeyDown={checkEnterKey}
       />
       <Button onClick={onSubmit} color="primary" variant="outlined">Submit</Button>
     </Grids>

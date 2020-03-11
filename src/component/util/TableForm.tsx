@@ -70,6 +70,12 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
     }
   };
 
+  const checkEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key.toLowerCase() === "enter") {
+      submit().catch(console.error);
+    }
+  };
+
   return (
     <Grid container direction="column">
       {statusMessages.render()}
@@ -80,9 +86,10 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
               {keys.map(key => (
                 <TableCell key={key}>
                   <TextField
-                    onChange={onValueChange(index, key)}
                     value={row[key]}
                     placeholder={_.startCase(key)}
+                    onChange={onValueChange(index, key)}
+                    onKeyDown={checkEnterKey}
                   />
                 </TableCell>
               ))}
@@ -97,9 +104,10 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
             {keys.map(key => (
               <TableCell key={key}>
                 <TextField
-                  onChange={onNewValueChange(key)}
                   value={newRow[key] || ""}
                   placeholder={_.startCase(key)}
+                  onChange={onNewValueChange(key)}
+                  onKeyDown={checkEnterKey}
                 />
               </TableCell>
             ))}
