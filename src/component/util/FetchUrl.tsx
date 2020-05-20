@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Typography } from "@material-ui/core";
+import axios from "axios";
 
 interface FetchUrlProps {
   children: (data: string) => JSX.Element;

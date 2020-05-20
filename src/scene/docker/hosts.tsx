@@ -1,11 +1,11 @@
-import MUIDataTable from "mui-datatables";
 import React from "react";
-import { useQuery } from "react-apollo";
 import gql from "graphql-tag";
-import { IQuery } from "../../graphql/types";
-import { checkQueryResult } from "../../util/graphql";
-import { createDTColumn } from "../../util/dataTable";
+import MUIDataTable from "mui-datatables";
+import { useQuery } from "react-apollo";
 import { AddHostForm } from "../../component/docker/AddHostForm";
+import { IQuery } from "../../graphql/types";
+import { createDTColumn } from "../../util/dataTable";
+import { checkQueryResult } from "../../util/graphql";
 
 const QUERY_HOSTS = gql`
 query Web_Hosts {

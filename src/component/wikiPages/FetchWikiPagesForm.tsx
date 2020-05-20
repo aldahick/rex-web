@@ -1,9 +1,9 @@
 import React from "react";
 import gql from "graphql-tag";
 import { useMutation } from "react-apollo";
-import { DialogForm } from "../util/DialogForm";
-import { IMutationFetchWikiPagesUntilArgs, IMutation } from "../../graphql/types";
+import { IMutation, IMutationFetchWikiPagesUntilArgs } from "../../graphql/types";
 import { callMutationSafe } from "../../util/graphql";
+import { DialogForm } from "../util/DialogForm";
 
 const MUTATION_FETCH_WIKI_PAGES_UNTIL = gql`
   mutation Web_FetchWikiPagesUntil($firstPageName: String!, $untilPageName: String!) {

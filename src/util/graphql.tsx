@@ -1,6 +1,6 @@
+import React from "react";
 import { Typography } from "@material-ui/core";
 import * as _ from "lodash";
-import React from "react";
 import { MutationFunction, QueryComponentOptions, QueryResult } from "react-apollo";
 import { PopupMessage } from "../component/util/PopupMessage";
 import { AggregateError } from "./AggregateError";

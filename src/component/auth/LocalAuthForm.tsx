@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { TextField, Button } from "@material-ui/core";
-import { useMutation } from "react-apollo";
+import { Button, TextField } from "@material-ui/core";
 import gql from "graphql-tag";
+import { useMutation } from "react-apollo";
 import { IAuthToken, IMutation, IMutationCreateAuthTokenLocalArgs } from "../../graphql/types";
+import { callMutationSafe } from "../../util/graphql";
 import { StatusMessagesMethods } from "../../util/statusMessages";
 import { Grids } from "../util/Grids";
-import { callMutationSafe } from "../../util/graphql";
 
 const MUTATION_CREATE_AUTH_TOKEN_LOCAL = gql`
 mutation Web_CreateAuthTokenLocal($username: String!, $password: String!) {

@@ -1,7 +1,7 @@
 import React from "react";
-import { isIOS } from "react-device-detect";
+import { makeStyles, Typography } from "@material-ui/core";
 import * as mime from "mime";
-import { Typography, makeStyles } from "@material-ui/core";
+import { isIOS } from "react-device-detect";
 import { Config } from "../../Config";
 import { UserState } from "../auth";
 import { FetchUrl } from "../util/FetchUrl";

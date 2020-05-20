@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Breadcrumbs, Select, MenuItem, Typography, Button, Link, makeStyles,
+  Breadcrumbs, Button, Link, makeStyles,
+  MenuItem, Select, Typography,
 } from "@material-ui/core";
 import * as _ from "lodash";
 import { IMediaItem, IMediaItemType } from "../../graphql/types";

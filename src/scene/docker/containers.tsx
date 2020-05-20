@@ -1,19 +1,19 @@
 import React from "react";
-import { useQuery, useMutation } from "react-apollo";
+import { Typography } from "@material-ui/core";
 import gql from "graphql-tag";
 import MUIDataTable from "mui-datatables";
-import { Typography } from "@material-ui/core";
-import { IQuery, IContainer, IMutationDeleteContainersArgs } from "../../graphql/types";
-import { checkQueryResult, callMutationSafe } from "../../util/graphql";
-import { createDTColumn } from "../../util/dataTable";
+import { useMutation, useQuery } from "react-apollo";
 import { AddContainerForm } from "../../component/docker/AddContainerForm";
-import { useStatusMessages } from "../../util/statusMessages";
 import { RedeployContainerButton } from "../../component/docker/buttons/RedeployContainerButton";
 import { StartStopContainerButton } from "../../component/docker/buttons/StartStopContainerButton";
-import { EditContainerVariablesForm } from "../../component/docker/EditContainerVariablesForm";
-import { Grids } from "../../component/util/Grids";
-import { EditContainerVolumesForm } from "../../component/docker/EditContainerVolumesForm";
 import { EditContainerPortsForm } from "../../component/docker/EditContainerPortsForm";
+import { EditContainerVariablesForm } from "../../component/docker/EditContainerVariablesForm";
+import { EditContainerVolumesForm } from "../../component/docker/EditContainerVolumesForm";
+import { Grids } from "../../component/util/Grids";
+import { IContainer, IMutationDeleteContainersArgs, IQuery } from "../../graphql/types";
+import { createDTColumn } from "../../util/dataTable";
+import { callMutationSafe, checkQueryResult } from "../../util/graphql";
+import { useStatusMessages } from "../../util/statusMessages";
 
 const QUERY_CONTAINERS = gql`
 query Web_Containers {

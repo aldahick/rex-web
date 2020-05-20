@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
-  Select, MenuItem, FormControl, InputLabel,
+  FormControl, InputLabel,
+  MenuItem, Select,
 } from "@material-ui/core";
 import gql from "graphql-tag";
 import { useQuery } from "react-apollo";

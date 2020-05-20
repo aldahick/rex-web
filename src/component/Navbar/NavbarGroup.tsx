@@ -5,7 +5,7 @@ import {
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { NavbarGroupDefinition } from "./NavbarGroups";
-import { NavbarItemProps, NavbarItem } from "./NavbarItem";
+import { NavbarItem, NavbarItemProps } from "./NavbarItem";
 
 interface NavbarGroupProps {
   items: Omit<NavbarItemProps, "nested">[];

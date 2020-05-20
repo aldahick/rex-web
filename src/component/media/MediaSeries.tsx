@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { IconButton, Typography } from "@material-ui/core";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import { IconButton, Typography } from "@material-ui/core";
-import { Grids } from "../util/Grids";
 import { IMediaItem } from "../../graphql/types";
+import { Grids } from "../util/Grids";
 import { MediaContentView } from "./MediaContentView";
 
 interface MediaSeriesProps {

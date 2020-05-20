@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import gql from "graphql-tag";
 import * as _ from "lodash";
 import { useQuery } from "react-apollo";
-import { checkQueryResult } from "../util/graphql";
-import {
-  IQuery, IQueryMediaItemsArgs, IMediaItem, IMediaItemType,
-} from "../graphql/types";
-import { MediaNavMenu } from "../component/media/MediaNavMenu";
-import { Grids } from "../component/util/Grids";
 import { MediaContentView } from "../component/media/MediaContentView";
+import { MediaNavMenu } from "../component/media/MediaNavMenu";
 import { MediaSeries } from "../component/media/MediaSeries";
+import { Grids } from "../component/util/Grids";
+import {
+  IMediaItem, IMediaItemType,
+  IQuery, IQueryMediaItemsArgs,
+} from "../graphql/types";
+import { checkQueryResult } from "../util/graphql";
 
 const QUERY_MEDIA_ITEMS = gql`
 query Web_MediaItems($dir: String!) {

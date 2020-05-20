@@ -1,11 +1,11 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import {
-  Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, makeStyles, TextField,
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, makeStyles, TextField,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import * as _ from "lodash";
-import { Grids } from "./Grids";
 import { useStatusMessages } from "../../util/statusMessages";
+import { Grids } from "./Grids";
 
 type OnChange = (value: string) => void;
 

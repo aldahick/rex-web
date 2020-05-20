@@ -1,9 +1,10 @@
-import * as _ from "lodash";
 import React, { useState } from "react";
 import {
-  TableRow, TableCell, Button, TextField, IconButton, Grid,
+  Button, Grid,
+  IconButton, TableCell, TableRow, TextField,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import * as _ from "lodash";
 import { useStatusMessages } from "../../util/statusMessages";
 import { Table } from "./Table";
 

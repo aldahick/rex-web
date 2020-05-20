@@ -1,11 +1,11 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { UserState } from "../component/auth";
-import { IAuthToken } from "../graphql/types";
 import { GoogleLoginButton } from "../component/auth/GoogleLoginButton";
-import { useStatusMessages } from "../util/statusMessages";
-import { Config } from "../Config";
 import { LocalAuthForm } from "../component/auth/LocalAuthForm";
+import { Config } from "../Config";
+import { IAuthToken } from "../graphql/types";
+import { useStatusMessages } from "../util/statusMessages";
 
 export const LoginScene: React.FC = () => {
   const statusMessages = useStatusMessages();

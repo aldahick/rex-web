@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { LiveProgress } from "../component/progress/LiveProgress";
 import { Grids } from "../component/util/Grids";
 import { FetchWikiPagesForm } from "../component/wikiPages/FetchWikiPagesForm";
-import { LiveProgress } from "../component/progress/LiveProgress";
 
 export const WikiPagesScene: React.FC = () => {
   const [progressId, setProgressId] = useState<string>();

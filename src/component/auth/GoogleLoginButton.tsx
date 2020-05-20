@@ -1,11 +1,11 @@
-import GoogleLogin, { GoogleLoginResponseOffline, GoogleLoginResponse } from "react-google-login";
-import { useMutation } from "react-apollo";
 import React from "react";
-import gql from "graphql-tag";
 import { Typography } from "@material-ui/core";
-import { IMutation, IAuthToken, IMutationCreateAuthTokenGoogleArgs } from "../../graphql/types";
-import { callMutationSafe } from "../../util/graphql";
+import gql from "graphql-tag";
+import { useMutation } from "react-apollo";
+import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
 import { Config } from "../../Config";
+import { IAuthToken, IMutation, IMutationCreateAuthTokenGoogleArgs } from "../../graphql/types";
+import { callMutationSafe } from "../../util/graphql";
 import { StatusMessagesMethods } from "../../util/statusMessages";
 
 const MUTATION_CREATE_AUTH_TOKEN_GOOGLE = gql`

@@ -1,11 +1,11 @@
 import React from "react";
-import { Typography, IconButton } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import gql from "graphql-tag";
 import * as _ from "lodash";
 import { useQuery } from "react-apollo";
-import gql from "graphql-tag";
-import { Grids } from "../util/Grids";
 import { IQuery, IQueryProgressArgs } from "../../graphql/types";
+import { Grids } from "../util/Grids";
 import { PopupMessage } from "../util/PopupMessage";
 
 const QUERY_PROGRESS = gql`

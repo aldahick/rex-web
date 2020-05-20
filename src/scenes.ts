@@ -1,12 +1,13 @@
-import { SceneDefinition } from "./util/SceneDefinition";
-import { DevScene } from "./scene/dev";
-import { DockerHostsScene } from "./scene/docker/hosts";
-import { DockerContainersScene } from "./scene/docker/containers";
 import { NavbarGroups } from "./component/Navbar/NavbarGroups";
 import { IndexScene } from "./scene";
-import { WikiPagesScene } from "./scene/wikiPages";
-import { MediaScene } from "./scene/media";
+import { DevScene } from "./scene/dev";
+import { DockerContainersScene } from "./scene/docker/containers";
+import { DockerHostsScene } from "./scene/docker/hosts";
 import { LoginScene } from "./scene/login";
+import { MediaScene } from "./scene/media";
+import { SettingsScene } from "./scene/settings";
+import { WikiPagesScene } from "./scene/wikiPages";
+import { SceneDefinition } from "./util/SceneDefinition";
 
 export const scenes: SceneDefinition[] = [
   {
@@ -53,6 +54,13 @@ export const scenes: SceneDefinition[] = [
     authCheck: can => can.read("wikiPage"),
     navbar: {
       title: "Wiki Pages",
+    },
+  },
+  {
+    route: "/settings",
+    component: SettingsScene,
+    navbar: {
+      title: "Settings",
     },
   },
 ];

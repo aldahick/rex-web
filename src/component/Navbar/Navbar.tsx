@@ -1,24 +1,24 @@
+import React, { useState } from "react";
 import {
+  AppBar,
+  Button,
+  IconButton,
+  Link,
   List,
   makeStyles,
   SwipeableDrawer,
-  IconButton,
-  AppBar,
   Toolbar,
   Typography,
-  Button,
-  Link,
 } from "@material-ui/core";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as _ from "lodash";
-import React, { useState } from "react";
-import { UserState } from "../auth";
 import { scenes } from "../../scenes";
-import { LogoutButton } from "../auth/LogoutButton";
 import { SceneDefinition } from "../../util/SceneDefinition";
-import { NavbarItemProps, NavbarItem } from "./NavbarItem";
+import { UserState } from "../auth";
+import { LogoutButton } from "../auth/LogoutButton";
 import { NavbarGroup } from "./NavbarGroup";
+import { NavbarItem, NavbarItemProps } from "./NavbarItem";
 
 const DRAWER_WIDTH = 250;
 

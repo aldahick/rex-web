@@ -1,6 +1,7 @@
 import React from "react";
 import {
-  TypographyProps, Typography, Link, Grid,
+  Grid,
+  Link, Typography, TypographyProps,
 } from "@material-ui/core";
 import { Grids } from "../component/util/Grids";
 import { SocialBadge } from "../component/util/SocialBadge";

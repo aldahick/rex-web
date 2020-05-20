@@ -1,10 +1,10 @@
 import React from "react";
-import { useMutation } from "react-apollo";
-import gql from "graphql-tag";
 import { Button } from "@material-ui/core";
+import gql from "graphql-tag";
+import { useMutation } from "react-apollo";
 import { IContainer, IMutationRedeployContainerArgs } from "../../../graphql/types";
-import { useStatusMessages } from "../../../util/statusMessages";
 import { callMutationSafe } from "../../../util/graphql";
+import { useStatusMessages } from "../../../util/statusMessages";
 
 const MUTATION_REDEPLOY_CONTAINER = gql`
 mutation Web_RedeployContainer($containerId: String!) {

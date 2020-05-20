@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
-import { Route, RouteProps } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import { UserState, AuthCheck } from "./UserState";
+import { Route, RouteProps } from "react-router-dom";
+import { AuthCheck, UserState } from "./UserState";
 
 type SecureRouteProps = RouteProps & {
   check: AuthCheck;
