@@ -4,17 +4,19 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { setContext } from "apollo-link-context";
 import { createHttpLink } from "apollo-link-http";
+import { Provider as MobxProvider } from "mobx-react";
 import { ApolloProvider } from "react-apollo";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "typeface-open-sans";
 import { SecureRoute, UserState } from "./component/auth";
 import { Layout } from "./component/Layout";
-import { SettingsContext, SettingsProvider } from "./component/Settings";
 import { Config } from "./Config";
+import { useStores } from "./hook/useStores";
 import { scenes } from "./scenes";
+import { RootStore } from "./store/RootStore";
 
 const ThemeProvider: React.FC = ({ children }) => {
-  const settings = React.useContext(SettingsContext);
+  const { settingsStore } = useStores();
 
   const theme = createMuiTheme({
     typography: {
@@ -24,7 +26,7 @@ const ThemeProvider: React.FC = ({ children }) => {
       },
     },
     palette: {
-      type: settings.theme,
+      type: settingsStore.settings.theme,
     },
   });
 
@@ -65,9 +67,11 @@ const client = new ApolloClient({
   },
 });
 
+const rootStore = new RootStore();
+
 export const App: React.FC = () => (
   <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
-    <SettingsProvider>
+    <MobxProvider {...rootStore.allStores}>
       <ThemeProvider>
         <ApolloProvider client={client}>
           <Layout>
@@ -80,15 +84,13 @@ export const App: React.FC = () => (
                   component: scene.component,
                 };
                 return scene.authCheck
-                  // eslint-disable-next-line react/jsx-props-no-spreading
                   ? <SecureRoute {...props} check={scene.authCheck} />
-                  // eslint-disable-next-line react/jsx-props-no-spreading
                   : <Route {...props} />;
               })}
             </Switch>
           </Layout>
         </ApolloProvider>
       </ThemeProvider>
-    </SettingsProvider>
+    </MobxProvider>
   </BrowserRouter>
 );
