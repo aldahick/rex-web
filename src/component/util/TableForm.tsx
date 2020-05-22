@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
-  Button, Grid,
-  IconButton, TableCell, TableRow, TextField,
+  Button, IconButton, TableCell, TableRow, TextField,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import * as _ from "lodash";
-import { useStatusMessages } from "../../util/statusMessages";
+import { useStores } from "../../hook/useStores";
+import { Grids } from "./Grids";
 import { Table } from "./Table";
 
 interface TableFormColumn {
@@ -24,7 +24,7 @@ interface TableFormProps<Key extends string> {
 export const TableForm = <Key extends string>({ columns, rows: originalRows, onSubmit }: TableFormProps<Key>) => {
   const keys = Object.keys(columns) as Key[];
 
-  const statusMessages = useStatusMessages();
+  const { statusStore } = useStores();
   const [rows, setRows] = useState<{[key in Key]: string}[]>(originalRows);
   const [newRow, setNewRow] = useState<{[key in Key]?: string}>({});
 
@@ -50,7 +50,7 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
       const missingColumns = Object.entries<TableFormColumn>(columns)
         .filter(([key, { isOptional }]) => !isOptional && !newRow[key as Key]);
       if (missingColumns.length > 0) {
-        statusMessages.setErrorMessage(`Missing required fields: ${
+        statusStore.setErrorMessage(`Missing required fields: ${
           missingColumns.map(([key]) => key).join(", ")
         }`);
         return rows;
@@ -64,10 +64,10 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
     try {
       const successMessage = await onSubmit(rows);
       if (typeof (successMessage) === "string" && !!successMessage) {
-        statusMessages.setSuccessMessage(successMessage);
+        statusStore.setSuccessMessage(successMessage);
       }
     } catch (err) {
-      statusMessages.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err.message);
     }
   };
 
@@ -78,49 +78,44 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
   };
 
   return (
-    <Grid container direction="column">
-      {statusMessages.render()}
-      <Grid item>
-        <Table columns={(keys as string[]).concat([""]).map(_.startCase)}>
-          {rows.map((row, index) => (
-            <TableRow key={JSON.stringify(row)}>
-              {keys.map(key => (
-                <TableCell key={key}>
-                  <TextField
-                    value={row[key]}
-                    placeholder={_.startCase(key)}
-                    onChange={onValueChange(index, key)}
-                    onKeyDown={checkEnterKey}
-                  />
-                </TableCell>
-              ))}
-              <TableCell>
-                <IconButton onClick={onRemove(index)}>
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-          <TableRow>
+    <Grids direction="column">
+      <Table columns={(keys as string[]).concat([""]).map(_.startCase)}>
+        {rows.map((row, index) => (
+          <TableRow key={JSON.stringify(row)}>
             {keys.map(key => (
               <TableCell key={key}>
                 <TextField
-                  value={newRow[key] || ""}
+                  value={row[key]}
                   placeholder={_.startCase(key)}
-                  onChange={onNewValueChange(key)}
+                  onChange={onValueChange(index, key)}
                   onKeyDown={checkEnterKey}
                 />
               </TableCell>
             ))}
             <TableCell>
-              <Button variant="outlined" onClick={onAdd}>Add</Button>
+              <IconButton onClick={onRemove(index)}>
+                <DeleteIcon />
+              </IconButton>
             </TableCell>
           </TableRow>
-        </Table>
-      </Grid>
-      <Grid item>
-        <Button variant="outlined" onClick={submit}>Save</Button>
-      </Grid>
-    </Grid>
+        ))}
+        <TableRow>
+          {keys.map(key => (
+            <TableCell key={key}>
+              <TextField
+                value={newRow[key] || ""}
+                placeholder={_.startCase(key)}
+                onChange={onNewValueChange(key)}
+                onKeyDown={checkEnterKey}
+              />
+            </TableCell>
+          ))}
+          <TableCell>
+            <Button variant="outlined" onClick={onAdd}>Add</Button>
+          </TableCell>
+        </TableRow>
+      </Table>
+      <Button variant="outlined" onClick={submit}>Save</Button>
+    </Grids>
   );
 };

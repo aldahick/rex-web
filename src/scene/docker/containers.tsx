@@ -11,9 +11,9 @@ import { EditContainerVariablesForm } from "../../component/docker/EditContainer
 import { EditContainerVolumesForm } from "../../component/docker/EditContainerVolumesForm";
 import { Grids } from "../../component/util/Grids";
 import { IContainer, IMutationDeleteContainersArgs, IQuery } from "../../graphql/types";
+import { useStores } from "../../hook/useStores";
 import { createDTColumn } from "../../util/dataTable";
 import { callMutationSafe, checkQueryResult } from "../../util/graphql";
-import { useStatusMessages } from "../../util/statusMessages";
 
 const QUERY_CONTAINERS = gql`
 query Web_Containers {
@@ -51,9 +51,9 @@ mutation Web_DeleteContainers($ids: [String!]!) {
 `;
 
 export const DockerContainersScene: React.FC = () => {
+  const { statusStore } = useStores();
   const containersResult = useQuery(QUERY_CONTAINERS);
   const [deleteContainers] = useMutation<{}, IMutationDeleteContainersArgs>(MUTATION_DELETE_CONTAINERS);
-  const statusMessages = useStatusMessages();
 
   const onDelete = async (containers: IContainer[]) => {
     if (containers.length === 0) {
@@ -61,9 +61,9 @@ export const DockerContainersScene: React.FC = () => {
     }
     try {
       await callMutationSafe(deleteContainers, { ids: containers.map(c => c._id) });
-      statusMessages.setSuccessMessage(`Successfully deleted ${containers.length} containers`);
+      statusStore.setSuccessMessage(`Successfully deleted ${containers.length} containers`);
     } catch (err) {
-      statusMessages.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err.message);
     }
   };
 
@@ -88,7 +88,6 @@ export const DockerContainersScene: React.FC = () => {
     ];
     return (
       <>
-        {statusMessages.render()}
         <AddContainerForm onSubmit={refetch} />
         <MUIDataTable
           columns={columns}
@@ -99,7 +98,7 @@ export const DockerContainersScene: React.FC = () => {
               const { data } = evt as { data: { dataIndex: number }[] };
               onDelete(data.map(d => containers[d.dataIndex]))
                 .then(() => refetch())
-                .catch(err => statusMessages.setErrorMessage(err.message));
+                .catch(err => statusStore.setErrorMessage(err.message));
             },
             expandableRows: true,
             renderExpandableRow: (_, { dataIndex }) => (

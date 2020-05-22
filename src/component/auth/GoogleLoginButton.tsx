@@ -5,8 +5,8 @@ import { useMutation } from "react-apollo";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
 import { Config } from "../../Config";
 import { IAuthToken, IMutation, IMutationCreateAuthTokenGoogleArgs } from "../../graphql/types";
+import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
-import { StatusMessagesMethods } from "../../util/statusMessages";
 
 const MUTATION_CREATE_AUTH_TOKEN_GOOGLE = gql`
 mutation Web_CreateAuthTokenGoogle($googleIdToken: String!) {
@@ -27,17 +27,17 @@ mutation Web_CreateAuthTokenGoogle($googleIdToken: String!) {
 
 interface GoogleLoginButtonProps {
   onSuccess: (authToken: IAuthToken) => void;
-  statusMessages: StatusMessagesMethods;
 }
 
-export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess, statusMessages }) => {
+export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess }) => {
+  const { statusStore } = useStores();
   const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenGoogle"] }, IMutationCreateAuthTokenGoogleArgs>(MUTATION_CREATE_AUTH_TOKEN_GOOGLE);
 
   const onGoogleAuth = async (
     res: GoogleLoginResponse | GoogleLoginResponseOffline,
   ) => {
     if ("code" in res) { // we don't support this
-      statusMessages.setErrorMessage("You appear to be offline.");
+      statusStore.setErrorMessage("You appear to be offline.");
       return;
     }
     try {
@@ -46,7 +46,7 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess,
       }));
       onSuccess(authToken);
     } catch (err) {
-      statusMessages.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err.message);
     }
   };
 
@@ -59,7 +59,7 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess,
       onFailure={err => {
         // eslint-disable-next-line no-console
         console.error(err);
-        statusMessages.setErrorMessage(err.message);
+        statusStore.setErrorMessage(err.message);
       }}
     >
       <Typography style={{ fontWeight: 500 }}>Log In</Typography>

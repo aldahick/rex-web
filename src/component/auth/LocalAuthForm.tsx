@@ -3,8 +3,8 @@ import { Button, TextField } from "@material-ui/core";
 import gql from "graphql-tag";
 import { useMutation } from "react-apollo";
 import { IAuthToken, IMutation, IMutationCreateAuthTokenLocalArgs } from "../../graphql/types";
+import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
-import { StatusMessagesMethods } from "../../util/statusMessages";
 import { Grids } from "../util/Grids";
 
 const MUTATION_CREATE_AUTH_TOKEN_LOCAL = gql`
@@ -26,10 +26,10 @@ mutation Web_CreateAuthTokenLocal($username: String!, $password: String!) {
 
 interface LocalAuthFormProps {
   onSuccess: (authToken: IAuthToken) => void;
-  statusMessages: StatusMessagesMethods;
 }
 
-export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess, statusMessages }) => {
+export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess }) => {
+  const { statusStore } = useStores();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenLocal"] }, IMutationCreateAuthTokenLocalArgs>(MUTATION_CREATE_AUTH_TOKEN_LOCAL);
@@ -40,7 +40,7 @@ export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess, statusM
       const { authToken } = await callMutationSafe(createAuthToken, { username, password });
       onSuccess(authToken);
     } catch (err) {
-      statusMessages.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err.message);
     }
   };
 

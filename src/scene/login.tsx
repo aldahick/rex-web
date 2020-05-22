@@ -5,11 +5,8 @@ import { GoogleLoginButton } from "../component/auth/GoogleLoginButton";
 import { LocalAuthForm } from "../component/auth/LocalAuthForm";
 import { Config } from "../Config";
 import { IAuthToken } from "../graphql/types";
-import { useStatusMessages } from "../util/statusMessages";
 
 export const LoginScene: React.FC = () => {
-  const statusMessages = useStatusMessages();
-
   const onLogin = ({ token, user }: IAuthToken) => {
     UserState.setAuth(token, user.roles || []);
     window.location.href = Config.baseUrl;
@@ -17,14 +14,13 @@ export const LoginScene: React.FC = () => {
 
   return (
     <Grid container direction="column" alignItems="center">
-      {statusMessages.render()}
       <Grid item style={{ marginBottom: "1em" }}>
-        <LocalAuthForm onSuccess={onLogin} statusMessages={statusMessages} />
+        <LocalAuthForm onSuccess={onLogin} />
       </Grid>
       <Grid container spacing={1}>
         <Grid item sm={6} />
         <Grid item sm={6}>
-          <GoogleLoginButton onSuccess={onLogin} statusMessages={statusMessages} />
+          <GoogleLoginButton onSuccess={onLogin} />
         </Grid>
       </Grid>
     </Grid>

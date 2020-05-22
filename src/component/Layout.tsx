@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import { Navbar } from "./Navbar";
+import { StatusMessages } from "./util/StatusMessages";
 
 const useStyles = makeStyles({
   content: {
@@ -15,6 +16,7 @@ export const Layout: React.FC = ({ children }) => {
   return (
     <Grid container justify="center">
       <Navbar />
+      <StatusMessages />
       <Grid item className={classes.content}>
         {children}
       </Grid>

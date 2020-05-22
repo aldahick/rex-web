@@ -6,8 +6,8 @@ import {
   IContainer, IContainerStatus,
   IMutationStartContainerArgs, IMutationStopContainerArgs,
 } from "../../../graphql/types";
+import { useStores } from "../../../hook/useStores";
 import { callMutationSafe } from "../../../util/graphql";
-import { useStatusMessages } from "../../../util/statusMessages";
 
 const MUTATION_START_CONTAINER = gql`
 mutation Web_StartContainer($containerId: String!) {
@@ -27,9 +27,9 @@ interface StartStopContainerButtonProps {
 }
 
 export const StartStopContainerButton: React.FC<StartStopContainerButtonProps> = ({ container, onSubmit }) => {
+  const { statusStore } = useStores();
   const [startContainer] = useMutation<{}, IMutationStartContainerArgs>(MUTATION_START_CONTAINER);
   const [stopContainer] = useMutation<{}, IMutationStopContainerArgs>(MUTATION_STOP_CONTAINER);
-  const statusMessages = useStatusMessages();
 
   const isStopping = container.status === IContainerStatus.Running || container.status === IContainerStatus.Starting;
 
@@ -39,18 +39,15 @@ export const StartStopContainerButton: React.FC<StartStopContainerButtonProps> =
         containerId: container._id,
       });
       await onSubmit();
-      statusMessages.setSuccessMessage(`Successfully ${isStopping ? "stopped" : "started"} container "${container.name}" on host "${container.host.name}"`);
+      statusStore.setSuccessMessage(`Successfully ${isStopping ? "stopped" : "started"} container "${container.name}" on host "${container.host.name}"`);
     } catch (err) {
-      statusMessages.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err.message);
     }
   };
 
   return (
-    <>
-      {statusMessages.render()}
-      <Button onClick={onClick} variant="outlined" color="primary">
-        {isStopping ? "Stop" : "Start"}
-      </Button>
-    </>
+    <Button onClick={onClick} variant="outlined" color="primary">
+      {isStopping ? "Stop" : "Start"}
+    </Button>
   );
 };

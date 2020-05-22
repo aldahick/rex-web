@@ -4,7 +4,7 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import * as _ from "lodash";
-import { useStatusMessages } from "../../util/statusMessages";
+import { useStores } from "../../hook/useStores";
 import { Grids } from "./Grids";
 
 type OnChange = (value: string) => void;
@@ -31,11 +31,10 @@ interface DialogFormProps<FieldKey extends string> {
 }
 
 export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }: DialogFormProps<FieldKey>) => {
+  const { statusStore } = useStores();
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [fieldValues, setFieldValues] = useState<{[key in FieldKey]?: string}>({});
-
-  const statusMessages = useStatusMessages();
-  const classes = useStyles();
 
   const onFieldChange = (fieldKey: FieldKey, value: string) => {
     setFieldValues({
@@ -49,17 +48,17 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
       .filter(([fieldKey]) => !fields[fieldKey]);
     if (missingFields.length > 0) {
       const labels = missingFields.map(([fieldKey, { label }]) => label || _.startCase(fieldKey));
-      statusMessages.setErrorMessage(`Missing field values: ${labels.join(", ")}`);
+      statusStore.setErrorMessage(`Missing field values: ${labels.join(", ")}`);
       return;
     }
     onSubmit(fieldValues as {[key in FieldKey]: string})
       .then(successMessage => {
         if (successMessage) {
-          statusMessages.setSuccessMessage(successMessage);
+          statusStore.setSuccessMessage(successMessage);
         }
         setOpen(false);
       })
-      .catch(err => statusMessages.setErrorMessage(err.message));
+      .catch(err => statusStore.setErrorMessage(err.message));
   };
 
   const checkEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
@@ -70,7 +69,6 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
 
   return (
     <>
-      {statusMessages.render()}
       <Fab color="primary" className={classes.addButton} onClick={() => setOpen(true)}>
         <AddIcon />
       </Fab>
