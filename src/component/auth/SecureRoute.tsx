@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import { Typography } from "@material-ui/core";
-import { Route, RouteProps } from "react-router-dom";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 import { AuthCheck, UserState } from "./UserState";
 
 type SecureRouteProps = RouteProps & {
@@ -16,10 +16,9 @@ export const SecureRoute: React.FC<SecureRouteProps> = ({
 }) => {
   const render = (props: any) => {
     const component = () => <Component {...props} />;
-    const error = () => <Typography color="error">Please (re)log in.</Typography>;
 
     if (!UserState.isAuthenticated) {
-      return error();
+      return <Redirect to="/login" />;
     }
     const isAuthorized = !check || UserState.isAuthorized(check);
     if (!isAuthorized) {

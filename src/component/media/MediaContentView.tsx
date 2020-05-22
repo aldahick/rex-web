@@ -27,6 +27,7 @@ export const MediaContentView: React.FC<MediaContentViewProps> = ({ onClick, sel
   const contentUrl = `${Config.apiUrl}/v1/media/content?key=${selectedKey}&token=${UserState.token}`;
 
   switch (mimeType) {
+    case "audio/mp4":
     case "audio/mpeg":
       return (
         <audio
