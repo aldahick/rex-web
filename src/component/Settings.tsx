@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 export interface Settings {
   theme: "light" | "dark";
@@ -15,17 +15,12 @@ let settings: Settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "false
 
 export const setSettings = (newSettings: Settings) => {
   settings = newSettings;
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
+  console.log("new settings", newSettings);
 };
 
-export const SettingsProvider: React.FC = ({ children }) => {
-  useEffect(() => {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-    console.log("stored", settings);
-  }, [settings]);
-
-  return (
-    <SettingsContext.Provider value={settings || DEFAULT_SETTINGS}>
-      {children}
-    </SettingsContext.Provider>
-  );
-};
+export const SettingsProvider: React.FC = ({ children }) => (
+  <SettingsContext.Provider value={settings || DEFAULT_SETTINGS}>
+    {children}
+  </SettingsContext.Provider>
+);

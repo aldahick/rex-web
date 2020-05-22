@@ -92,8 +92,8 @@ export const Navbar: React.FC = () => {
           <IconButton edge="start" color="inherit" onClick={() => setOpen(true)}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.titleText}>
-              Rex
+          <Typography variant="h6" className={classes.titleText} style={{ color: "white" }}>
+            Rex
           </Typography>
           {!UserState.isAuthenticated && (
             <Button color="secondary" variant="contained">
