@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   AppBar,
   Button,
@@ -13,6 +13,8 @@ import {
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as _ from "lodash";
+import { observer } from "mobx-react";
+import { useStores } from "../../hook/useStores";
 import { scenes } from "../../scenes";
 import { SceneDefinition } from "../../util/SceneDefinition";
 import { UserState } from "../auth";
@@ -81,15 +83,15 @@ const renderDrawer = () => (
   </div>
 );
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC = observer(() => {
+  const { navbarStore } = useStores();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
 
   return (
     <>
       <AppBar>
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={() => setOpen(true)}>
+          <IconButton edge="start" color="inherit" onClick={() => navbarStore.setOpen(true)}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.titleText} style={{ color: "white" }}>
@@ -109,9 +111,9 @@ export const Navbar: React.FC = () => {
         <SwipeableDrawer
           variant="temporary"
           anchor="left"
-          open={open}
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
+          open={navbarStore.isOpen}
+          onClose={() => navbarStore.setOpen(false)}
+          onOpen={() => navbarStore.setOpen(true)}
           ModalProps={{ keepMounted: true }}
         >
           {renderDrawer()}
@@ -119,11 +121,11 @@ export const Navbar: React.FC = () => {
         <IconButton
           size="medium"
           className={classes.openButton}
-          onClick={() => setOpen(true)}
+          onClick={() => navbarStore.setOpen(true)}
         >
           <ChevronRightIcon className={classes.openButtonIcon} />
         </IconButton>
       </nav>
     </>
   );
-};
+});
