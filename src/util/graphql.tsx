@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import * as _ from "lodash";
 import { MutationFunction, QueryComponentOptions, QueryResult } from "react-apollo";
 import { PopupMessage } from "../component/util/PopupMessage";
@@ -31,7 +31,7 @@ export const checkQueryResult = <Data, Variables = {}>(
 ): QueryComponentOptions<Data, Variables>["children"] => (result: QueryResult<Data, Variables>) => {
     const { loading, data, error } = result;
     if (loading) {
-      return loadingCallback ? loadingCallback() : <Typography style={{ textAlign: "center" }}>Loading...</Typography>;
+      return loadingCallback ? loadingCallback() : <CircularProgress />;
     }
     if (error || !data) {
       return (

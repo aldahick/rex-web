@@ -59,7 +59,7 @@ export const scenes: SceneDefinition[] = [
     },
   },
   {
-    route: "/note/:noteId",
+    route: "/notes/:noteId",
     component: NoteScene,
     authCheck: can => can.readOwn("note"),
   },
