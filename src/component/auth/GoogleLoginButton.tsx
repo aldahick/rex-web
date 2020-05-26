@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, useTheme } from "@material-ui/core";
 import gql from "graphql-tag";
 import { useMutation } from "react-apollo";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
@@ -31,6 +31,7 @@ interface GoogleLoginButtonProps {
 
 export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess }) => {
   const { statusStore } = useStores();
+  const theme = useTheme();
   const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenGoogle"] }, IMutationCreateAuthTokenGoogleArgs>(MUTATION_CREATE_AUTH_TOKEN_GOOGLE);
 
   const onGoogleAuth = async (
@@ -53,7 +54,6 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess 
   return (
     <GoogleLogin
       clientId={Config.googleClientId}
-      buttonText="Log In"
       onSuccess={onGoogleAuth}
       style={{ fontWeight: "bold" }}
       onFailure={err => {
@@ -62,7 +62,7 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess 
         statusStore.setErrorMessage(err.message);
       }}
     >
-      <Typography style={{ fontWeight: 500 }}>Log In</Typography>
+      <Typography style={{ fontWeight: 500, color: theme.palette.grey[600] }}>Log In</Typography>
     </GoogleLogin>
   );
 };
