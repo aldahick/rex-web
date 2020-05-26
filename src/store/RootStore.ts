@@ -8,7 +8,7 @@ export class RootStore {
   statusStore = new StatusStore();
 
   @computed
-  get allStores() {
+  get allStores(): Omit<RootStore, "allStores"> & { rootStore: Omit<RootStore, "allStores"> } {
     return {
       rootStore: this,
       ...this,

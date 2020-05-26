@@ -5,6 +5,8 @@ import { DockerContainersScene } from "./scene/docker/containers";
 import { DockerHostsScene } from "./scene/docker/hosts";
 import { LoginScene } from "./scene/login";
 import { MediaScene } from "./scene/media";
+import { NoteScene } from "./scene/note";
+import { NotesScene } from "./scene/notes";
 import { SettingsScene } from "./scene/settings";
 import { WikiPagesScene } from "./scene/wikiPages";
 import { SceneDefinition } from "./util/SceneDefinition";
@@ -47,6 +49,19 @@ export const scenes: SceneDefinition[] = [
     navbar: {
       title: "Media",
     },
+  },
+  {
+    route: "/notes",
+    component: NotesScene,
+    authCheck: can => can.readOwn("note"),
+    navbar: {
+      title: "Notes",
+    },
+  },
+  {
+    route: "/note/:noteId",
+    component: NoteScene,
+    authCheck: can => can.readOwn("note"),
   },
   {
     route: "/wikiPages",
