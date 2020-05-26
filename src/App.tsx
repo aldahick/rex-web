@@ -4,7 +4,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { setContext } from "apollo-link-context";
 import { createHttpLink } from "apollo-link-http";
-import { Provider as MobxProvider } from "mobx-react";
+import { observer, Provider as MobxProvider } from "mobx-react";
 import { ApolloProvider } from "react-apollo";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "typeface-open-sans";
@@ -14,11 +14,12 @@ import { Config } from "./Config";
 import { useStores } from "./hook/useStores";
 import { scenes } from "./scenes";
 import { RootStore } from "./store/RootStore";
+import { fixMaterialTheme } from "./util/fixMaterialTheme";
 
-const ThemeProvider: React.FC = ({ children }) => {
+const ThemeProvider: React.FC = observer(({ children }) => {
   const { settingsStore } = useStores();
 
-  const theme = createMuiTheme({
+  const theme = fixMaterialTheme(createMuiTheme({
     typography: {
       fontFamily: "Open Sans",
       caption: {
@@ -26,30 +27,18 @@ const ThemeProvider: React.FC = ({ children }) => {
       },
     },
     palette: {
-      type: settingsStore.settings.theme,
+      type: settingsStore.get("theme"),
     },
-  });
+  }));
 
   document.body.style.background = theme.palette.background.default;
-
-  // fix font colors
-  const typographyKeys = Object.keys(theme.typography) as Array<keyof (typeof theme)["typography"]>;
-  for (const typographyKey of typographyKeys) {
-    const value = theme.typography[typographyKey];
-    if (value && typeof (value) === "object") {
-      value.color = theme.palette.text.primary;
-    }
-  }
-  (theme.palette as any).info = theme.palette.primary;
-  (theme.palette as any).success = theme.palette.primary;
-  (theme.palette as any).warning = theme.palette.primary;
 
   return (
     <MuiThemeProvider theme={theme}>
       {children}
     </MuiThemeProvider>
   );
-};
+});
 
 const client = new ApolloClient({
   link: setContext((_, { headers }) => ({

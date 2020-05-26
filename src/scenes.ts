@@ -7,7 +7,6 @@ import { LoginScene } from "./scene/login";
 import { MediaScene } from "./scene/media";
 import { NoteScene } from "./scene/note";
 import { NotesScene } from "./scene/notes";
-import { SettingsScene } from "./scene/settings";
 import { WikiPagesScene } from "./scene/wikiPages";
 import { SceneDefinition } from "./util/SceneDefinition";
 
@@ -69,13 +68,6 @@ export const scenes: SceneDefinition[] = [
     authCheck: can => can.read("wikiPage"),
     navbar: {
       title: "Wiki Pages",
-    },
-  },
-  {
-    route: "/settings",
-    component: SettingsScene,
-    navbar: {
-      title: "Settings",
     },
   },
 ];

@@ -2,6 +2,7 @@ import React from "react";
 import {
   AppBar,
   Button,
+  Grid,
   IconButton,
   Link,
   List,
@@ -14,11 +15,13 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as _ from "lodash";
 import { observer } from "mobx-react";
+import { Link as RouterLink } from "react-router-dom";
 import { useStores } from "../../hook/useStores";
 import { scenes } from "../../scenes";
 import { SceneDefinition } from "../../util/SceneDefinition";
 import { UserState } from "../auth";
 import { LogoutButton } from "../auth/LogoutButton";
+import { ThemeSelect } from "../settings/ThemeSelect";
 import { NavbarGroup } from "./NavbarGroup";
 import { NavbarItem, NavbarItemProps } from "./NavbarItem";
 
@@ -48,6 +51,11 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     marginLeft: "1em",
     flexGrow: 1,
+  },
+  loginLink: {
+    "&:hover": {
+      textDecoration: "none",
+    },
   },
 }));
 
@@ -94,20 +102,28 @@ export const Navbar: React.FC = observer(() => {
           <IconButton edge="start" color="inherit" onClick={() => navbarStore.setOpen(true)}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.titleText} style={{ color: "white" }}>
+          <Typography variant="h6" color="inherit" className={classes.titleText}>
             Rex
           </Typography>
-          {!UserState.isAuthenticated && (
-            <Button color="secondary" variant="contained">
-              <Link href="/login" color="inherit">
-                Log In
-              </Link>
-            </Button>
-          )}
+          <Grid item>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item>
+                <ThemeSelect />
+              </Grid>
+              {!UserState.isAuthenticated && (
+                <Grid item>
+                  <Button color="secondary" variant="contained">
+                    <Link component={RouterLink} to="/login" color="inherit" className={classes.loginLink}>
+                      Log In
+                    </Link>
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer}>
-        {/* <Hidden smUp> */}
         <SwipeableDrawer
           variant="temporary"
           anchor="left"
