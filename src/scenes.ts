@@ -7,6 +7,8 @@ import { LoginScene } from "./scene/login";
 import { MediaScene } from "./scene/media";
 import { NoteScene } from "./scene/note";
 import { NotesScene } from "./scene/notes";
+import { RummikubGameScene } from "./scene/rummikub/game";
+import { RummikubGamesScene } from "./scene/rummikub/games";
 import { WikiPagesScene } from "./scene/wikiPages";
 import { SceneDefinition } from "./util/SceneDefinition";
 
@@ -61,6 +63,17 @@ export const scenes: SceneDefinition[] = [
     route: "/notes/:noteId",
     component: NoteScene,
     authCheck: can => can.readOwn("note"),
+  },
+  {
+    route: "/rummikub/games",
+    component: RummikubGamesScene,
+    navbar: {
+      title: "Rummikub Games",
+    },
+  },
+  {
+    route: "/rummikub/game/:gameId",
+    component: RummikubGameScene,
   },
   {
     route: "/wikiPages",

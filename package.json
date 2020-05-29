@@ -53,11 +53,13 @@
     "mui-datatables": "^2.14.0",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
+    "react-beautiful-dnd": "^13.0.0",
     "react-device-detect": "^1.12.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.20",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "socket.io-client": "^2.3.0",
     "typeface-open-sans": "0.0.75"
   },
   "devDependencies": {
@@ -70,9 +72,11 @@
     "@types/mui-datatables": "^2.14.1",
     "@types/node": "^14.0.5",
     "@types/react": "^16.9.35",
+    "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-dom": "^16.9.8",
     "@types/react-router": "^5.1.7",
     "@types/react-router-dom": "^5.1.5",
+    "@types/socket.io-client": "^1.4.33",
     "react-scripts": "^3.4.1",
     "serve": "^11.3.1",
     "typescript": "^3.8.3"

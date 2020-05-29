@@ -144,15 +144,14 @@ export type IMutation = {
   createNote: INote;
   removeNote: Scalars['Boolean'];
   updateNoteBody: Scalars['Boolean'];
-  addPermissionsToRole: Scalars['Boolean'];
-  createRole: IRole;
   fetchSteamGames: IProgress;
+  fetchWikiPagesUntil: IProgress;
   addRoleToUser: Scalars['Boolean'];
   createUser: IUser;
   setUserPassword: Scalars['Boolean'];
-  fetchWikiPagesUntil: IProgress;
+  addPermissionsToRole: Scalars['Boolean'];
+  createRole: IRole;
   createRummikubGame: IRummikubGame;
-  joinRummikubGame: Scalars['Boolean'];
 };
 
 
@@ -253,14 +252,9 @@ export type IMutationUpdateNoteBodyArgs = {
 };
 
 
-export type IMutationAddPermissionsToRoleArgs = {
-  roleId: Scalars['String'];
-  permissions: Array<IRolePermissionInput>;
-};
-
-
-export type IMutationCreateRoleArgs = {
-  name: Scalars['String'];
+export type IMutationFetchWikiPagesUntilArgs = {
+  firstPageName: Scalars['String'];
+  untilPageName: Scalars['String'];
 };
 
 
@@ -283,19 +277,20 @@ export type IMutationSetUserPasswordArgs = {
 };
 
 
-export type IMutationFetchWikiPagesUntilArgs = {
-  firstPageName: Scalars['String'];
-  untilPageName: Scalars['String'];
+export type IMutationAddPermissionsToRoleArgs = {
+  roleId: Scalars['String'];
+  permissions: Array<IRolePermissionInput>;
+};
+
+
+export type IMutationCreateRoleArgs = {
+  name: Scalars['String'];
 };
 
 
 export type IMutationCreateRummikubGameArgs = {
   name: Scalars['String'];
-};
-
-
-export type IMutationJoinRummikubGameArgs = {
-  id: Scalars['String'];
+  privacy: IRummikubGamePrivacy;
 };
 
 export type INote = {
@@ -340,13 +335,13 @@ export type IQuery = {
   note: INote;
   notes: Array<INote>;
   progress: IProgress;
-  roles: Array<IRole>;
   steamGames: Array<ISteamGame>;
+  wikiPage: IWikiPage;
+  user: IUser;
   steamPlayer: ISteamPlayer;
   steamPlayers: Array<ISteamPlayer>;
-  user: IUser;
-  wikiPage: IWikiPage;
-  /** only shows public Lobby games */
+  roles: Array<IRole>;
+  /** only shows public games */
   rummikubGames: Array<IRummikubGame>;
 };
 
@@ -382,13 +377,8 @@ export type IQuerySteamGamesArgs = {
 };
 
 
-export type IQuerySteamPlayerArgs = {
-  steamId64: Scalars['String'];
-};
-
-
-export type IQuerySteamPlayersArgs = {
-  steamIds64: Array<Scalars['String']>;
+export type IQueryWikiPageArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -397,8 +387,13 @@ export type IQueryUserArgs = {
 };
 
 
-export type IQueryWikiPageArgs = {
-  name: Scalars['String'];
+export type IQuerySteamPlayerArgs = {
+  steamId64: Scalars['String'];
+};
+
+
+export type IQuerySteamPlayersArgs = {
+  steamIds64: Array<Scalars['String']>;
 };
 
 export type IRole = {
@@ -421,75 +416,90 @@ export type IRolePermissionInput = {
 
 export type IRummikubCard = {
   __typename?: 'RummikubCard';
-  color: Scalars['String'];
-  number: Scalars['Int'];
+  color: IRummikubCardColor;
+  /** if null, wildcard */
+  value?: Maybe<Scalars['Int']>;
 };
 
-export type IRummikubChatMessage = {
-  __typename?: 'RummikubChatMessage';
-  _id: Scalars['String'];
-  author?: Maybe<IRummikubPlayer>;
-  color?: Maybe<Scalars['String']>;
-  text: Scalars['String'];
+export enum IRummikubCardColor {
+  Black = 'black',
+  Blue = 'blue',
+  Red = 'red',
+  Yellow = 'yellow'
+}
+
+/** rummikub.client.chat */
+export type IRummikubClientChatPayload = {
+  __typename?: 'RummikubClientChatPayload';
+  message: Scalars['String'];
 };
 
-/** client -> server */
-export type IRummikubChatPayload = {
-  __typename?: 'RummikubChatPayload';
-  text: Scalars['String'];
+/** rummikub.client.join */
+export type IRummikubClientJoinPayload = {
+  __typename?: 'RummikubClientJoinPayload';
+  gameId: Scalars['String'];
+  displayName: Scalars['String'];
+};
+
+/** rummikub.client.placeCards */
+export type IRummikubClientPlaceCardsPayload = {
+  __typename?: 'RummikubClientPlaceCardsPayload';
+  cards: Array<IRummikubCard>;
+  /** which row these cards are going to */
+  boardIndex: Scalars['Int'];
+  /** where in the row these cards are going */
+  rowIndex: Scalars['Int'];
 };
 
 export type IRummikubGame = {
   __typename?: 'RummikubGame';
   _id: Scalars['String'];
-  board: Array<Array<IRummikubCard>>;
   name: Scalars['String'];
-  status: IRummikubGameStatus;
-  privacy: IRummikubGamePrivacy;
-  players: Array<IRummikubPlayer>;
-  winner?: Maybe<IRummikubPlayer>;
-  /** whose turn is it */
-  currentPlayer?: Maybe<IRummikubPlayer>;
+  playerNames: Array<Scalars['String']>;
 };
 
 export enum IRummikubGamePrivacy {
   Public = 'public',
-  Private = 'private'
+  Unlisted = 'unlisted'
 }
-
-export enum IRummikubGameStatus {
-  Lobby = 'lobby',
-  InProgress = 'inProgress',
-  Complete = 'complete',
-  Aborted = 'aborted'
-}
-
-/**
- * websocket event: "rummikub.join"
- * client -> server
- */
-export type IRummikubJoinPayload = {
-  __typename?: 'RummikubJoinPayload';
-  gameId: Scalars['String'];
-};
 
 export type IRummikubPlayer = {
   __typename?: 'RummikubPlayer';
   _id: Scalars['String'];
   name: Scalars['String'];
-  user?: Maybe<IUser>;
-  turnOrder?: Maybe<Scalars['Int']>;
+};
+
+/** rummikub.server.board */
+export type IRummikubServerBoardPayload = {
+  __typename?: 'RummikubServerBoardPayload';
+  board: Array<Array<IRummikubCard>>;
+};
+
+/** rummikub.server.chat */
+export type IRummikubServerChatPayload = {
+  __typename?: 'RummikubServerChatPayload';
+  /** if null, author is system */
+  author?: Maybe<IRummikubPlayer>;
+  createdAt: Scalars['DateTime'];
+  message: Scalars['String'];
+};
+
+/** rummikub.server.hand */
+export type IRummikubServerHandPayload = {
+  __typename?: 'RummikubServerHandPayload';
   hand: Array<IRummikubCard>;
 };
 
-/**
- * websocket event: "rummikub.update"
- * server -> client
- */
-export type IRummikubUpdatePayload = {
-  __typename?: 'RummikubUpdatePayload';
-  board: Array<Array<IRummikubCard>>;
+/** rummikub.server.players */
+export type IRummikubServerPlayersPayload = {
+  __typename?: 'RummikubServerPlayersPayload';
   players: Array<IRummikubPlayer>;
+};
+
+/** rummikub.server.turn */
+export type IRummikubServerTurnPayload = {
+  __typename?: 'RummikubServerTurnPayload';
+  player: IRummikubPlayer;
 };
 
 export type ISteamGame = {

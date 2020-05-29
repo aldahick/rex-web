@@ -29,7 +29,7 @@ export const AddContainerForm: React.FC<AddContainerFormProps> = ({ onSubmit }) 
         tag: {},
         networkName: {},
         hostId: {
-          render: onChange => <HostSelect onChange={host => onChange(host._id)} />,
+          render: (value, onChange) => <HostSelect onChange={host => onChange(host._id)} />,
         },
       }}
       title="Add Container"

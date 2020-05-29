@@ -18,8 +18,9 @@ const useStyles = makeStyles({
 });
 
 interface FieldDefinition {
+  initialValue?: string;
   label?: string;
-  render?: (onChange: OnChange) => JSX.Element;
+  render?: (value: string | undefined, onChange: OnChange) => JSX.Element;
 }
 
 interface DialogFormProps<FieldKey extends string> {
@@ -34,7 +35,12 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
   const { statusStore } = useStores();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [fieldValues, setFieldValues] = useState<{[key in FieldKey]?: string}>({});
+
+  const initialFieldValues = Object.fromEntries<string>(
+    Object.entries<FieldDefinition>(fields)
+      .map(([key, { initialValue }]) => [key, initialValue || ""]),
+  ) as any as {[key in FieldKey]: string};
+  const [fieldValues, setFieldValues] = useState<{[key in FieldKey]: string}>(initialFieldValues);
 
   const onFieldChange = (fieldKey: FieldKey, value: string) => {
     setFieldValues({
@@ -80,7 +86,7 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
               .map(([fieldKey, { label, render }], i) => (
                 <Fragment key={fieldKey}>
                   {render
-                    ? render((value: string) => onFieldChange(fieldKey, value))
+                    ? render(fieldValues[fieldKey], (value: string) => onFieldChange(fieldKey, value))
                     : (
                       <TextField
                         label={label || _.startCase(fieldKey)}
