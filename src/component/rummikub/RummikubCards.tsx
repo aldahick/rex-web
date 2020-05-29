@@ -1,42 +1,69 @@
 import React from "react";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { IRummikubCard } from "../../graphql/types";
 import { RummikubCard } from "./RummikubCard";
 
 const useStyles = makeStyles({
-  container: {
-    display: "inline-flex",
-    border: "1px black solid",
+  root: {
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  cardContainer: {
+    display: "inline-block",
+  },
+  placeholder: {
+    border: "1px gray dotted",
+  },
+  placeholderText: {
+    padding: "1em",
   },
 });
 
 export const RummikubCards: React.FC<{
   cards: IRummikubCard[];
   dropId: string;
-}> = ({ cards, dropId }) => {
+  placeholder?: boolean;
+}> = ({ cards, dropId, placeholder }) => {
   const classes = useStyles();
 
   return (
-    <Droppable droppableId={dropId}>
+    <Droppable droppableId={dropId} direction="horizontal">
       {provided => (
-        <Grid container spacing={3} ref={provided.innerRef} {...provided.droppableProps}>
-          {cards.map((card, index) => (
+        <Grid
+          className={[classes.root, placeholder ? classes.placeholder : ""].join(" ")}
+          container
+          spacing={1}
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          {placeholder ? (
+            <Typography
+              variant="h6"
+              className={classes.placeholderText}
+            >
+              Drop here for new row
+            </Typography>
+          ) : cards.map((card, index) => (
             <Draggable
               draggableId={`${card.color}-${card.value}`}
               key={`${card.color}-${card.value}`}
               index={index}
             >
               {({ dragHandleProps, draggableProps, innerRef }) => (
-                <Grid item ref={innerRef} {...dragHandleProps} {...draggableProps}>
+                <Grid
+                  className={classes.cardContainer}
+                  item
+                  ref={innerRef}
+                  {...dragHandleProps}
+                  {...draggableProps}
+                >
                   <RummikubCard {...card} />
                 </Grid>
               )}
             </Draggable>
           ))}
-          <Grid item>
-            {provided.placeholder}
-          </Grid>
+          {provided.placeholder}
         </Grid>
       )}
     </Droppable>

@@ -131,7 +131,6 @@ export type IMutation = {
   createAuthToken: IAuthToken;
   addCalendar: Scalars['Boolean'];
   removeCalendar: Scalars['Boolean'];
-  createHost: IHost;
   createContainer: IContainer;
   deleteContainers: Scalars['Boolean'];
   updateContainerPorts: Scalars['Boolean'];
@@ -140,17 +139,18 @@ export type IMutation = {
   startContainer: Scalars['Boolean'];
   stopContainer: Scalars['Boolean'];
   redeployContainer: Scalars['Boolean'];
+  createHost: IHost;
   addMediaDownload: IProgress;
   createNote: INote;
   removeNote: Scalars['Boolean'];
   updateNoteBody: Scalars['Boolean'];
+  addPermissionsToRole: Scalars['Boolean'];
+  createRole: IRole;
   fetchSteamGames: IProgress;
-  fetchWikiPagesUntil: IProgress;
   addRoleToUser: Scalars['Boolean'];
   createUser: IUser;
   setUserPassword: Scalars['Boolean'];
-  addPermissionsToRole: Scalars['Boolean'];
-  createRole: IRole;
+  fetchWikiPagesUntil: IProgress;
   createRummikubGame: IRummikubGame;
 };
 
@@ -179,11 +179,6 @@ export type IMutationAddCalendarArgs = {
 
 export type IMutationRemoveCalendarArgs = {
   id: Scalars['String'];
-};
-
-
-export type IMutationCreateHostArgs = {
-  host: ICreateHostInput;
 };
 
 
@@ -230,6 +225,11 @@ export type IMutationRedeployContainerArgs = {
 };
 
 
+export type IMutationCreateHostArgs = {
+  host: ICreateHostInput;
+};
+
+
 export type IMutationAddMediaDownloadArgs = {
   url: Scalars['String'];
   destinationKey: Scalars['String'];
@@ -252,9 +252,14 @@ export type IMutationUpdateNoteBodyArgs = {
 };
 
 
-export type IMutationFetchWikiPagesUntilArgs = {
-  firstPageName: Scalars['String'];
-  untilPageName: Scalars['String'];
+export type IMutationAddPermissionsToRoleArgs = {
+  roleId: Scalars['String'];
+  permissions: Array<IRolePermissionInput>;
+};
+
+
+export type IMutationCreateRoleArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -277,14 +282,9 @@ export type IMutationSetUserPasswordArgs = {
 };
 
 
-export type IMutationAddPermissionsToRoleArgs = {
-  roleId: Scalars['String'];
-  permissions: Array<IRolePermissionInput>;
-};
-
-
-export type IMutationCreateRoleArgs = {
-  name: Scalars['String'];
+export type IMutationFetchWikiPagesUntilArgs = {
+  firstPageName: Scalars['String'];
+  untilPageName: Scalars['String'];
 };
 
 
@@ -327,31 +327,31 @@ export type IQuery = {
   __typename?: 'Query';
   hello: Scalars['String'];
   calendars: Array<ICalendar>;
-  host: IHost;
-  hosts: Array<IHost>;
   container: IContainer;
   containers: Array<IContainer>;
+  host: IHost;
+  hosts: Array<IHost>;
   mediaItems: Array<IMediaItem>;
   note: INote;
   notes: Array<INote>;
   progress: IProgress;
+  roles: Array<IRole>;
   steamGames: Array<ISteamGame>;
-  wikiPage: IWikiPage;
-  user: IUser;
   steamPlayer: ISteamPlayer;
   steamPlayers: Array<ISteamPlayer>;
-  roles: Array<IRole>;
+  user: IUser;
+  wikiPage: IWikiPage;
   /** only shows public games */
   rummikubGames: Array<IRummikubGame>;
 };
 
 
-export type IQueryHostArgs = {
+export type IQueryContainerArgs = {
   id: Scalars['String'];
 };
 
 
-export type IQueryContainerArgs = {
+export type IQueryHostArgs = {
   id: Scalars['String'];
 };
 
@@ -377,8 +377,13 @@ export type IQuerySteamGamesArgs = {
 };
 
 
-export type IQueryWikiPageArgs = {
-  name: Scalars['String'];
+export type IQuerySteamPlayerArgs = {
+  steamId64: Scalars['String'];
+};
+
+
+export type IQuerySteamPlayersArgs = {
+  steamIds64: Array<Scalars['String']>;
 };
 
 
@@ -387,13 +392,8 @@ export type IQueryUserArgs = {
 };
 
 
-export type IQuerySteamPlayerArgs = {
-  steamId64: Scalars['String'];
-};
-
-
-export type IQuerySteamPlayersArgs = {
-  steamIds64: Array<Scalars['String']>;
+export type IQueryWikiPageArgs = {
+  name: Scalars['String'];
 };
 
 export type IRole = {
@@ -478,9 +478,11 @@ export type IRummikubServerBoardPayload = {
 /** rummikub.server.chat */
 export type IRummikubServerChatPayload = {
   __typename?: 'RummikubServerChatPayload';
+  id: Scalars['String'];
   /** if null, author is system */
   author?: Maybe<IRummikubPlayer>;
-  createdAt: Scalars['DateTime'];
+  /** ISO8601 */
+  createdAt: Scalars['String'];
   message: Scalars['String'];
 };
 

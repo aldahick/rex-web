@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { IRummikubCardColor } from "../../graphql/types";
-import { RummikubCardBackgroundColor, RummikubCardColors } from "./RummikubCardColors";
+import { RummikubCardBackgroundColor, RummikubCardColors, RummikubWildcardIcons } from "./RummikubCardColors";
 
 const useStyles = makeStyles({
   root: {
@@ -42,7 +42,7 @@ export const RummikubCard: React.FC<{
             {value}
           </span>
         ) : (
-          <img width={32} src={`/images/rummikub/wildcard-${color}.png`} alt="Wildcard" />
+          <img width={32} src={RummikubWildcardIcons[color]} alt="Wildcard" />
         )}
       </div>
     </div>
