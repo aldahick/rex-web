@@ -17,7 +17,7 @@ export const RummikubStartButton: React.FC = () => {
 
   return (
     <SocketEvent name="rummikub.client.start" handle={onStart}>
-      <Button onClick={start} variant="contained" disabled={started}>
+      <Button onClick={start} disabled={started}>
         Start Game
       </Button>
     </SocketEvent>

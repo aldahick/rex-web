@@ -131,6 +131,8 @@ export type IMutation = {
   createAuthToken: IAuthToken;
   addCalendar: Scalars['Boolean'];
   removeCalendar: Scalars['Boolean'];
+  createHost: IHost;
+  addMediaDownload: IProgress;
   createContainer: IContainer;
   deleteContainers: Scalars['Boolean'];
   updateContainerPorts: Scalars['Boolean'];
@@ -139,8 +141,6 @@ export type IMutation = {
   startContainer: Scalars['Boolean'];
   stopContainer: Scalars['Boolean'];
   redeployContainer: Scalars['Boolean'];
-  createHost: IHost;
-  addMediaDownload: IProgress;
   createNote: INote;
   removeNote: Scalars['Boolean'];
   updateNoteBody: Scalars['Boolean'];
@@ -179,6 +179,17 @@ export type IMutationAddCalendarArgs = {
 
 export type IMutationRemoveCalendarArgs = {
   id: Scalars['String'];
+};
+
+
+export type IMutationCreateHostArgs = {
+  host: ICreateHostInput;
+};
+
+
+export type IMutationAddMediaDownloadArgs = {
+  url: Scalars['String'];
+  destinationKey: Scalars['String'];
 };
 
 
@@ -222,17 +233,6 @@ export type IMutationStopContainerArgs = {
 
 export type IMutationRedeployContainerArgs = {
   containerId: Scalars['String'];
-};
-
-
-export type IMutationCreateHostArgs = {
-  host: ICreateHostInput;
-};
-
-
-export type IMutationAddMediaDownloadArgs = {
-  url: Scalars['String'];
-  destinationKey: Scalars['String'];
 };
 
 
@@ -327,15 +327,15 @@ export type IQuery = {
   __typename?: 'Query';
   hello: Scalars['String'];
   calendars: Array<ICalendar>;
-  container: IContainer;
-  containers: Array<IContainer>;
   host: IHost;
   hosts: Array<IHost>;
   mediaItems: Array<IMediaItem>;
+  container: IContainer;
+  containers: Array<IContainer>;
   note: INote;
   notes: Array<INote>;
-  progress: IProgress;
   roles: Array<IRole>;
+  progress: IProgress;
   steamGames: Array<ISteamGame>;
   steamPlayer: ISteamPlayer;
   steamPlayers: Array<ISteamPlayer>;
@@ -346,11 +346,6 @@ export type IQuery = {
 };
 
 
-export type IQueryContainerArgs = {
-  id: Scalars['String'];
-};
-
-
 export type IQueryHostArgs = {
   id: Scalars['String'];
 };
@@ -358,6 +353,11 @@ export type IQueryHostArgs = {
 
 export type IQueryMediaItemsArgs = {
   dir: Scalars['String'];
+};
+
+
+export type IQueryContainerArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -496,6 +496,7 @@ export type IRummikubServerHandPayload = {
 export type IRummikubServerPlayersPayload = {
   __typename?: 'RummikubServerPlayersPayload';
   players: Array<IRummikubPlayer>;
+  self: IRummikubPlayer;
 };
 
 /** rummikub.server.turn */

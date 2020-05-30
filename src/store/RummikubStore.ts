@@ -6,21 +6,27 @@ import { IRummikubCard } from "../graphql/types";
 export class RummikubStore {
   @observable hand: IRummikubCard[] = [];
 
-  @observable private _board: IRummikubCard[][] = [];
-
   @action.bound
   setHand(hand: IRummikubCard[]) {
     this.hand = hand;
   }
 
+  @observable private _board: IRummikubCard[][] = [];
+
   @action.bound
   setBoard(board: IRummikubCard[][]) {
-    console.log({ newBoard: board });
     this._board = board;
   }
 
   @computed
   get board() {
     return toJS(this._board).map(i => Object.values(i));
+  }
+
+  @observable playerId?: string;
+
+  @action.bound
+  setPlayerId(playerId: string) {
+    this.playerId = playerId;
   }
 }

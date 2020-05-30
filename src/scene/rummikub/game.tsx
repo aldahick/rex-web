@@ -12,6 +12,7 @@ import { RummikubHand } from "../../component/rummikub/RummikubHand";
 import { RummikubJoinForm } from "../../component/rummikub/RummikubJoinForm";
 import { RummikubPlayers } from "../../component/rummikub/RummikubPlayers";
 import { RummikubStartButton } from "../../component/rummikub/RummikubStartButton";
+import { RummikubTurnButton } from "../../component/rummikub/RummikubTurnButton";
 import { IRummikubCard } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 
@@ -59,7 +60,6 @@ export const RummikubGameScene: React.FC = observer(() => {
       boardClone.splice(index, 1, row);
       rummikubStore.setBoard(boardClone);
     } else if (dropId === "placeholder") {
-      console.log({ row });
       rummikubStore.setBoard(rummikubStore.board.concat([row]));
     } else if (dropId === "hand") {
       rummikubStore.setHand(row);
@@ -102,6 +102,7 @@ export const RummikubGameScene: React.FC = observer(() => {
           <Grid container direction="column" justify="space-between">
             <RummikubPlayers />
             <RummikubStartButton />
+            <RummikubTurnButton />
           </Grid>
         </Grid>
       </Hidden>

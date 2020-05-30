@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { IRummikubPlayer, IRummikubServerPlayersPayload } from "../../graphql/types";
+import { useStores } from "../../hook/useStores";
 import { SocketEvent } from "../socket/SocketEvent";
 
 const useStyles = makeStyles({
@@ -18,11 +19,13 @@ const useStyles = makeStyles({
 });
 
 export const RummikubPlayers: React.FC = () => {
+  const { rummikubStore } = useStores();
   const [players, setPlayers] = useState<IRummikubPlayer[]>([]);
   const classes = useStyles();
 
   const onPlayersData = (data: IRummikubServerPlayersPayload) => {
     setPlayers(data.players);
+    rummikubStore.setPlayerId(data.self._id);
   };
 
   return (
