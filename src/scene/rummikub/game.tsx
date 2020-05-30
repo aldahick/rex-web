@@ -13,7 +13,7 @@ import { RummikubJoinForm } from "../../component/rummikub/RummikubJoinForm";
 import { RummikubPlayers } from "../../component/rummikub/RummikubPlayers";
 import { RummikubStartButton } from "../../component/rummikub/RummikubStartButton";
 import { RummikubTurnButton } from "../../component/rummikub/RummikubTurnButton";
-import { IRummikubCard } from "../../graphql/types";
+import { IRummikubCard, IRummikubClientPlaceCardPayload } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 
 const useStyles = makeStyles({
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 
 export const RummikubGameScene: React.FC = observer(() => {
   const { params: { gameId } } = useRouteMatch<{ gameId: string }>();
-  const { rummikubStore } = useStores();
+  const { rummikubStore, socketStore } = useStores();
   const [joined, setJoined] = useState(false);
   const classes = useStyles();
 
@@ -68,6 +68,19 @@ export const RummikubGameScene: React.FC = observer(() => {
     }
   };
 
+  const getRowIndex = (dropId: string): number | undefined => {
+    if (dropId.startsWith("board-")) {
+      return Number(dropId.split("-")[1]);
+    }
+    if (dropId === "placeholder") {
+      return -1;
+    }
+    if (dropId === "hand") {
+      return undefined;
+    }
+    throw new Error(`Unknown dropId ${dropId}`);
+  };
+
   const onDragEnd = ({ destination, source }: DropResult) => {
     if (!destination) {
       return;
@@ -82,11 +95,18 @@ export const RummikubGameScene: React.FC = observer(() => {
     const [card] = fromRow.splice(source.index, 1);
     (sameRow ? fromRow : toRow).splice(destination.index, 0, card);
 
-    console.log({ fromRow, toRow });
     setCardRow(fromId, fromRow);
     if (!sameRow) {
       setCardRow(toId, toRow);
     }
+
+    const payload: IRummikubClientPlaceCardPayload = {
+      fromRowIndex: getRowIndex(fromId),
+      fromCardIndex: source.index,
+      toRowIndex: getRowIndex(toId),
+      toCardIndex: destination.index,
+    };
+    socketStore.socket.emit("rummikub.client.placeCard", payload);
   };
 
   if (!joined) {
@@ -104,7 +124,7 @@ export const RummikubGameScene: React.FC = observer(() => {
           <RummikubTurnButton />
         </Grid>
       </Grid>
-      <Grid item sm={8} md={9} className={classes.dragContainer}>
+      <Grid item sm={7} md={8} className={classes.dragContainer}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Grid
             container
@@ -121,9 +141,9 @@ export const RummikubGameScene: React.FC = observer(() => {
           </Grid>
         </DragDropContext>
       </Grid>
-      <Grid item sm={3} md={2} className={classes.chatContainer}>
+      <Grid item sm={4} md={3} className={classes.chatContainer}>
         <Grid container justify="flex-end">
-          <Grid item>
+          <Grid item xs={12}>
             <RummikubChat />
           </Grid>
         </Grid>

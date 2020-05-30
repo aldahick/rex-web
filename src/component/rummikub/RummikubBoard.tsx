@@ -9,6 +9,7 @@ export const RummikubBoard: React.FC = observer(() => {
   const { rummikubStore } = useStores();
 
   const onBoardData = (data: IRummikubServerBoardPayload) => {
+    console.log({ board: data.board });
     rummikubStore.setBoard(data.board);
   };
 
