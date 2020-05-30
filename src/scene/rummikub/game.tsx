@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Hidden, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import * as _ from "lodash";
 import { observer } from "mobx-react";
 import {
@@ -97,16 +97,14 @@ export const RummikubGameScene: React.FC = observer(() => {
 
   return (
     <Grid container>
-      <Hidden smDown>
-        <Grid item>
-          <Grid container direction="column" justify="space-between">
-            <RummikubPlayers />
-            <RummikubStartButton />
-            <RummikubTurnButton />
-          </Grid>
+      <Grid item sm={1}>
+        <Grid container direction="column" justify="space-between">
+          <RummikubPlayers />
+          <RummikubStartButton />
+          <RummikubTurnButton />
         </Grid>
-      </Hidden>
-      <Grid item className={classes.dragContainer}>
+      </Grid>
+      <Grid item sm={8} md={9} className={classes.dragContainer}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Grid
             container
