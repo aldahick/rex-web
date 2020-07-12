@@ -21,7 +21,6 @@ query Web_Notes {
 }
 `;
 
-
 export const NotesScene: React.FC = () => (
   checkQueryResult<{ notes: IQuery["notes"] }>(({ notes }, { refetch }) => (
     <Grid container direction="column">

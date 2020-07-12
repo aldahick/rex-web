@@ -46,7 +46,7 @@
     "axios": "^0.19.2",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mime": "^2.4.5",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
@@ -63,10 +63,10 @@
     "typeface-open-sans": "0.0.75"
   },
   "devDependencies": {
-    "@aldahick/eslint-rules": "^0.6.1",
-    "@graphql-codegen/cli": "^1.14.0",
-    "@graphql-codegen/typescript": "^1.14.0",
-    "@graphql-codegen/typescript-operations": "^1.14.0",
+    "@aldahick/eslint-rules": "^0.7.2",
+    "@graphql-codegen/cli": "^1.17.0",
+    "@graphql-codegen/typescript": "^1.17.0",
+    "@graphql-codegen/typescript-operations": "^1.17.0",
     "@types/lodash": "^4.14.152",
     "@types/mime": "^2.0.2",
     "@types/mui-datatables": "^2.14.1",
@@ -78,7 +78,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/socket.io-client": "^1.4.33",
     "react-scripts": "^3.4.1",
-    "serve": "^11.3.1",
+    "serve": "^11.3.2",
     "typescript": "^3.8.3"
   }
 }
