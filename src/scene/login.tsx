@@ -20,7 +20,12 @@ export const LoginScene: React.FC = () => {
       <Grid container spacing={1}>
         <Grid item sm={6} />
         <Grid item sm={6}>
-          <GoogleLoginButton onSuccess={onLogin} />
+          {Config.googleClientId && (
+            <GoogleLoginButton
+              clientId={Config.googleClientId}
+              onSuccess={onLogin}
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>

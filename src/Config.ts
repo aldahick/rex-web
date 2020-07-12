@@ -1,5 +1,7 @@
+const optional = (key: string): string | undefined => process.env[key];
+
 const required = (key: string): string => {
-  const value = process.env[key];
+  const value = optional(key);
   if (!value) {
     throw new Error(`Missing environment variable ${key}`);
   }
@@ -11,5 +13,5 @@ export class Config {
 
   static readonly baseUrl = required("REACT_APP_BASE_URL");
 
-  static readonly googleClientId = required("REACT_APP_GOOGLE_CLIENT_ID");
+  static readonly googleClientId = optional("REACT_APP_GOOGLE_CLIENT_ID");
 }

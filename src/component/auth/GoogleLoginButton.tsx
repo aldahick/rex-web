@@ -3,7 +3,6 @@ import { Typography, useTheme } from "@material-ui/core";
 import gql from "graphql-tag";
 import { useMutation } from "react-apollo";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
-import { Config } from "../../Config";
 import { IAuthToken, IMutation, IMutationCreateAuthTokenGoogleArgs } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
@@ -25,11 +24,10 @@ mutation Web_CreateAuthTokenGoogle($googleIdToken: String!) {
 }
 `;
 
-interface GoogleLoginButtonProps {
+export const GoogleLoginButton: React.FC<{
+  clientId: string;
   onSuccess: (authToken: IAuthToken) => void;
-}
-
-export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess }) => {
+}> = ({ clientId, onSuccess }) => {
   const { statusStore } = useStores();
   const theme = useTheme();
   const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenGoogle"] }, IMutationCreateAuthTokenGoogleArgs>(MUTATION_CREATE_AUTH_TOKEN_GOOGLE);
@@ -53,7 +51,7 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onSuccess 
 
   return (
     <GoogleLogin
-      clientId={Config.googleClientId}
+      clientId={clientId}
       onSuccess={onGoogleAuth}
       style={{ fontWeight: "bold" }}
       onFailure={err => {
