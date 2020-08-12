@@ -16,7 +16,9 @@ export const SocialBadge: React.FC<SocialBadgeProps> = ({
     <Grids alignItems="center" direction="column">
       <img src={imageUrl} height={32} alt="Logo" {...imageProps} />
       {typeof label === "string" ? (
-        <Typography color="inherit">{label}</Typography>
+        <Typography color="inherit">
+          {label}
+        </Typography>
       ) : label}
     </Grids>
   </Link>

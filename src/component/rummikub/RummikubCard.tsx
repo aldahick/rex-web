@@ -34,7 +34,7 @@ export const RummikubCard: React.FC<{
   return (
     <div className={classes.root} {...rootProps}>
       <div className={classes.container}>
-        {value ? (
+        {value !== undefined ? (
           <span
             className={classes.value}
             style={{ color: RummikubCardColors[color] }}

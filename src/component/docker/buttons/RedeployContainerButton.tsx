@@ -14,12 +14,12 @@ mutation Web_RedeployContainer($containerId: String!) {
 
 interface RedeployContainerButtonProps {
   container: IContainer;
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }
 
 export const RedeployContainerButton: React.FC<RedeployContainerButtonProps> = ({ container, onSubmit }) => {
   const { statusStore } = useStores();
-  const [deployContainer] = useMutation<{}, IMutationRedeployContainerArgs>(MUTATION_REDEPLOY_CONTAINER);
+  const [deployContainer] = useMutation<unknown, IMutationRedeployContainerArgs>(MUTATION_REDEPLOY_CONTAINER);
 
   const onClick = async () => {
     try {
@@ -27,11 +27,13 @@ export const RedeployContainerButton: React.FC<RedeployContainerButtonProps> = (
       await onSubmit();
       statusStore.setSuccessMessage(`Successfully redeployed container "${container.name}" to host "${container.host.name}"`);
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 
   return (
-    <Button onClick={onClick} variant="outlined" color="primary">Deploy</Button>
+    <Button onClick={onClick} variant="outlined" color="primary">
+      Deploy
+    </Button>
   );
 };

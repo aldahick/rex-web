@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const toNavbarItemProps = (scene: SceneDefinition): NavbarItemProps => ({
-  title: scene.navbar?.title || "",
+  title: scene.navbar?.title ?? "",
   url: scene.route,
   nested: !!scene.navbar?.group,
 });
@@ -84,7 +84,7 @@ const renderDrawer = () => (
           })
         )).map(({ group, items }) => (group
           ? <NavbarGroup key={group.title} group={group} items={items} />
-          : items.map(props => <NavbarItem key={props.title.toString()} {...props} />)))
+          : items.map(props => <NavbarItem key={props.url} {...props} />)))
       )}
       {UserState.isAuthenticated && <LogoutButton />}
     </List>

@@ -9,7 +9,7 @@ export const WikiPagesScene: React.FC = () => {
   return (
     <Grids>
       <FetchWikiPagesForm onFetch={setProgressId} />
-      {progressId && <LiveProgress progressId={progressId} />}
+      {progressId !== undefined && <LiveProgress progressId={progressId} />}
     </Grids>
   );
 };

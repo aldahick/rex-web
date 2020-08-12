@@ -23,13 +23,13 @@ mutation Web_StopContainer($containerId: String!) {
 
 interface StartStopContainerButtonProps {
   container: IContainer;
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }
 
 export const StartStopContainerButton: React.FC<StartStopContainerButtonProps> = ({ container, onSubmit }) => {
   const { statusStore } = useStores();
-  const [startContainer] = useMutation<{}, IMutationStartContainerArgs>(MUTATION_START_CONTAINER);
-  const [stopContainer] = useMutation<{}, IMutationStopContainerArgs>(MUTATION_STOP_CONTAINER);
+  const [startContainer] = useMutation<unknown, IMutationStartContainerArgs>(MUTATION_START_CONTAINER);
+  const [stopContainer] = useMutation<unknown, IMutationStopContainerArgs>(MUTATION_STOP_CONTAINER);
 
   const isStopping = container.status === IContainerStatus.Running || container.status === IContainerStatus.Starting;
 
@@ -41,7 +41,7 @@ export const StartStopContainerButton: React.FC<StartStopContainerButtonProps> =
       await onSubmit();
       statusStore.setSuccessMessage(`Successfully ${isStopping ? "stopped" : "started"} container "${container.name}" on host "${container.host.name}"`);
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 

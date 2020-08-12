@@ -36,7 +36,9 @@ export const NotesScene: React.FC = () => (
                   {note.title}
                 </Link>
               </TableCell>
-              <TableCell>{new Date(note.createdAt).toLocaleString()}</TableCell>
+              <TableCell>
+                {new Date(note.createdAt).toLocaleString()}
+              </TableCell>
               <TableCell>
                 <DeleteNoteButton noteId={note._id} onSubmit={refetch} />
               </TableCell>

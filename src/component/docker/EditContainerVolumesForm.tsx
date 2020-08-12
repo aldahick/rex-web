@@ -13,11 +13,11 @@ mutation Web_UpdateContainerVolumes($containerId: String!, $volumes: [ContainerV
 
 interface EditContainerVolumesFormProps {
   container: IContainer;
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }
 
 export const EditContainerVolumesForm: React.FC<EditContainerVolumesFormProps> = ({ container, onSubmit }) => {
-  const [updateContainerVolumes] = useMutation<{}, IMutationUpdateContainerVolumesArgs>(MUTATION_UPDATE_CONTAINER_VOLUMES);
+  const [updateContainerVolumes] = useMutation<unknown, IMutationUpdateContainerVolumesArgs>(MUTATION_UPDATE_CONTAINER_VOLUMES);
 
   return (
     <TableForm

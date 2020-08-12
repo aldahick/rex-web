@@ -1,4 +1,4 @@
-FROM node:12.16-alpine
+FROM node:12.18-alpine
 
 EXPOSE 5000
 
@@ -6,16 +6,16 @@ WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm install
+RUN yarn
 
 COPY tsconfig.json ./
 COPY src ./src
 COPY public ./public
 # build here for CI verification
-RUN npm run build
+RUN yarn build
 
 # and remove build output
-RUN npm run clean
+RUN yarn clean
 
 # building here so that appropriate env variables can be inserted outside of CI
-CMD npm run serve
+CMD yarn serve

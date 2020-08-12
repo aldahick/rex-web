@@ -32,11 +32,15 @@ export const RummikubPlayers: React.FC = () => {
     <SocketEvent name="rummikub.server.players" handle={onPlayersData}>
       <Grid container direction="column">
         <Grid item>
-          <Typography variant="h6">Players</Typography>
+          <Typography variant="h6">
+            Players
+          </Typography>
         </Grid>
         {players.map(player => (
           <Grid item key={player._id} className={classes.row}>
-            <Typography className={classes.name} variant="body1">{player.name}</Typography>
+            <Typography className={classes.name} variant="body1">
+              {player.name}
+            </Typography>
           </Grid>
         ))}
       </Grid>

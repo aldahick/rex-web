@@ -13,11 +13,11 @@ mutation Web_UpdateContainerVariables($containerId: String!, $variables: [Contai
 
 interface EditContainerVariablesFormProps {
   container: IContainer;
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }
 
 export const EditContainerVariablesForm: React.FC<EditContainerVariablesFormProps> = ({ container, onSubmit }) => {
-  const [updateContainerVariables] = useMutation<{}, IMutationUpdateContainerVariablesArgs>(MUTATION_UPDATE_CONTAINER_VARIABLES);
+  const [updateContainerVariables] = useMutation<unknown, IMutationUpdateContainerVariablesArgs>(MUTATION_UPDATE_CONTAINER_VARIABLES);
 
   return (
     <TableForm

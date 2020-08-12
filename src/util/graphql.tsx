@@ -13,9 +13,7 @@ export const callMutationSafe = async <Data, Variables>(
   variables: Variables,
 ): Promise<Data> => {
   const res = await mutation({ variables });
-  if (!res) {
-    throw new Error("no response");
-  } else if (res.errors) {
+  if (res.errors) {
     // eslint-disable-next-line no-console
     console.error(res.errors);
     throw new AggregateError(res.errors);
@@ -25,25 +23,26 @@ export const callMutationSafe = async <Data, Variables>(
   return res.data;
 };
 
-export const checkQueryResult = <Data, Variables = {}>(
+export const checkQueryResult = <Data, Variables = unknown>(
   callback: (data: Data, result: QueryResult<Data, Variables>) => JSX.Element | null,
   loadingCallback?: () => JSX.Element | null,
 ): QueryComponentOptions<Data, Variables>["children"] => (result: QueryResult<Data, Variables>) => {
-    const { loading, data, error } = result;
-    if (loading) {
-      return loadingCallback ? loadingCallback() : <CircularProgress />;
-    }
-    if (error || !data) {
-      return (
-        <PopupMessage
-          severity="error"
-          text={error?.message || "No data available."}
-        />
-      );
-    }
-    return callback(data, result);
-  };
+  const { loading, data, error } = result;
+  if (loading) {
+    return loadingCallback ? loadingCallback() : <CircularProgress />;
+  }
+  if (error || !data) {
+    return (
+      <PopupMessage
+        severity="error"
+        text={error?.message ?? "No data available."}
+      />
+    );
+  }
+  return callback(data, result);
+};
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const removeTypename = <T extends { __typename?: string }>(value: T): Omit<T, "__typename"> => {
   const newValue = _.cloneDeep(value);
   delete newValue.__typename;

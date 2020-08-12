@@ -13,7 +13,8 @@ export const RummikubJoinForm: React.FC<{
   onJoin: () => void;
 }> = observer(({ gameId, onJoin }) => {
   const { socketStore } = useStores();
-  const [name, setName] = useState(sessionStorage.getItem("rummikub.name") || "");
+  const storedName = sessionStorage.getItem("rummikub.name");
+  const [name, setName] = useState(storedName ?? "");
 
   const join = () => {
     if (!name) {
@@ -27,11 +28,15 @@ export const RummikubJoinForm: React.FC<{
     socketStore.socket.emit("rummikub.client.join", payload);
   };
 
-  if (!socketStore.socket) {
-    return <Typography>Connecting...</Typography>;
+  if (!socketStore.isConnected) {
+    return (
+      <Typography>
+        Connecting...
+      </Typography>
+    );
   }
 
-  if (sessionStorage.getItem("rummikub.name")) {
+  if (storedName !== null) {
     join();
   }
 
@@ -48,7 +53,9 @@ export const RummikubJoinForm: React.FC<{
             }
           }}
         />
-        <Button variant="outlined" onClick={join}>Join</Button>
+        <Button variant="outlined" onClick={join}>
+          Join
+        </Button>
       </Grids>
     </SocketEvent>
   );

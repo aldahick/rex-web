@@ -34,7 +34,9 @@ export const RummikubGamesScene: React.FC = () => checkQueryResult<{ games: IQue
               players
             </Typography>
             {game.playerNames.map(playerName => (
-              <Typography key={playerName} variant="body2">{playerName}</Typography>
+              <Typography key={playerName} variant="body2">
+                {playerName}
+              </Typography>
             ))}
           </CardContent>
           <CardActions>

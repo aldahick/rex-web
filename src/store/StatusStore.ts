@@ -6,7 +6,7 @@ export class StatusStore {
   @observable errorMessage?: string;
 
   @action.bound
-  setSuccessMessage(message: string) {
+  setSuccessMessage(message: string): void {
     if (message === this.successMessage) {
       this.successMessage += " ";
     } else {
@@ -15,7 +15,7 @@ export class StatusStore {
   }
 
   @action.bound
-  setErrorMessage(message: string) {
+  setErrorMessage(message: string): void {
     if (message === this.errorMessage) {
       this.errorMessage += " ";
     } else {

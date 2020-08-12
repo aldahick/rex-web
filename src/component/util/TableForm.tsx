@@ -18,10 +18,10 @@ interface TableFormProps<Key extends string> {
     [key in Key]: TableFormColumn;
   };
   rows: {[key in Key]: string}[];
-  onSubmit: (newRows: {[key in Key]: string}[]) => Promise<any>;
+  onSubmit: (newRows: {[key in Key]: string}[]) => Promise<unknown>;
 }
 
-export const TableForm = <Key extends string>({ columns, rows: originalRows, onSubmit }: TableFormProps<Key>) => {
+export const TableForm = <Key extends string>({ columns, rows: originalRows, onSubmit }: TableFormProps<Key>): React.ReactElement => {
   const keys = Object.keys(columns) as Key[];
 
   const { statusStore } = useStores();
@@ -48,7 +48,7 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
   const onAdd = () => {
     setRows(() => {
       const missingColumns = Object.entries<TableFormColumn>(columns)
-        .filter(([key, { isOptional }]) => !isOptional && !newRow[key as Key]);
+        .filter(([key, { isOptional = false }]) => !isOptional && newRow[key as Key] !== undefined);
       if (missingColumns.length > 0) {
         statusStore.setErrorMessage(`Missing required fields: ${
           missingColumns.map(([key]) => key).join(", ")
@@ -67,7 +67,7 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
         statusStore.setSuccessMessage(successMessage);
       }
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 
@@ -103,7 +103,7 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
           {keys.map(key => (
             <TableCell key={key}>
               <TextField
-                value={newRow[key] || ""}
+                value={newRow[key] ?? ""}
                 placeholder={_.startCase(key)}
                 onChange={onNewValueChange(key)}
                 onKeyDown={checkEnterKey}
@@ -111,11 +111,15 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
             </TableCell>
           ))}
           <TableCell>
-            <Button variant="outlined" onClick={onAdd}>Add</Button>
+            <Button variant="outlined" onClick={onAdd}>
+              Add
+            </Button>
           </TableCell>
         </TableRow>
       </Table>
-      <Button variant="outlined" onClick={submit}>Save</Button>
+      <Button variant="outlined" onClick={submit}>
+        Save
+      </Button>
     </Grids>
   );
 };

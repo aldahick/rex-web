@@ -3,13 +3,13 @@ import { Grid } from "@material-ui/core";
 import { UserState } from "../component/auth";
 import { GoogleLoginButton } from "../component/auth/GoogleLoginButton";
 import { LocalAuthForm } from "../component/auth/LocalAuthForm";
-import { Config } from "../Config";
+import { config } from "../config";
 import { IAuthToken } from "../graphql/types";
 
 export const LoginScene: React.FC = () => {
   const onLogin = ({ token, user }: IAuthToken) => {
-    UserState.setAuth(token, user.roles || []);
-    window.location.href = Config.baseUrl;
+    UserState.setAuth(token, user.roles ?? []);
+    window.location.href = config.baseUrl;
   };
 
   return (
@@ -20,9 +20,9 @@ export const LoginScene: React.FC = () => {
       <Grid container spacing={1}>
         <Grid item sm={6} />
         <Grid item sm={6}>
-          {Config.googleClientId && (
+          {config.googleClientId !== undefined && (
             <GoogleLoginButton
-              clientId={Config.googleClientId}
+              clientId={config.googleClientId}
               onSuccess={onLogin}
             />
           )}

@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS: Settings = {
 
 export class SettingsStore {
   @observable
-  private settings: Settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "false") || DEFAULT_SETTINGS;
+  private settings: Settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) ?? "null") as Settings | null ?? DEFAULT_SETTINGS;
 
   @action.bound
   setAll(settings: Settings): void {
@@ -29,7 +29,7 @@ export class SettingsStore {
     return this.settings[key];
   }
 
-  save() {
+  save(): void {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(this.settings));
   }
 }

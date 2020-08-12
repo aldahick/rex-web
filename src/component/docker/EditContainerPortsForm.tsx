@@ -13,17 +13,19 @@ mutation Web_UpdateContainerPorts($containerId: String!, $ports: [ContainerPortI
 
 interface EditContainerVariablesFormProps {
   container: IContainer;
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }
 
 const toNumberOrUndefined = (value: string | undefined): number | undefined => {
-  if (!value) { return undefined; }
+  if (value !== undefined) {
+    return undefined;
+  }
   const num = Number(value);
   return Number.isNaN(num) ? undefined : num;
 };
 
 export const EditContainerPortsForm: React.FC<EditContainerVariablesFormProps> = ({ container, onSubmit }) => {
-  const [updateContainerPorts] = useMutation<{}, IMutationUpdateContainerPortsArgs>(MUTATION_UPDATE_CONTAINER_PORTS);
+  const [updateContainerPorts] = useMutation<unknown, IMutationUpdateContainerPortsArgs>(MUTATION_UPDATE_CONTAINER_PORTS);
 
   return (
     <TableForm
@@ -38,8 +40,8 @@ export const EditContainerPortsForm: React.FC<EditContainerVariablesFormProps> =
       }}
       rows={container.ports.map(p => ({
         containerPort: p.containerPort.toString(),
-        hostPort: p.hostPort?.toString() || "",
-        hostBindIp: p.hostBindIp || "",
+        hostPort: p.hostPort?.toString() ?? "",
+        hostBindIp: p.hostBindIp ?? "",
       }))}
       onSubmit={async ports => {
         await callMutationSafe(updateContainerPorts, {

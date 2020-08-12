@@ -1,21 +1,13 @@
 import React, { Fragment, useState } from "react";
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, makeStyles, TextField,
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField,
 } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
 import * as _ from "lodash";
 import { useStores } from "../../hook/useStores";
+import { AddButton } from "./AddButton";
 import { Grids } from "./Grids";
 
 type OnChange = (value: string) => void;
-
-const useStyles = makeStyles({
-  addButton: {
-    position: "fixed",
-    right: "1em",
-    bottom: "1em",
-  },
-});
 
 interface FieldDefinition {
   initialValue?: string;
@@ -28,18 +20,18 @@ interface DialogFormProps<FieldKey extends string> {
     [key in FieldKey]: FieldDefinition
   };
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   onSubmit: (fields: {[key in FieldKey]: string}) => Promise<string | undefined | void>;
 }
 
-export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }: DialogFormProps<FieldKey>) => {
+export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }: DialogFormProps<FieldKey>): React.ReactElement => {
   const { statusStore } = useStores();
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const initialFieldValues = Object.fromEntries<string>(
     Object.entries<FieldDefinition>(fields)
-      .map(([key, { initialValue }]) => [key, initialValue || ""]),
-  ) as any as {[key in FieldKey]: string};
+      .map(([key, { initialValue }]) => [key, initialValue ?? ""]),
+  ) as unknown as {[key in FieldKey]: string};
   const [fieldValues, setFieldValues] = useState<{[key in FieldKey]: string}>(initialFieldValues);
 
   const onFieldChange = (fieldKey: FieldKey, value: string) => {
@@ -51,20 +43,20 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
 
   const submit = () => {
     const missingFields = (Object.entries(fields) as [FieldKey, FieldDefinition][])
-      .filter(([fieldKey]) => !fields[fieldKey]);
+      .filter(([fieldKey]) => fieldValues[fieldKey].length === 0);
     if (missingFields.length > 0) {
-      const labels = missingFields.map(([fieldKey, { label }]) => label || _.startCase(fieldKey));
+      const labels = missingFields.map(([fieldKey, { label }]) => label ?? _.startCase(fieldKey));
       statusStore.setErrorMessage(`Missing field values: ${labels.join(", ")}`);
       return;
     }
     onSubmit(fieldValues as {[key in FieldKey]: string})
       .then(successMessage => {
-        if (successMessage) {
+        if (successMessage !== undefined) {
           statusStore.setSuccessMessage(successMessage);
         }
         setOpen(false);
       })
-      .catch(err => statusStore.setErrorMessage(err.message));
+      .catch(err => statusStore.setErrorMessage(err instanceof Error ? err.message : err));
   };
 
   const checkEnterKey = (evt: React.KeyboardEvent<HTMLInputElement>) => {
@@ -75,11 +67,11 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
 
   return (
     <>
-      <Fab color="primary" className={classes.addButton} onClick={() => setOpen(true)}>
-        <AddIcon />
-      </Fab>
+      <AddButton onClick={() => setOpen(true)} />
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle>
+          {title}
+        </DialogTitle>
         <DialogContent>
           <Grids direction="column" spacing={2}>
             {(Object.entries(fields) as [FieldKey, FieldDefinition][])
@@ -89,7 +81,7 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
                     ? render(fieldValues[fieldKey], (value: string) => onFieldChange(fieldKey, value))
                     : (
                       <TextField
-                        label={label || _.startCase(fieldKey)}
+                        label={label ?? _.startCase(fieldKey)}
                         autoFocus={i === 0}
                         fullWidth
                         onChange={evt => onFieldChange(fieldKey, evt.target.value)}
@@ -101,13 +93,11 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
           </Grids>
         </DialogContent>
         <DialogActions>
-          <Button color="primary" variant="contained" onClick={submit}>Submit</Button>
+          <Button color="primary" variant="contained" onClick={submit}>
+            Submit
+          </Button>
         </DialogActions>
       </Dialog>
     </>
   );
 };
-
-// export function DialogForm<K>() {
-//   const [fields, setFields] = useState<{[key: string]: string}>({});
-// }

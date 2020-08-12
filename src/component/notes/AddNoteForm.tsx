@@ -16,10 +16,10 @@ mutation Web_CreateNote($title: String!) {
 `;
 
 export const AddNoteForm: React.FC<{
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }> = ({ onSubmit }) => {
   const { statusStore } = useStores();
-  const [createNote] = useMutation<{}, IMutationCreateNoteArgs>(MUTATION_CREATE_NOTE);
+  const [createNote] = useMutation<unknown, IMutationCreateNoteArgs>(MUTATION_CREATE_NOTE);
   const [title, setTitle] = useState<string>("");
 
   const submit = async () => {
@@ -31,7 +31,7 @@ export const AddNoteForm: React.FC<{
       await onSubmit();
       statusStore.setSuccessMessage(`Created note "${title}"`);
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 
@@ -42,7 +42,9 @@ export const AddNoteForm: React.FC<{
         onChange={evt => setTitle(evt.target.value)}
         value={title}
       />
-      <Button onClick={submit}>Create Note</Button>
+      <Button onClick={submit}>
+        Create Note
+      </Button>
     </Grids>
   );
 };

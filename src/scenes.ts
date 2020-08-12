@@ -12,6 +12,7 @@ import { RummikubGamesScene } from "./scene/rummikub/games";
 import { WikiPagesScene } from "./scene/wikiPages";
 import { SceneDefinition } from "./util/SceneDefinition";
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const scenes: SceneDefinition[] = [
   {
     route: "/",

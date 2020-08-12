@@ -30,8 +30,12 @@ export const ThemeSelect: React.FC = observer(() => {
       value={settingsStore.get("theme")}
       onChange={evt => settingsStore.set("theme", evt.target.value as Settings["theme"])}
     >
-      <MenuItem value="light">Light</MenuItem>
-      <MenuItem value="dark">Dark</MenuItem>
+      <MenuItem value="light">
+        Light
+      </MenuItem>
+      <MenuItem value="dark">
+        Dark
+      </MenuItem>
     </Select>
   );
 });

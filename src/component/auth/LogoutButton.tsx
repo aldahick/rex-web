@@ -14,7 +14,9 @@ export const LogoutButton: React.FC = () => {
 
   return (
     <MenuItem button onClick={() => setShouldLogout(true)}>
-      <Typography>Log Out</Typography>
+      <Typography>
+        Log Out
+      </Typography>
     </MenuItem>
   );
 };

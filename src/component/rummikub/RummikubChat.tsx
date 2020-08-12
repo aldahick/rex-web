@@ -52,7 +52,7 @@ export const RummikubChat: React.FC = () => {
             <div key={id}>
               {new Date(createdAt).toLocaleTimeString()}
               {" "}
-              {author?.name || "System"}
+              {author?.name ?? "System"}
               :
               {" "}
               {message}
@@ -74,7 +74,9 @@ export const RummikubChat: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <Button variant="outlined" onClick={sendMessage}>Send</Button>
+            <Button variant="outlined" onClick={sendMessage}>
+              Send
+            </Button>
           </Grid>
         </Grid>
       </Grids>

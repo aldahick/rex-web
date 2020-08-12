@@ -24,7 +24,7 @@ export const Table: React.FC<TableProps> = ({ columns, children }) => {
         <TableRow>
           {columns.map((column, i) => (
             // eslint-disable-next-line react/no-array-index-key
-            <TableCell key={column + i}>
+            <TableCell key={`${column}${i}`}>
               <Typography className={classes.headCell}>
                 {column}
               </Typography>

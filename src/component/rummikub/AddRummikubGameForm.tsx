@@ -15,14 +15,13 @@ mutation Web_CreateRummikubGame($name: String!, $privacy: RummikubGamePrivacy!) 
 `;
 
 export const AddRummikubGameForm: React.FC<{
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }> = ({ onSubmit }) => {
-  const [createRummikubGame] = useMutation<{}>(MUTATION_CREATE_RUMMIKUB_GAME);
+  const [createRummikubGame] = useMutation<unknown>(MUTATION_CREATE_RUMMIKUB_GAME);
   return (
     <DialogForm
       title="Create Game"
       onSubmit={async ({ name, privacy }) => {
-        console.log(name, privacy);
         await callMutationSafe(createRummikubGame, {
           name,
           privacy: privacy as IRummikubGamePrivacy,
@@ -40,7 +39,9 @@ export const AddRummikubGameForm: React.FC<{
               onChange={evt => onChange(evt.target.value as string)}
             >
               {Object.entries(IRummikubGamePrivacy).map(([label, privacy]) => (
-                <MenuItem value={privacy} key={privacy}>{label}</MenuItem>
+                <MenuItem value={privacy} key={privacy}>
+                  {label}
+                </MenuItem>
               ))}
             </Select>
           ),

@@ -10,20 +10,20 @@ interface PopupMessageProps {
 }
 
 export const PopupMessage: React.FC<PopupMessageProps> = ({
-  text, duration, severity, anchor,
+  text, duration, severity, anchor = { vertical: "top", horizontal: "center" },
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    setOpen(!!text);
+    setOpen(text !== undefined);
   }, [text]);
 
   return (
     <Snackbar
       open={open}
-      autoHideDuration={duration === null ? null : (duration || 5000)}
+      autoHideDuration={duration === null ? null : (duration ?? 5000)}
       onClose={() => setOpen(false)}
-      anchorOrigin={anchor || { vertical: "top", horizontal: "center" }}
+      anchorOrigin={anchor}
     >
       <Alert severity={severity} onClick={() => setOpen(false)}>
         {text}

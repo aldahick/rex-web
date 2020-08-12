@@ -15,13 +15,13 @@ export const UserState = new (class {
   private roles?: IRole[];
 
   constructor() {
-    const token = localStorage.getItem(TOKEN_KEY) || undefined;
+    const token = localStorage.getItem(TOKEN_KEY) ?? undefined;
     let roles: IRole[] | undefined;
     const rolesJson = localStorage.getItem(ROLES_KEY);
-    if (rolesJson) {
-      roles = JSON.parse(rolesJson) || undefined;
+    if (rolesJson !== null) {
+      roles = JSON.parse(rolesJson) as IRole[] | null ?? undefined;
     }
-    if (token && roles) {
+    if (token !== undefined && roles) {
       this.setAuth(token, roles);
     }
   }
@@ -43,14 +43,14 @@ export const UserState = new (class {
   }
 
   get isAuthenticated(): boolean {
-    return !!this.token && !!this.roles && !!this.accessControl;
+    return this.token !== undefined && !!this.roles && !!this.accessControl;
   }
 
   isAuthorized(check: AuthCheck): boolean {
     if (!this.roles) {
       return false;
     }
-    return this.roles?.some(r => this.accessControl
+    return this.roles.some(r => this.accessControl
       && check(this.accessControl.can(r.name)).granted
     ) || false;
   }
@@ -60,7 +60,7 @@ export const UserState = new (class {
       return;
     }
     this.accessControl = new AccessControl(_.flatten(
-      this.roles.map(role => (role.permissions || []).map(permission => ({
+      this.roles.map(role => role.permissions.map(permission => ({
         role: role.name,
         resource: permission.resource,
         action: permission.action,

@@ -23,7 +23,8 @@ query Web_MediaItems($dir: String!) {
 
 export const MediaScene: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<IMediaItem[]>([]);
-  const selectedType = (selectedItems.slice(-1)[0])?.type || IMediaItemType.Directory;
+  const lastSelected = selectedItems.slice(-1)[0] as IMediaItem | undefined;
+  const selectedType = lastSelected?.type ?? IMediaItemType.Directory;
   const selectedKey = () => selectedItems.map(i => i.key).join("/");
 
   return checkQueryResult<{ mediaItems: IQuery["mediaItems"] }>(({ mediaItems }) => (
@@ -44,7 +45,7 @@ export const MediaScene: React.FC = () => {
         />
       )}
     </Grids>
-  ))(useQuery<any, IQueryMediaItemsArgs>(QUERY_MEDIA_ITEMS, {
+  ))(useQuery<{ mediaItems: IQuery["mediaItems"] }, IQueryMediaItemsArgs>(QUERY_MEDIA_ITEMS, {
     variables: {
       dir: selectedItems.filter(i => i.type !== IMediaItemType.File).map(i => i.key).join("/"),
     },

@@ -18,7 +18,7 @@ export const EditNoteForm: React.FC<{
   note: INote;
 }> = ({ note }) => {
   const { statusStore } = useStores();
-  const [updateNoteBody] = useMutation<{}, IMutationUpdateNoteBodyArgs>(MUTATION_UPDATE_NOTE_BODY);
+  const [updateNoteBody] = useMutation<unknown, IMutationUpdateNoteBodyArgs>(MUTATION_UPDATE_NOTE_BODY);
   const [body, setBody] = useState(note.body);
   const [key, setKey] = useState("");
   const [isEncrypted, setIsEncrypted] = useState(body !== note.body);
@@ -36,11 +36,13 @@ export const EditNoteForm: React.FC<{
     [usage],
   );
 
+  const isCryptoSupported = () => ("crypto" in window) && ("subtle" in crypto) && ("encrypt" in crypto.subtle);
+
   const encryptBody = async (): Promise<string | undefined> => {
     if (!isEncrypted) {
       return body;
     }
-    if (!crypto || !crypto.subtle || !crypto.subtle.encrypt) {
+    if (!isCryptoSupported()) {
       statusStore.setErrorMessage("Insecure browser context. Use HTTPS to edit secure notes.");
       return undefined;
     }
@@ -62,11 +64,11 @@ export const EditNoteForm: React.FC<{
   const decryptBody = async (): Promise<string | undefined> => {
     let data: { iv: number[]; encrypted: number[] };
     try {
-      data = JSON.parse(note.body);
+      data = JSON.parse(note.body) as { iv: number[]; encrypted: number[] };
     } catch (err) { // if not valid JSON,
       return undefined; // it's not encrypted at all
     }
-    if (!crypto || !crypto.subtle || !crypto.subtle.decrypt) {
+    if (!isCryptoSupported()) {
       statusStore.setErrorMessage("Insecure browser context. Use HTTPS to edit secure notes.");
       return "";
     }
@@ -85,7 +87,7 @@ export const EditNoteForm: React.FC<{
         encrypted,
       ).then(d => new TextDecoder().decode(d));
     } catch (err) {
-      if (err.constructor.name !== "DOMException") {
+      if (err instanceof DOMException) {
         statusStore.setErrorMessage(err.message);
       }
       return "";
@@ -104,13 +106,13 @@ export const EditNoteForm: React.FC<{
           return newBody;
         });
       }
-    }).catch(err => statusStore.setErrorMessage(err.message));
+    }).catch(err => statusStore.setErrorMessage(err instanceof Error ? err.message : err));
   };
 
   const submit = async () => {
     try {
       const encryptedBody = await encryptBody();
-      if (!encryptedBody) {
+      if (encryptedBody === undefined) {
         return;
       }
       await callMutationSafe(updateNoteBody, {
@@ -119,13 +121,14 @@ export const EditNoteForm: React.FC<{
       });
       statusStore.setSuccessMessage("Updated note body");
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 
   if (!isKeyValid) {
     attemptDecryptBody();
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(attemptDecryptBody, [key]);
 
   return (
@@ -138,7 +141,9 @@ export const EditNoteForm: React.FC<{
       </Grid>
       <Grid item>
         <Checkbox value={isEncrypted} checked={isEncrypted} onChange={evt => setIsEncrypted(evt.target.checked)} />
-        <Button onClick={submit}>Submit</Button>
+        <Button onClick={submit}>
+          Submit
+        </Button>
       </Grid>
     </Grid>
   );

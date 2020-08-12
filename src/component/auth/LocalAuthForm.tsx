@@ -35,12 +35,14 @@ export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess }) => {
   const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenLocal"] }, IMutationCreateAuthTokenLocalArgs>(MUTATION_CREATE_AUTH_TOKEN_LOCAL);
 
   const onSubmit = async () => {
-    if (!username || !password) return;
+    if (!username || !password) {
+      return;
+    }
     try {
       const { authToken } = await callMutationSafe(createAuthToken, { username, password });
       onSuccess(authToken);
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 
@@ -58,6 +60,7 @@ export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess }) => {
         value={username}
         onChange={evt => setUsername(evt.target.value)}
         onKeyDown={checkEnterKey}
+        autoFocus
       />
       <TextField
         label="Password"
@@ -66,7 +69,9 @@ export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess }) => {
         onChange={evt => setPassword(evt.target.value)}
         onKeyDown={checkEnterKey}
       />
-      <Button onClick={onSubmit} color="primary" variant="outlined">Submit</Button>
+      <Button onClick={onSubmit} color="primary" variant="outlined">
+        Submit
+      </Button>
     </Grids>
   );
 };

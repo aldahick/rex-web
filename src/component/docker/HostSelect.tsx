@@ -6,6 +6,7 @@ import {
 import gql from "graphql-tag";
 import { useQuery } from "react-apollo";
 import { IHost, IQuery } from "../../graphql/types";
+import { useStores } from "../../hook/useStores";
 import { checkQueryResult } from "../../util/graphql";
 
 const QUERY_HOSTS = gql`
@@ -23,20 +24,28 @@ interface HostSelectProps {
 }
 
 export const HostSelect: React.FC<HostSelectProps> = ({ onChange }) => {
-  const [selected, _setSelected] = useState<string>("");
+  const [selected, setSelected] = useState<string>("");
   const hostsResult = useQuery(QUERY_HOSTS);
+  const { statusStore } = useStores();
 
   return checkQueryResult<{ hosts: IQuery["hosts"] }>(({ hosts }) => {
-    const setSelected = (value: string) => {
-      _setSelected(value);
-      onChange(hosts.find(h => h._id === value)!);
+    const onSelectChange = (value: string) => {
+      setSelected(value);
+      const host = hosts.find(h => h._id === value);
+      if (!host) {
+        statusStore.setErrorMessage(`Couldn't find host id=${value}`);
+        return;
+      }
+      onChange(host);
     };
 
     return (
       <FormControl fullWidth>
-        <InputLabel>Host</InputLabel>
+        <InputLabel>
+          Host
+        </InputLabel>
         <Select
-          onChange={evt => setSelected(evt.target.value as string)}
+          onChange={evt => onSelectChange(evt.target.value as string)}
           fullWidth
           value={selected}
         >

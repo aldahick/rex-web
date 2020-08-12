@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles, Typography } from "@material-ui/core";
 import * as mime from "mime";
 import { isIOS } from "react-device-detect";
-import { Config } from "../../Config";
+import { config } from "../../config";
 import { UserState } from "../auth";
 import { FetchUrl } from "../util/FetchUrl";
 
@@ -24,7 +24,7 @@ export const MediaContentView: React.FC<MediaContentViewProps> = ({ onClick, sel
   const classes = useStyles();
 
   const mimeType = mime.getType(selectedKey);
-  const contentUrl = `${Config.apiUrl}/v1/media/content?key=${selectedKey}&token=${UserState.token}`;
+  const contentUrl = `${config.apiUrl}/v1/media/content?key=${selectedKey}&token=${UserState.token ?? ""}`;
 
   switch (mimeType) {
     case "audio/mp4":
@@ -65,7 +65,7 @@ export const MediaContentView: React.FC<MediaContentViewProps> = ({ onClick, sel
         <FetchUrl url={contentUrl}>
           {text => (
             mimeType === "text/html" ? (
-              // eslint-disable-next-line react/no-danger
+              // eslint-disable-next-line react/no-danger,@typescript-eslint/naming-convention
               <div dangerouslySetInnerHTML={{ __html: text }} />
             ) : (
               <div className={classes.text}>

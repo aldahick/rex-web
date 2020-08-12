@@ -12,14 +12,18 @@ export const FetchUrl: React.FC<FetchUrlProps> = ({ children, url }) => {
   const [data, setData] = useState<string>();
   const { statusStore } = useStores();
 
-  if (!data) {
+  if (data === undefined) {
     axios.get(url)
       .then(r => setData(r.data))
       .catch(err => {
         console.error(err);
-        statusStore.setErrorMessage(err.message);
+        statusStore.setErrorMessage(err instanceof Error ? err.message : err);
       });
-    return <Typography>Loading...</Typography>;
+    return (
+      <Typography>
+        Loading...
+      </Typography>
+    );
   }
   return children(data);
 };

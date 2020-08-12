@@ -26,12 +26,16 @@ export const NoteScene: React.FC = () => {
   return checkQueryResult<{ note: IQuery["note"] }>(({ note }) => (
     <Grids direction="column">
       <Breadcrumbs>
-        <Link component={RouterLink} to="/notes" color="inherit">Notes</Link>
-        <Typography>{note.title}</Typography>
+        <Link component={RouterLink} to="/notes" color="inherit">
+          Notes
+        </Link>
+        <Typography>
+          {note.title}
+        </Typography>
       </Breadcrumbs>
       <EditNoteForm note={note} />
     </Grids>
-  ))(useQuery<any, IQueryNoteArgs>(QUERY_NOTE, {
+  ))(useQuery<{ note: IQuery["note"] }, IQueryNoteArgs>(QUERY_NOTE, {
     variables: {
       id: noteId,
     },

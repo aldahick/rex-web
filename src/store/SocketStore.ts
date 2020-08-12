@@ -1,12 +1,13 @@
 import { action, observable } from "mobx";
 import * as io from "socket.io-client";
-import { Config } from "../Config";
+import { config } from "../config";
 import { RootStore } from "./RootStore";
 
 export class SocketStore {
   @action.bound
-  get isConnected() {
-    return this.socket && this.socket.connected;
+  get isConnected(): boolean {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    return this.socket?.connected;
   }
 
   @observable socket!: SocketIOClient.Socket;
@@ -14,7 +15,7 @@ export class SocketStore {
   constructor(
     root: RootStore,
   ) {
-    const socket = io.connect(Config.apiUrl);
+    const socket = io.connect(config.apiUrl);
     socket.on("connect", () => {
       this.socket = socket;
     });

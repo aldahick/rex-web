@@ -24,7 +24,7 @@ export const RummikubCards: React.FC<{
   cards: IRummikubCard[];
   dropId: string;
   placeholder?: boolean;
-}> = ({ cards, dropId, placeholder }) => {
+}> = ({ cards, dropId, placeholder = false }) => {
   const classes = useStyles();
 
   return (
@@ -46,8 +46,8 @@ export const RummikubCards: React.FC<{
             </Typography>
           ) : cards.map((card, index) => (
             <Draggable
-              draggableId={`${card.color}-${card.value}`}
-              key={`${card.color}-${card.value}`}
+              draggableId={`${card.color}-${card.value ?? "joker"}`}
+              key={`${card.color}-${card.value ?? "joker"}`}
               index={index}
             >
               {({ dragHandleProps, draggableProps, innerRef }) => (

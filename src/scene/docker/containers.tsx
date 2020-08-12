@@ -53,7 +53,7 @@ mutation Web_DeleteContainers($ids: [String!]!) {
 export const DockerContainersScene: React.FC = () => {
   const { statusStore } = useStores();
   const containersResult = useQuery(QUERY_CONTAINERS);
-  const [deleteContainers] = useMutation<{}, IMutationDeleteContainersArgs>(MUTATION_DELETE_CONTAINERS);
+  const [deleteContainers] = useMutation<unknown, IMutationDeleteContainersArgs>(MUTATION_DELETE_CONTAINERS);
 
   const onDelete = async (containers: IContainer[]) => {
     if (containers.length === 0) {
@@ -63,7 +63,7 @@ export const DockerContainersScene: React.FC = () => {
       await callMutationSafe(deleteContainers, { ids: containers.map(c => c._id) });
       statusStore.setSuccessMessage(`Successfully deleted ${containers.length} containers`);
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 
@@ -94,11 +94,11 @@ export const DockerContainersScene: React.FC = () => {
           data={containers}
           title="Containers"
           options={{
-            onRowsDelete: (evt: any) => {
+            onRowsDelete: evt => {
               const { data } = evt as { data: { dataIndex: number }[] };
               onDelete(data.map(d => containers[d.dataIndex]))
                 .then(() => refetch())
-                .catch(err => statusStore.setErrorMessage(err.message));
+                .catch(err => statusStore.setErrorMessage(err instanceof Error ? err.message : err));
             },
             expandableRows: true,
             renderExpandableRow: (_, { dataIndex }) => (
@@ -114,6 +114,7 @@ export const DockerContainersScene: React.FC = () => {
                     }, {
                       label: "Volumes",
                       form: EditContainerVolumesForm,
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     }].map(({ label, form: Form }) => (
                       <Grids key={label} direction="column" alignItems="center">
                         <Typography variant="h5">

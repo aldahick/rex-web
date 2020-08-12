@@ -15,10 +15,10 @@ mutation Web_RemoveNote($id: String!) {
 
 export const DeleteNoteButton: React.FC<{
   noteId: string;
-  onSubmit: () => Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }> = ({ noteId, onSubmit }) => {
   const { statusStore } = useStores();
-  const [removeNote] = useMutation<{}, IMutationRemoveNoteArgs>(MUTATION_REMOVE_NOTE);
+  const [removeNote] = useMutation<unknown, IMutationRemoveNoteArgs>(MUTATION_REMOVE_NOTE);
 
   const submit = async () => {
     // eslint-disable-next-line no-alert,no-restricted-globals
@@ -30,7 +30,7 @@ export const DeleteNoteButton: React.FC<{
       await onSubmit();
       statusStore.setSuccessMessage(`Deleted note id=${noteId}`);
     } catch (err) {
-      statusStore.setErrorMessage(err.message);
+      statusStore.setErrorMessage(err instanceof Error ? err.message : err);
     }
   };
 

@@ -15,11 +15,11 @@ mutation Web_CreateContainer($container: CreateContainerInput!) {
 `;
 
 interface AddContainerFormProps {
-  onSubmit: () => void | Promise<any>;
+  onSubmit: () => Promise<unknown>;
 }
 
 export const AddContainerForm: React.FC<AddContainerFormProps> = ({ onSubmit }) => {
-  const [createContainer] = useMutation<{}, IMutationCreateContainerArgs>(MUTATION_CREATE_CONTAINER);
+  const [createContainer] = useMutation<unknown, IMutationCreateContainerArgs>(MUTATION_CREATE_CONTAINER);
 
   return (
     <DialogForm

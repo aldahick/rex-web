@@ -14,11 +14,11 @@ mutation Web_CreateHost($host: CreateHostInput!) {
 `;
 
 interface AddHostFormProps {
-  onSubmit: () => void | Promise<any>;
+  onSubmit: () => undefined | Promise<unknown>;
 }
 
 export const AddHostForm: React.FC<AddHostFormProps> = ({ onSubmit }) => {
-  const [createHost] = useMutation<{}, IMutationCreateHostArgs>(MUTATION_CREATE_HOST);
+  const [createHost] = useMutation<unknown, IMutationCreateHostArgs>(MUTATION_CREATE_HOST);
 
   return (
     <DialogForm

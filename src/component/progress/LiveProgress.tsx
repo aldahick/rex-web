@@ -31,7 +31,9 @@ export const LiveProgress: React.FC<LiveProgressProps> = ({ progressId }) => {
   const progressResult = useQuery<{ progress: IQuery["progress"] }, IQueryProgressArgs>(QUERY_PROGRESS, { variables: { id: progressId } });
   if (progressResult.loading || !progressResult.data) {
     return (
-      <Typography>Loading...</Typography>
+      <Typography>
+        Loading...
+      </Typography>
     );
   }
   if (progressResult.error) {
@@ -55,16 +57,14 @@ export const LiveProgress: React.FC<LiveProgressProps> = ({ progressId }) => {
         {" "}
         {_.startCase(progress.status)}
       </Typography>
-      <>
-        {progress.logs.map((log => (
-          <Typography key={new Date(log.createdAt).toISOString()}>
-            {new Date(log.createdAt).toLocaleString()}
-            :
-            {" "}
-            {log.text}
-          </Typography>
-        )))}
-      </>
+      {progress.logs.map((log => (
+        <Typography key={new Date(log.createdAt).toISOString()}>
+          {new Date(log.createdAt).toLocaleString()}
+          :
+          {" "}
+          {log.text}
+        </Typography>
+      )))}
     </Grids>
   );
 };

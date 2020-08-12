@@ -10,7 +10,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "typeface-open-sans";
 import { SecureRoute, UserState } from "./component/auth";
 import { Layout } from "./component/Layout";
-import { Config } from "./Config";
+import { config } from "./config";
 import { useStores } from "./hook/useStores";
 import { scenes } from "./scenes";
 import { RootStore } from "./store/RootStore";
@@ -41,13 +41,13 @@ const ThemeProvider: React.FC = observer(({ children }) => {
 });
 
 const client = new ApolloClient({
-  link: setContext((_, { headers }) => ({
+  link: setContext((_, { headers }: { headers: Record<string, string> }) => ({
     headers: {
       ...headers,
-      authorization: UserState.token ? `Bearer ${UserState.token}` : "",
+      authorization: UserState.token !== undefined ? `Bearer ${UserState.token}` : "",
     },
   })).concat(createHttpLink({
-    uri: `${Config.apiUrl}/graphql`,
+    uri: `${config.apiUrl}/graphql`,
   })),
   cache: new InMemoryCache(),
   defaultOptions: {
