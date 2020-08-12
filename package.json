@@ -9,7 +9,7 @@
     "clean": "rm -rf build",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx .",
-    "generate": "npm run generate:graphql",
+    "generate": "yarn generate:graphql",
     "generate:graphql": "graphql-codegen --config codegen.graphql.yml"
   },
   "repository": {
@@ -63,7 +63,7 @@
     "typeface-open-sans": "^0.0.75"
   },
   "devDependencies": {
-    "@aldahick/eslint-rules": "^0.8.2",
+    "@aldahick/eslint-rules": "^0.8.3",
     "@graphql-codegen/cli": "^1.17.7",
     "@graphql-codegen/typescript": "^1.17.7",
     "@graphql-codegen/typescript-operations": "^1.17.7",
@@ -79,12 +79,12 @@
     "@types/socket.io-client": "^1.4.33",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
-    "eslint": "^7.6.0",
+    "eslint": "6",
     "eslint-plugin-prefer-arrow": "^1.2.2",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-simple-import-sort": "^5.0.3",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^3.4.3",
     "serve": "^11.3.2",
     "typescript": "^3.9.7"
   }
