@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "serve": "npm run build && serve -s build",
+    "serve": "yarn build && serve -s build",
     "clean": "rm -rf build",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx .",
