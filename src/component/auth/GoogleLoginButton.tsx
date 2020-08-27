@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 const MUTATION_CREATE_AUTH_TOKEN_GOOGLE = gql`
 mutation Web_CreateAuthTokenGoogle($googleIdToken: String!) {
-  authToken: createAuthTokenGoogle(googleIdToken: $googleIdToken) {
+  authToken: createAuthTokenGoogle(googleIdToken: $googleIdToken, clientType: WEB) {
     token
     user {
       roles {
@@ -39,7 +39,9 @@ export const GoogleLoginButton: React.FC<{
   onSuccess: (authToken: IAuthToken) => void;
 }> = ({ clientId, onSuccess }) => {
   const { statusStore } = useStores();
-  const [createAuthToken] = useMutation<{ authToken: IMutation["createAuthTokenGoogle"] }, IMutationCreateAuthTokenGoogleArgs>(MUTATION_CREATE_AUTH_TOKEN_GOOGLE);
+  const [createAuthToken] = useMutation<{
+    authToken: IMutation["createAuthTokenGoogle"];
+  }, Omit<IMutationCreateAuthTokenGoogleArgs, "clientType">>(MUTATION_CREATE_AUTH_TOKEN_GOOGLE);
   const classes = useStyles();
 
   const onGoogleAuth = async (

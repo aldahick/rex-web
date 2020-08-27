@@ -1,5 +1,5 @@
 export type Maybe<T> = T | undefined;
-export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -11,6 +11,11 @@ export type Scalars = {
   /** The `Upload` scalar type represents a file upload. */
   Upload: File;
 };
+
+export enum IAuthClientType {
+  Mobile = 'MOBILE',
+  Web = 'WEB'
+}
 
 export type IAuthToken = {
   __typename?: 'AuthToken';
@@ -102,6 +107,29 @@ export type ICreateHostInput = {
 };
 
 
+export type IGarageDoor = {
+  __typename?: 'GarageDoor';
+  _id: Scalars['String'];
+  name: Scalars['String'];
+  isOpen: Scalars['Boolean'];
+};
+
+export type IGarageDoorsPayload = {
+  __typename?: 'GarageDoorsPayload';
+  garageDoors: Array<IGarageDoor>;
+};
+
+export type IGarageDoorStatusPayload = {
+  __typename?: 'GarageDoorStatusPayload';
+  id: Scalars['String'];
+  isOpen: Scalars['Boolean'];
+};
+
+export type IGarageDoorTogglePayload = {
+  __typename?: 'GarageDoorTogglePayload';
+  id: Scalars['String'];
+};
+
 export type IHost = {
   __typename?: 'Host';
   _id: Scalars['String'];
@@ -149,17 +177,22 @@ export type IMutation = {
   createRole: IRole;
   setSecret: Scalars['Boolean'];
   removeSecret: Scalars['Boolean'];
+  fetchSteamGames: IProgress;
   addRoleToUser: Scalars['Boolean'];
   createUser: IUser;
   setUserPassword: Scalars['Boolean'];
   fetchWikiPagesUntil: IProgress;
-  fetchSteamGames: IProgress;
+  /** called from web */
+  createGarageDoor: IGarageDoor;
+  deleteGarageDoor: Scalars['Boolean'];
+  toggleGarageDoor: Scalars['Boolean'];
   createRummikubGame: IRummikubGame;
 };
 
 
 export type IMutationCreateAuthTokenGoogleArgs = {
   googleIdToken: Scalars['String'];
+  clientType: IAuthClientType;
 };
 
 
@@ -302,6 +335,21 @@ export type IMutationFetchWikiPagesUntilArgs = {
 };
 
 
+export type IMutationCreateGarageDoorArgs = {
+  name: Scalars['String'];
+};
+
+
+export type IMutationDeleteGarageDoorArgs = {
+  id: Scalars['String'];
+};
+
+
+export type IMutationToggleGarageDoorArgs = {
+  id: Scalars['String'];
+};
+
+
 export type IMutationCreateRummikubGameArgs = {
   name: Scalars['String'];
   privacy: IRummikubGamePrivacy;
@@ -348,16 +396,16 @@ export type IQuery = {
   mediaItems: Array<IMediaItem>;
   note: INote;
   notes: Array<INote>;
-  roles: Array<IRole>;
   progress: IProgress;
+  roles: Array<IRole>;
   secret: ISecret;
   secrets: Array<ISecret>;
-  user: IUser;
-  users: Array<IUser>;
+  steamGames: Array<ISteamGame>;
   steamPlayer: ISteamPlayer;
   steamPlayers: Array<ISteamPlayer>;
+  user: IUser;
+  users: Array<IUser>;
   wikiPage: IWikiPage;
-  steamGames: Array<ISteamGame>;
   /** only shows public games */
   rummikubGames: Array<IRummikubGame>;
 };
@@ -398,8 +446,9 @@ export type IQuerySecretsArgs = {
 };
 
 
-export type IQueryUserArgs = {
-  id?: Maybe<Scalars['String']>;
+export type IQuerySteamGamesArgs = {
+  page: Scalars['Int'];
+  search: Scalars['String'];
 };
 
 
@@ -413,15 +462,19 @@ export type IQuerySteamPlayersArgs = {
 };
 
 
+export type IQueryUserArgs = {
+  id?: Maybe<Scalars['String']>;
+};
+
+
 export type IQueryWikiPageArgs = {
   name: Scalars['String'];
 };
 
-
-export type IQuerySteamGamesArgs = {
-  page: Scalars['Int'];
-  search: Scalars['String'];
-};
+export enum IQueueEventType {
+  GarageDoorStatus = 'garageDoorStatus',
+  ToggleGarageDoor = 'toggleGarageDoor'
+}
 
 export type IRole = {
   __typename?: 'Role';
