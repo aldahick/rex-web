@@ -1,11 +1,10 @@
 import React from "react";
-import { IconButton, Typography } from "@material-ui/core";
+import { useQuery } from "@apollo/client";
+import { Grid, IconButton, Typography } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import gql from "graphql-tag";
 import * as _ from "lodash";
-import { useQuery } from "react-apollo";
 import { IQuery, IQueryProgressArgs } from "../../graphql/types";
-import { Grids } from "../util/Grids";
 import { PopupMessage } from "../util/PopupMessage";
 
 const QUERY_PROGRESS = gql`
@@ -41,8 +40,8 @@ export const LiveProgress: React.FC<LiveProgressProps> = ({ progressId }) => {
   }
   const { progress } = progressResult.data;
   return (
-    <Grids direction="column">
-      <>
+    <Grid container direction="column">
+      <Grid item>
         <Typography variant="subtitle1">
           Progress:
           {" "}
@@ -51,20 +50,24 @@ export const LiveProgress: React.FC<LiveProgressProps> = ({ progressId }) => {
         <IconButton onClick={() => progressResult.refetch({ id: progressId })}>
           <RefreshIcon />
         </IconButton>
-      </>
-      <Typography>
-        Status:
-        {" "}
-        {_.startCase(progress.status)}
-      </Typography>
-      {progress.logs.map((log => (
-        <Typography key={new Date(log.createdAt).toISOString()}>
-          {new Date(log.createdAt).toLocaleString()}
-          :
+      </Grid>
+      <Grid item>
+        <Typography>
+          Status:
           {" "}
-          {log.text}
+          {_.startCase(progress.status)}
         </Typography>
+      </Grid>
+      {progress.logs.map((log => (
+        <Grid item key={new Date(log.createdAt).toISOString()}>
+          <Typography>
+            {new Date(log.createdAt).toLocaleString()}
+            :
+            {" "}
+            {log.text}
+          </Typography>
+        </Grid>
       )))}
-    </Grids>
+    </Grid>
   );
 };

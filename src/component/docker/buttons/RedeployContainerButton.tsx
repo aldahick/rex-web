@@ -1,7 +1,7 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 import { Button } from "@material-ui/core";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import { IContainer, IMutationRedeployContainerArgs } from "../../../graphql/types";
 import { useStores } from "../../../hook/useStores";
 import { callMutationSafe } from "../../../util/graphql";

@@ -1,6 +1,6 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import { IMutation, IMutationFetchWikiPagesUntilArgs } from "../../graphql/types";
 import { callMutationSafe } from "../../util/graphql";
 import { DialogForm } from "../util/DialogForm";

@@ -1,15 +1,14 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { useMutation, useQuery } from "@apollo/client";
+import { Grid, Typography } from "@material-ui/core";
 import gql from "graphql-tag";
 import MUIDataTable from "mui-datatables";
-import { useMutation, useQuery } from "react-apollo";
 import { AddContainerForm } from "../../component/docker/AddContainerForm";
 import { RedeployContainerButton } from "../../component/docker/buttons/RedeployContainerButton";
 import { StartStopContainerButton } from "../../component/docker/buttons/StartStopContainerButton";
 import { EditContainerPortsForm } from "../../component/docker/EditContainerPortsForm";
 import { EditContainerVariablesForm } from "../../component/docker/EditContainerVariablesForm";
 import { EditContainerVolumesForm } from "../../component/docker/EditContainerVolumesForm";
-import { Grids } from "../../component/util/Grids";
 import { IContainer, IMutationDeleteContainersArgs, IQuery } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { createDTColumn } from "../../util/dataTable";
@@ -104,7 +103,7 @@ export const DockerContainersScene: React.FC = () => {
             renderExpandableRow: (_, { dataIndex }) => (
               <tr>
                 <td colSpan={columns.length + 1}>
-                  <Grids itemProps={{ xs: 12, md: 6 }}>
+                  <Grid container>
                     {[{
                       label: "Environment Variables",
                       form: EditContainerVariablesForm,
@@ -116,17 +115,23 @@ export const DockerContainersScene: React.FC = () => {
                       form: EditContainerVolumesForm,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     }].map(({ label, form: Form }) => (
-                      <Grids key={label} direction="column" alignItems="center">
-                        <Typography variant="h5">
-                          {label}
-                        </Typography>
-                        <Form
-                          container={containers[dataIndex]}
-                          onSubmit={refetch}
-                        />
-                      </Grids>
+                      <Grid item key={label} xs={12} md={6}>
+                        <Grid container direction="column" alignItems="center">
+                          <Grid item>
+                            <Typography variant="h5">
+                              {label}
+                            </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Form
+                              container={containers[dataIndex]}
+                              onSubmit={refetch}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Grid>
                     ))}
-                  </Grids>
+                  </Grid>
                 </td>
               </tr>
             ),

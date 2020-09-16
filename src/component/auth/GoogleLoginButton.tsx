@@ -1,7 +1,7 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 import { makeStyles, Typography } from "@material-ui/core";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
 import { IAuthToken, IMutation, IMutationCreateAuthTokenGoogleArgs } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";

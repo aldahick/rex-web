@@ -1,7 +1,7 @@
 import React from "react";
+import { MutationFunction, QueryResult } from "@apollo/client";
 import { CircularProgress } from "@material-ui/core";
 import * as _ from "lodash";
-import { MutationFunction, QueryComponentOptions, QueryResult } from "react-apollo";
 import { PopupMessage } from "../component/util/PopupMessage";
 import { AggregateError } from "./AggregateError";
 
@@ -26,7 +26,7 @@ export const callMutationSafe = async <Data, Variables>(
 export const checkQueryResult = <Data, Variables = unknown>(
   callback: (data: Data, result: QueryResult<Data, Variables>) => JSX.Element | null,
   loadingCallback?: () => JSX.Element | null,
-): QueryComponentOptions<Data, Variables>["children"] => (result: QueryResult<Data, Variables>) => {
+): (result: QueryResult<Data, Variables>) => JSX.Element | null => (result: QueryResult<Data, Variables>) => {
   const { loading, data, error } = result;
   if (loading) {
     return loadingCallback ? loadingCallback() : <CircularProgress />;

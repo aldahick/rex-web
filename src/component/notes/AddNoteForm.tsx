@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { useMutation } from "@apollo/client";
+import { Button, Grid, TextField } from "@material-ui/core";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import { IMutationCreateNoteArgs } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
-import { Grids } from "../util/Grids";
 
 const MUTATION_CREATE_NOTE = gql`
 mutation Web_CreateNote($title: String!) {
@@ -36,15 +35,19 @@ export const AddNoteForm: React.FC<{
   };
 
   return (
-    <Grids>
-      <TextField
-        placeholder="Title"
-        onChange={evt => setTitle(evt.target.value)}
-        value={title}
-      />
-      <Button onClick={submit}>
-        Create Note
-      </Button>
-    </Grids>
+    <Grid container>
+      <Grid item>
+        <TextField
+          placeholder="Title"
+          onChange={evt => setTitle(evt.target.value)}
+          value={title}
+        />
+      </Grid>
+      <Grid item>
+        <Button onClick={submit}>
+          Create Note
+        </Button>
+      </Grid>
+    </Grid>
   );
 };

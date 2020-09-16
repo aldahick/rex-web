@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { useMutation } from "@apollo/client";
+import { Button, Grid, TextField } from "@material-ui/core";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import { IAuthToken, IMutation, IMutationCreateAuthTokenLocalArgs } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
-import { Grids } from "../util/Grids";
 
 const MUTATION_CREATE_AUTH_TOKEN_LOCAL = gql`
 mutation Web_CreateAuthTokenLocal($username: String!, $password: String!) {
@@ -54,24 +53,30 @@ export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess }) => {
   };
 
   return (
-    <Grids direction="column" alignItems="center">
-      <TextField
-        label="Username"
-        value={username}
-        onChange={evt => setUsername(evt.target.value)}
-        onKeyDown={checkEnterKey}
-        autoFocus
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={evt => setPassword(evt.target.value)}
-        onKeyDown={checkEnterKey}
-      />
-      <Button onClick={onSubmit} color="primary" variant="outlined">
-        Submit
-      </Button>
-    </Grids>
+    <Grid container direction="column" alignItems="center">
+      <Grid item>
+        <TextField
+          label="Username"
+          value={username}
+          onChange={evt => setUsername(evt.target.value)}
+          onKeyDown={checkEnterKey}
+          autoFocus
+        />
+      </Grid>
+      <Grid item>
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={evt => setPassword(evt.target.value)}
+          onKeyDown={checkEnterKey}
+        />
+      </Grid>
+      <Grid item>
+        <Button onClick={onSubmit} color="primary" variant="outlined">
+          Submit
+        </Button>
+      </Grid>
+    </Grid>
   );
 };

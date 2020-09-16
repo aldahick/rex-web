@@ -1,9 +1,7 @@
 import React from "react";
 import {
-  Grid,
-  Link, Typography, TypographyProps,
+  Grid, Link, Typography, TypographyProps,
 } from "@material-ui/core";
-import { Grids } from "../component/util/Grids";
 import { SocialBadge } from "../component/util/SocialBadge";
 import githubLogoUrl from "../images/logos/github.png";
 import linkedInLogoUrl from "../images/logos/linkedin.png";
@@ -44,18 +42,22 @@ export const IndexScene: React.FC = () => (
       </Line>
     </Grid>
     <Grid item style={{ marginTop: "1em" }}>
-      <Grids justify="center" spacing={4}>
-        <SocialBadge
-          imageUrl={githubLogoUrl}
-          url="https://github.com/aldahick"
-          label="@aldahick"
-        />
-        <SocialBadge
-          imageUrl={linkedInLogoUrl}
-          url="https://linkedin.com/in/aldahick"
-          label="@aldahick"
-        />
-      </Grids>
+      <Grid container justify="center" spacing={4}>
+        <Grid item>
+          <SocialBadge
+            imageUrl={githubLogoUrl}
+            url="https://github.com/aldahick"
+            label="@aldahick"
+          />
+        </Grid>
+        <Grid item>
+          <SocialBadge
+            imageUrl={linkedInLogoUrl}
+            url="https://linkedin.com/in/aldahick"
+            label="@aldahick"
+          />
+        </Grid>
+      </Grid>
     </Grid>
   </Grid>
 );

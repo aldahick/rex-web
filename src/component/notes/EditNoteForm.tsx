@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useMutation } from "@apollo/client";
 import {
   Button, Checkbox, Grid, TextField,
 } from "@material-ui/core";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import { IMutationUpdateNoteBodyArgs, INote } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";

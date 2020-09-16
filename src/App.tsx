@@ -1,11 +1,7 @@
 import * as React from "react";
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloClient } from "apollo-client";
-import { setContext } from "apollo-link-context";
-import { createHttpLink } from "apollo-link-http";
 import { observer, Provider as MobxProvider } from "mobx-react";
-import { ApolloProvider } from "react-apollo";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "typeface-open-sans";
 import { SecureRoute, UserState } from "./component/auth";
@@ -41,14 +37,12 @@ const ThemeProvider: React.FC = observer(({ children }) => {
 });
 
 const client = new ApolloClient({
-  link: setContext((_, { headers }: { headers: Record<string, string> }) => ({
-    headers: {
-      ...headers,
-      authorization: UserState.token !== undefined ? `Bearer ${UserState.token}` : "",
-    },
-  })).concat(createHttpLink({
+  link: createHttpLink({
     uri: `${config.apiUrl}/graphql`,
-  })),
+    headers: {
+      authorization: UserState.token !== undefined ? `Bearer ${UserState.token}` : ""
+    }
+  }),
   cache: new InMemoryCache(),
   defaultOptions: {
     query: { errorPolicy: "all" },

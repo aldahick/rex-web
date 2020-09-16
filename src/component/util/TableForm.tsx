@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import {
-  Button, IconButton, TableCell, TableRow, TextField,
+  Button, Grid, IconButton, TableCell, TableRow, TextField,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import * as _ from "lodash";
 import { useStores } from "../../hook/useStores";
-import { Grids } from "./Grids";
 import { Table } from "./Table";
 
 interface TableFormColumn {
@@ -78,48 +77,52 @@ export const TableForm = <Key extends string>({ columns, rows: originalRows, onS
   };
 
   return (
-    <Grids direction="column">
-      <Table columns={(keys as string[]).concat([""]).map(_.startCase)}>
-        {rows.map((row, index) => (
-          <TableRow key={JSON.stringify(row)}>
+    <Grid container direction="column">
+      <Grid item>
+        <Table columns={(keys as string[]).concat([""]).map(_.startCase)}>
+          {rows.map((row, index) => (
+            <TableRow key={JSON.stringify(row)}>
+              {keys.map(key => (
+                <TableCell key={key}>
+                  <TextField
+                    value={row[key]}
+                    placeholder={_.startCase(key)}
+                    onChange={onValueChange(index, key)}
+                    onKeyDown={checkEnterKey}
+                  />
+                </TableCell>
+              ))}
+              <TableCell>
+                <IconButton onClick={onRemove(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+          <TableRow>
             {keys.map(key => (
               <TableCell key={key}>
                 <TextField
-                  value={row[key]}
+                  value={newRow[key] ?? ""}
                   placeholder={_.startCase(key)}
-                  onChange={onValueChange(index, key)}
+                  onChange={onNewValueChange(key)}
                   onKeyDown={checkEnterKey}
                 />
               </TableCell>
             ))}
             <TableCell>
-              <IconButton onClick={onRemove(index)}>
-                <DeleteIcon />
-              </IconButton>
+              <Button variant="outlined" onClick={onAdd}>
+                Add
+              </Button>
             </TableCell>
           </TableRow>
-        ))}
-        <TableRow>
-          {keys.map(key => (
-            <TableCell key={key}>
-              <TextField
-                value={newRow[key] ?? ""}
-                placeholder={_.startCase(key)}
-                onChange={onNewValueChange(key)}
-                onKeyDown={checkEnterKey}
-              />
-            </TableCell>
-          ))}
-          <TableCell>
-            <Button variant="outlined" onClick={onAdd}>
-              Add
-            </Button>
-          </TableCell>
-        </TableRow>
-      </Table>
-      <Button variant="outlined" onClick={submit}>
-        Save
-      </Button>
-    </Grids>
+        </Table>
+      </Grid>
+      <Grid item>
+        <Button variant="outlined" onClick={submit}>
+          Save
+        </Button>
+      </Grid>
+    </Grid>
   );
 };

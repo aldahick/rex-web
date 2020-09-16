@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { IconButton, Typography } from "@material-ui/core";
+import { Grid, IconButton, Typography } from "@material-ui/core";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import { IMediaItem } from "../../graphql/types";
-import { Grids } from "../util/Grids";
 import { MediaContentView } from "./MediaContentView";
 
 interface MediaSeriesProps {
@@ -19,26 +18,36 @@ export const MediaSeries: React.FC<MediaSeriesProps> = ({ selectedKey, items }) 
   };
 
   return (
-    <Grids direction="column">
-      <Grids justify="space-around">
-        <IconButton onClick={() => safeSetIndex(currentIndex - 1)}>
-          <ArrowLeftIcon />
-        </IconButton>
-        <Typography>
-          {currentIndex + 1}
-          {" "}
-          /
-          {" "}
-          {items.length}
-        </Typography>
-        <IconButton onClick={() => safeSetIndex(currentIndex + 1)}>
-          <ArrowRightIcon />
-        </IconButton>
-      </Grids>
-      <MediaContentView
-        onClick={() => safeSetIndex(currentIndex + 1)}
-        selectedKey={`${selectedKey}/${items[currentIndex].key}`}
-      />
-    </Grids>
+    <Grid container direction="column">
+      <Grid item>
+        <Grid container justify="space-around">
+          <Grid item>
+            <IconButton onClick={() => safeSetIndex(currentIndex - 1)}>
+              <ArrowLeftIcon />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <Typography>
+              {currentIndex + 1}
+              {" "}
+              /
+              {" "}
+              {items.length}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <IconButton onClick={() => safeSetIndex(currentIndex + 1)}>
+              <ArrowRightIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <MediaContentView
+          onClick={() => safeSetIndex(currentIndex + 1)}
+          selectedKey={`${selectedKey}/${items[currentIndex].key}`}
+        />
+      </Grid>
+    </Grid>
   );
 };

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
-  Button, TextField, Typography,
+  Button, Grid, TextField, Typography,
 } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { IRummikubClientJoinPayload } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { SocketEvent } from "../socket/SocketEvent";
-import { Grids } from "../util/Grids";
 
 export const RummikubJoinForm: React.FC<{
   gameId: string;
@@ -42,21 +41,25 @@ export const RummikubJoinForm: React.FC<{
 
   return (
     <SocketEvent name="rummikub.client.join" handle={onJoin}>
-      <Grids alignItems="flex-end">
-        <TextField
-          label="Your Name"
-          value={name}
-          onChange={evt => setName(evt.target.value)}
-          onKeyPress={evt => {
-            if (evt.key === "Enter") {
-              join();
-            }
-          }}
-        />
-        <Button variant="outlined" onClick={join}>
-          Join
-        </Button>
-      </Grids>
+      <Grid container alignItems="flex-end">
+        <Grid item>
+          <TextField
+            label="Your Name"
+            value={name}
+            onChange={evt => setName(evt.target.value)}
+            onKeyPress={evt => {
+              if (evt.key === "Enter") {
+                join();
+              }
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <Button variant="outlined" onClick={join}>
+            Join
+          </Button>
+        </Grid>
+      </Grid>
     </SocketEvent>
   );
 });

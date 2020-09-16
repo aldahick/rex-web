@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { Grid } from "@material-ui/core";
 import gql from "graphql-tag";
 import * as _ from "lodash";
-import { useQuery } from "react-apollo";
 import { MediaContentView } from "../component/media/MediaContentView";
 import { MediaNavMenu } from "../component/media/MediaNavMenu";
 import { MediaSeries } from "../component/media/MediaSeries";
-import { Grids } from "../component/util/Grids";
 import {
   IMediaItem, IMediaItemType,
   IQuery, IQueryMediaItemsArgs,
@@ -28,23 +28,29 @@ export const MediaScene: React.FC = () => {
   const selectedKey = () => selectedItems.map(i => i.key).join("/");
 
   return checkQueryResult<{ mediaItems: IQuery["mediaItems"] }>(({ mediaItems }) => (
-    <Grids direction="column" alignItems="center">
-      <MediaNavMenu
-        selected={selectedItems}
-        options={mediaItems}
-        onSelect={item => setSelectedItems([...selectedItems, item])}
-        onReset={items => setSelectedItems(items)}
-      />
+    <Grid container direction="column" alignItems="center">
+      <Grid item>
+        <MediaNavMenu
+          selected={selectedItems}
+          options={mediaItems}
+          onSelect={item => setSelectedItems([...selectedItems, item])}
+          onReset={items => setSelectedItems(items)}
+        />
+      </Grid>
       {selectedType === IMediaItemType.File && (
-        <MediaContentView selectedKey={selectedKey()} />
+        <Grid item>
+          <MediaContentView selectedKey={selectedKey()} />
+        </Grid>
       )}
       {selectedType === IMediaItemType.Series && (
-        <MediaSeries
-          selectedKey={selectedKey()}
-          items={_.sortBy(mediaItems, ({ key }) => Number(key.split(".")[0]))}
-        />
+        <Grid item>
+          <MediaSeries
+            selectedKey={selectedKey()}
+            items={_.sortBy(mediaItems, ({ key }) => Number(key.split(".")[0]))}
+          />
+        </Grid>
       )}
-    </Grids>
+    </Grid>
   ))(useQuery<{ mediaItems: IQuery["mediaItems"] }, IQueryMediaItemsArgs>(QUERY_MEDIA_ITEMS, {
     variables: {
       dir: selectedItems.filter(i => i.type !== IMediaItemType.File).map(i => i.key).join("/"),

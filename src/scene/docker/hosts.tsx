@@ -1,7 +1,7 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import MUIDataTable from "mui-datatables";
-import { useQuery } from "react-apollo";
 import { AddHostForm } from "../../component/docker/AddHostForm";
 import { IQuery } from "../../graphql/types";
 import { createDTColumn } from "../../util/dataTable";

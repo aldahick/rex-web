@@ -1,7 +1,7 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
-import { IContainer, IMutationUpdateContainerPortsArgs } from "../../graphql/types";
+import { IContainer, IContainerPortInput, IMutationUpdateContainerPortsArgs } from "../../graphql/types";
 import { callMutationSafe } from "../../util/graphql";
 import { TableForm } from "../util/TableForm";
 
@@ -46,7 +46,7 @@ export const EditContainerPortsForm: React.FC<EditContainerVariablesFormProps> =
       onSubmit={async ports => {
         await callMutationSafe(updateContainerPorts, {
           containerId: container._id,
-          ports: ports.map(p => ({
+          ports: ports.map<IContainerPortInput>(p => ({
             containerPort: Number(p.containerPort),
             hostPort: toNumberOrUndefined(p.hostPort),
             hostBindIp: p.hostBindIp || undefined,

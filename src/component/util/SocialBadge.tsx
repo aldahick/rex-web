@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, Typography } from "@material-ui/core";
-import { Grids } from "./Grids";
+import { Grid, Link, Typography } from "@material-ui/core";
 
 interface SocialBadgeProps {
   label: React.ReactNode;
@@ -13,13 +12,17 @@ export const SocialBadge: React.FC<SocialBadgeProps> = ({
   label, imageUrl, url, imageProps,
 }) => (
   <Link href={url}>
-    <Grids alignItems="center" direction="column">
-      <img src={imageUrl} height={32} alt="Logo" {...imageProps} />
+    <Grid container alignItems="center" direction="column">
+      <Grid item>
+        <img src={imageUrl} height={32} alt="Logo" {...imageProps} />
+      </Grid>
       {typeof label === "string" ? (
-        <Typography color="inherit">
-          {label}
-        </Typography>
+        <Grid item>
+          <Typography color="inherit">
+            {label}
+          </Typography>
+        </Grid>
       ) : label}
-    </Grids>
+    </Grid>
   </Link>
 );

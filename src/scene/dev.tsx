@@ -1,17 +1,16 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { UserState } from "../component/auth";
-import { Grids } from "../component/util/Grids";
 
 export const DevScene: React.FC = () => (
-  <Grids direction="column">
-    <>
+  <Grid container direction="column">
+    <Grid item>
       <Typography>
         Token
       </Typography>
       <Typography>
         {UserState.token ?? "N/A"}
       </Typography>
-    </>
-  </Grids>
+    </Grid>
+  </Grid>
 );

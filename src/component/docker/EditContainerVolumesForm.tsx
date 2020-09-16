@@ -1,6 +1,6 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import { IContainer, IMutationUpdateContainerVolumesArgs } from "../../graphql/types";
 import { callMutationSafe, removeTypename } from "../../util/graphql";
 import { TableForm } from "../util/TableForm";

@@ -1,11 +1,11 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
 import {
   Card, CardActions, CardContent, CardHeader, Grid, IconButton,
   Typography,
 } from "@material-ui/core";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import gql from "graphql-tag";
-import { useQuery } from "react-apollo";
 import { Link } from "react-router-dom";
 import { AddRummikubGameForm } from "../../component/rummikub/AddRummikubGameForm";
 import { IQuery } from "../../graphql/types";

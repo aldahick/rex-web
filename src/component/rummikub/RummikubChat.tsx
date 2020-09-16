@@ -6,7 +6,6 @@ import * as _ from "lodash";
 import { IRummikubClientChatPayload, IRummikubServerChatPayload } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { SocketEvent } from "../socket/SocketEvent";
-import { Grids } from "../util/Grids";
 
 const useStyles = makeStyles({
   chatContainer: {
@@ -41,45 +40,49 @@ export const RummikubChat: React.FC = () => {
 
   return (
     <SocketEvent name="rummikub.server.chat" handle={onChat}>
-      <Grids direction="column">
-        <Grids direction="column" className={classes.chatContainer}>
-          {_.sortBy(
-            messages,
-            m => new Date(m.createdAt).getTime(),
-          ).map(({
-            id, createdAt, message, author,
-          }) => (
-            <div key={id}>
-              {new Date(createdAt).toLocaleTimeString()}
-              {" "}
-              {author?.name ?? "System"}
-              :
-              {" "}
-              {message}
-            </div>
-          ))}
-        </Grids>
-        <Grid container alignItems="flex-end">
-          <Grid item className={classes.inputContainer}>
-            <TextField
-              label="Message"
-              value={messageText}
-              fullWidth
-              onChange={evt => setMessageText(evt.target.value)}
-              onKeyPress={evt => {
-                if (evt.key === "Enter") {
-                  sendMessage();
-                }
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <Button variant="outlined" onClick={sendMessage}>
-              Send
-            </Button>
+      <Grid container direction="column">
+        <Grid item>
+          <Grid container direction="column" className={classes.chatContainer}>
+            {_.sortBy(
+              messages,
+              m => new Date(m.createdAt).getTime(),
+            ).map(({
+              id, createdAt, message, author,
+            }) => (
+              <Grid item key={id}>
+                {new Date(createdAt).toLocaleTimeString()}
+                {" "}
+                {author?.name ?? "System"}
+                :
+                {" "}
+                {message}
+              </Grid>
+            ))}
           </Grid>
         </Grid>
-      </Grids>
+        <Grid item>
+          <Grid container alignItems="flex-end">
+            <Grid item className={classes.inputContainer}>
+              <TextField
+                label="Message"
+                value={messageText}
+                fullWidth
+                onChange={evt => setMessageText(evt.target.value)}
+                onKeyPress={evt => {
+                  if (evt.key === "Enter") {
+                    sendMessage();
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <Button variant="outlined" onClick={sendMessage}>
+                Send
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </SocketEvent>
   );
 };

@@ -1,11 +1,10 @@
 import React from "react";
-import { Breadcrumbs, Link, Typography } from "@material-ui/core";
+import { useQuery } from "@apollo/client";
+import { Breadcrumbs, Grid, Link, Typography } from "@material-ui/core";
 import gql from "graphql-tag";
-import { useQuery } from "react-apollo";
 import { useRouteMatch } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
 import { EditNoteForm } from "../component/notes/EditNoteForm";
-import { Grids } from "../component/util/Grids";
 import { IQuery, IQueryNoteArgs } from "../graphql/types";
 import { checkQueryResult } from "../util/graphql";
 
@@ -24,17 +23,21 @@ export const NoteScene: React.FC = () => {
   const { params: { noteId } } = useRouteMatch<{ noteId: string }>();
 
   return checkQueryResult<{ note: IQuery["note"] }>(({ note }) => (
-    <Grids direction="column">
-      <Breadcrumbs>
-        <Link component={RouterLink} to="/notes" color="inherit">
-          Notes
-        </Link>
-        <Typography>
-          {note.title}
-        </Typography>
-      </Breadcrumbs>
-      <EditNoteForm note={note} />
-    </Grids>
+    <Grid container direction="column">
+      <Grid item>
+        <Breadcrumbs>
+          <Link component={RouterLink} to="/notes" color="inherit">
+            Notes
+          </Link>
+          <Typography>
+            {note.title}
+          </Typography>
+        </Breadcrumbs>
+      </Grid>
+      <Grid item>
+        <EditNoteForm note={note} />
+      </Grid>
+    </Grid>
   ))(useQuery<{ note: IQuery["note"] }, IQueryNoteArgs>(QUERY_NOTE, {
     variables: {
       id: noteId,
