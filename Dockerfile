@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY package.json ./
 COPY yarn.lock ./
-RUN yarn
+RUN yarn --frozen-lockfile
 
 COPY tsconfig.json ./
 COPY src ./src
