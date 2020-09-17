@@ -3,6 +3,7 @@ import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@ap
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { observer, Provider as MobxProvider } from "mobx-react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import "mobx-react/batchingForReactDom";
 import "typeface-open-sans";
 import { SecureRoute, UserState } from "./component/auth";
 import { Layout } from "./component/Layout";

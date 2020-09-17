@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { makeStyles, Typography } from "@material-ui/core";
 import gql from "graphql-tag";
@@ -39,6 +39,7 @@ export const GoogleLoginButton: React.FC<{
   onSuccess: (authToken: IAuthToken) => void;
 }> = ({ clientId, onSuccess }) => {
   const { statusStore } = useStores();
+  const [isErrored, setIsErrored] = useState(false);
   const [createAuthToken] = useMutation<{
     authToken: IMutation["createAuthTokenGoogle"];
   }, Omit<IMutationCreateAuthTokenGoogleArgs, "clientType">>(MUTATION_CREATE_AUTH_TOKEN_GOOGLE);
@@ -61,15 +62,21 @@ export const GoogleLoginButton: React.FC<{
     }
   };
 
+  if (isErrored) {
+    return <span />;
+  }
+
   return (
     <GoogleLogin
       clientId={clientId}
       onSuccess={onGoogleAuth}
       className={classes.loginButton}
-      onFailure={(err): void => {
-        // eslint-disable-next-line no-console
-        console.error(err);
-        statusStore.setErrorMessage(err instanceof Error ? err.message : err);
+      onFailure={(err: {
+        [key in "message" | "details" | "error"]: string | undefined
+      }): void => {
+        const message = err.message ?? err.details ?? err.error ?? "An unknown error occurred";
+        console.error("GoogleLogin error", { message });
+        setIsErrored(true);
       }}
     >
       <Typography className={classes.loginLabel}>

@@ -16,6 +16,7 @@ export class StatusStore {
 
   @action.bound
   setErrorMessage(message: string): void {
+    console.error("StatusStore.setErrorMessage", { message });
     if (message === this.errorMessage) {
       this.errorMessage += " ";
     } else {
