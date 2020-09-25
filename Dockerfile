@@ -17,5 +17,6 @@ RUN yarn build
 # and remove build output
 RUN yarn clean
 
+COPY scripts ./scripts
 # building here so that appropriate env variables can be inserted outside of CI
 CMD yarn start:prod
