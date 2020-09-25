@@ -18,4 +18,4 @@ RUN yarn build
 RUN yarn clean
 
 # building here so that appropriate env variables can be inserted outside of CI
-CMD yarn serve
+CMD yarn start:prod

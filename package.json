@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "start": "react-scripts start",
+    "start:prod": "sh scripts/serve.sh",
     "build": "react-scripts build",
-    "serve": "yarn build && serve -s build",
     "clean": "rm -rf build",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx .",
