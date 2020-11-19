@@ -1,26 +1,31 @@
 version: 2.1
 
 workflows:
-  build_and_deploy:
+  build_and_publish:
     jobs:
-      - build_and_deploy
+      - build_and_publish:
+          context: ah-global
 
 jobs:
-  build_and_deploy:
+  build_and_publish:
     docker:
       - image: cimg/base:stable
     steps:
       - checkout
       - setup_remote_docker
       - run:
+          name: Authenticate Docker
+          command: |
+            echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin "$DOCKER_REGISTRY"
+      - run:
           name: Build Docker image
           command: |
-            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin https://registry.alexhicks.net
             docker build -t "$DOCKER_REPO:latest" .
       - when:
           condition:
-            equal: [ master, << pipeline.git.branch >> ]
+            equal: [ main, << pipeline.git.branch >> ]
           steps:
             - run:
-                name: Deploy Docker image
-                command: docker push "$DOCKER_REPO:latest"
+                name: Push Docker image
+                command: |
+                  docker push "$DOCKER_REPO:latest"

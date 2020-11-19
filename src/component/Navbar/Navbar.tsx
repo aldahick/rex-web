@@ -71,21 +71,19 @@ const renderDrawer = () => (
       {!UserState.isAuthenticated && (
         <NavbarItem title="Log In" url="/login" nested={false} />
       )}
-      {UserState.isAuthenticated && (
-        Object.entries(_.groupBy(scenes.filter(
-          ({ navbar, authCheck }) => !!navbar && (
-            !authCheck
-            || UserState.isAuthorized(authCheck)
-          ),
-        ), s => s.navbar?.group?.title)).map(([, children]) => (
-          ({
-            group: children[0].navbar?.group,
-            items: children.map(toNavbarItemProps),
-          })
-        )).map(({ group, items }) => (group
-          ? <NavbarGroup key={group.title} group={group} items={items} />
-          : items.map(props => <NavbarItem key={props.url} {...props} />)))
-      )}
+      {Object.entries(_.groupBy(scenes.filter(
+        ({ navbar, authCheck }) => !!navbar && (
+          !authCheck
+          || UserState.isAuthorized(authCheck)
+        ),
+      ), s => s.navbar?.group?.title)).map(([, children]) => (
+        ({
+          group: children[0].navbar?.group,
+          items: children.map(toNavbarItemProps),
+        })
+      )).map(({ group, items }) => (group
+        ? <NavbarGroup key={group.title} group={group} items={items} />
+        : items.map(props => <NavbarItem key={props.url} {...props} />)))}
       {UserState.isAuthenticated && <LogoutButton />}
     </List>
   </div>
