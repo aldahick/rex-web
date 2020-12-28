@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Grid } from "@material-ui/core";
 import gql from "graphql-tag";
 import * as _ from "lodash";
+import React, { useState } from "react";
+
 import { MediaContentView } from "../component/media/MediaContentView";
 import { MediaNavMenu } from "../component/media/MediaNavMenu";
 import { MediaSeries } from "../component/media/MediaSeries";

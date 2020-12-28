@@ -1,8 +1,9 @@
-import React from "react";
 import { useMutation } from "@apollo/client";
 import { IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import gql from "graphql-tag";
+import React from "react";
+
 import { IMutationRemoveNoteArgs } from "../../../graphql/types";
 import { useStores } from "../../../hook/useStores";
 import { callMutationSafe } from "../../../util/graphql";

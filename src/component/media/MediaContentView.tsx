@@ -1,7 +1,8 @@
-import React from "react";
 import { makeStyles, Typography } from "@material-ui/core";
 import * as mime from "mime";
+import React from "react";
 import { isIOS } from "react-device-detect";
+
 import { config } from "../../config";
 import { UserState } from "../auth";
 import { FetchUrl } from "../util/FetchUrl";

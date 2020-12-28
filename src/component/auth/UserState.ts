@@ -1,5 +1,6 @@
 import { AccessControl, Permission, Query } from "accesscontrol";
 import * as _ from "lodash";
+
 import { IRole } from "../../graphql/types";
 
 const TOKEN_KEY = "rex.auth.token";

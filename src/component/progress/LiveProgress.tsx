@@ -1,9 +1,10 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
 import { Grid, IconButton, Typography } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import gql from "graphql-tag";
 import * as _ from "lodash";
+import React from "react";
+
 import { IQuery, IQueryProgressArgs } from "../../graphql/types";
 import { PopupMessage } from "../util/PopupMessage";
 

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
 import { MenuItem, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+
 import { UserState } from "../auth";
 
 export const LogoutButton: React.FC = () => {

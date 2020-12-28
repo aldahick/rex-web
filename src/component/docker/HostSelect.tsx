@@ -1,10 +1,11 @@
-import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import {
   FormControl, InputLabel,
   MenuItem, Select,
 } from "@material-ui/core";
 import gql from "graphql-tag";
+import React, { useState } from "react";
+
 import { IHost, IQuery } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { checkQueryResult } from "../../util/graphql";

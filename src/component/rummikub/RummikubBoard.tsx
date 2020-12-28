@@ -1,5 +1,6 @@
-import React from "react";
 import { observer } from "mobx-react";
+import React from "react";
+
 import { IRummikubServerBoardPayload } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { SocketEvent } from "../socket/SocketEvent";

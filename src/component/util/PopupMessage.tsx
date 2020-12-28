@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import { Snackbar, SnackbarProps } from "@material-ui/core";
 import { Alert, AlertProps } from "@material-ui/lab";
+import React, { useEffect, useState } from "react";
 
 interface PopupMessageProps {
   text?: string;

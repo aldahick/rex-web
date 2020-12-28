@@ -1,6 +1,7 @@
 import {
   action, computed, observable, toJS,
 } from "mobx";
+
 import { IRummikubCard } from "../graphql/types";
 
 export class RummikubStore {

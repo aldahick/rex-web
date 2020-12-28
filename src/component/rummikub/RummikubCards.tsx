@@ -1,6 +1,7 @@
-import React from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
+import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+
 import { IRummikubCard } from "../../graphql/types";
 import { RummikubCard } from "./RummikubCard";
 

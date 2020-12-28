@@ -1,7 +1,8 @@
-import React from "react";
 import {
   Grid, Link, Typography, TypographyProps,
 } from "@material-ui/core";
+import React from "react";
+
 import { SocialBadge } from "../component/util/SocialBadge";
 import githubLogoUrl from "../images/logos/github.png";
 import linkedInLogoUrl from "../images/logos/linkedin.png";

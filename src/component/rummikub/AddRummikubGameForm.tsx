@@ -1,7 +1,8 @@
-import React from "react";
 import { useMutation } from "@apollo/client";
 import { MenuItem, Select } from "@material-ui/core";
 import gql from "graphql-tag";
+import React from "react";
+
 import { IMutationCreateRummikubGameArgs, IRummikubGamePrivacy } from "../../graphql/types";
 import { callMutationSafe } from "../../util/graphql";
 import { DialogForm } from "../util/DialogForm";

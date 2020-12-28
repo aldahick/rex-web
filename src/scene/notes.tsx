@@ -1,10 +1,11 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
 import {
   Grid, Link, TableCell, TableRow,
 } from "@material-ui/core";
 import gql from "graphql-tag";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+
 import { AddNoteForm } from "../component/notes/AddNoteForm";
 import { DeleteNoteButton } from "../component/notes/buttons/DeleteNoteButton";
 import { Table } from "../component/util/Table";

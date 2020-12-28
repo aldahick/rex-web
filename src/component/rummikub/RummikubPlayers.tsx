@@ -1,5 +1,6 @@
-import React, { useState } from "react";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
+import React, { useState } from "react";
+
 import { IRummikubPlayer, IRummikubServerPlayersPayload } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { SocketEvent } from "../socket/SocketEvent";

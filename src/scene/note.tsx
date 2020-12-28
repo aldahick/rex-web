@@ -1,9 +1,10 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
 import { Breadcrumbs, Grid, Link, Typography } from "@material-ui/core";
 import gql from "graphql-tag";
+import React from "react";
 import { useRouteMatch } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
+
 import { EditNoteForm } from "../component/notes/EditNoteForm";
 import { IQuery, IQueryNoteArgs } from "../graphql/types";
 import { checkQueryResult } from "../util/graphql";

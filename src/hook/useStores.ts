@@ -1,5 +1,6 @@
-import { useContext } from "react";
 import { MobXProviderContext } from "mobx-react";
+import { useContext } from "react";
+
 import { RootStore } from "../store/RootStore";
 
 export const useStores = (): RootStore["allStores"] => useContext(

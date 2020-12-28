@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import {
   Button, Grid, makeStyles, TextField,
 } from "@material-ui/core";
 import * as _ from "lodash";
+import React, { useState } from "react";
+
 import { IRummikubClientChatPayload, IRummikubServerChatPayload } from "../../graphql/types";
 import { useStores } from "../../hook/useStores";
 import { SocketEvent } from "../socket/SocketEvent";

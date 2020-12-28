@@ -1,6 +1,7 @@
-import React from "react";
 import { Typography } from "@material-ui/core";
+import React from "react";
 import { Redirect, Route, RouteComponentProps, RouteProps } from "react-router-dom";
+
 import { AuthCheck, UserState } from "./UserState";
 
 type SecureRouteProps = RouteProps & {

@@ -1,4 +1,5 @@
 import { computed } from "mobx";
+
 import { NavbarStore } from "./NavbarStore";
 import { RummikubStore } from "./RummikubStore";
 import { SettingsStore } from "./SettingsStore";

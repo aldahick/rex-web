@@ -1,5 +1,5 @@
-import React from "react";
 import { Grid, Link, Typography } from "@material-ui/core";
+import React from "react";
 
 interface SocialBadgeProps {
   label: React.ReactNode;

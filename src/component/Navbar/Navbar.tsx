@@ -1,4 +1,3 @@
-import React from "react";
 import {
   AppBar,
   Button,
@@ -15,7 +14,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as _ from "lodash";
 import { observer } from "mobx-react";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+
 import { useStores } from "../../hook/useStores";
 import { scenes } from "../../scenes";
 import { SceneDefinition } from "../../util/SceneDefinition";

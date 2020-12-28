@@ -1,6 +1,7 @@
-import React from "react";
 import { makeStyles, MenuItem, Select } from "@material-ui/core";
 import { observer } from "mobx-react";
+import React from "react";
+
 import { useStores } from "../../hook/useStores";
 import { Settings } from "../../store/SettingsStore";
 

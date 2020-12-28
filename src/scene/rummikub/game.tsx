@@ -1,11 +1,12 @@
-import React, { useState } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import * as _ from "lodash";
 import { observer } from "mobx-react";
+import React, { useState } from "react";
 import {
   DragDropContext, DropResult,
 } from "react-beautiful-dnd";
 import { useRouteMatch } from "react-router";
+
 import { RummikubBoard } from "../../component/rummikub/RummikubBoard";
 import { RummikubChat } from "../../component/rummikub/RummikubChat";
 import { RummikubHand } from "../../component/rummikub/RummikubHand";

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
 import {
   Collapse, List, ListItem, ListItemIcon, ListItemText,
 } from "@material-ui/core";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import React, { useState } from "react";
+
 import { NavbarGroupDefinition } from "./NavbarGroups";
 import { NavbarItem, NavbarItemProps } from "./NavbarItem";
 
