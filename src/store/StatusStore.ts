@@ -1,9 +1,15 @@
-import { action, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
+import { singleton } from "tsyringe";
 
+@singleton()
 export class StatusStore {
   @observable successMessage?: string;
 
   @observable errorMessage?: string;
+
+  constructor() {
+    makeObservable(this);
+  }
 
   @action.bound
   setSuccessMessage(message: string): void {

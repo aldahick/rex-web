@@ -1,43 +1,17 @@
-import "mobx-react/batchingForReactDom";
+import "reflect-metadata";
 import "typeface-open-sans";
 
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-import { observer, Provider as MobxProvider } from "mobx-react";
+import { Provider as MobxProvider } from "mobx-react";
 import * as React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { container } from "tsyringe";
 
 import { SecureRoute, UserState } from "./component/auth";
-import { Layout } from "./component/Layout";
+import { Layout } from "./component/layout/Layout";
 import { config } from "./config";
-import { useStores } from "./hook/useStores";
 import { scenes } from "./scenes";
 import { RootStore } from "./store/RootStore";
-import { fixMaterialTheme } from "./util/fixMaterialTheme";
-
-const ThemeProvider: React.FC = observer(({ children }) => {
-  const { settingsStore } = useStores();
-
-  const theme = fixMaterialTheme(createMuiTheme({
-    typography: {
-      fontFamily: "Open Sans",
-      caption: {
-        fontSize: "14px",
-      },
-    },
-    palette: {
-      type: settingsStore.get("theme"),
-    },
-  }));
-
-  document.body.style.background = theme.palette.background.default;
-
-  return (
-    <MuiThemeProvider theme={theme}>
-      {children}
-    </MuiThemeProvider>
-  );
-});
 
 const client = new ApolloClient({
   link: createHttpLink({
@@ -53,12 +27,12 @@ const client = new ApolloClient({
   },
 });
 
-const rootStore = new RootStore();
+export const App: React.FC = () => {
+  const rootStore = container.resolve(RootStore);
 
-export const App: React.FC = () => (
-  <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
-    <MobxProvider {...rootStore.allStores}>
-      <ThemeProvider>
+  return (
+    <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
+      <MobxProvider {...rootStore.allStores}>
         <ApolloProvider client={client}>
           <Layout>
             <Switch>
@@ -76,7 +50,7 @@ export const App: React.FC = () => (
             </Switch>
           </Layout>
         </ApolloProvider>
-      </ThemeProvider>
-    </MobxProvider>
-  </BrowserRouter>
-);
+      </MobxProvider>
+    </BrowserRouter>
+  );
+};

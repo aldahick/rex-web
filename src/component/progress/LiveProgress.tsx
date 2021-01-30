@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import * as _ from "lodash";
 import React from "react";
 
-import { IQuery, IQueryProgressArgs } from "../../graphql/types";
+import { IQuery, IQueryProgressArgs } from "../../graphql";
 import { PopupMessage } from "../util/PopupMessage";
 
 const QUERY_PROGRESS = gql`

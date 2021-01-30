@@ -1,4 +1,5 @@
-import { action, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
+import { singleton } from "tsyringe";
 
 export interface Settings {
   theme: "light" | "dark";
@@ -9,9 +10,14 @@ const DEFAULT_SETTINGS: Settings = {
   theme: "light",
 };
 
+@singleton()
 export class SettingsStore {
   @observable
   private settings: Settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) ?? "null") as Settings | null ?? DEFAULT_SETTINGS;
+
+  constructor() {
+    makeObservable(this);
+  }
 
   @action.bound
   setAll(settings: Settings): void {

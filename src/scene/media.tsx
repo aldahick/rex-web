@@ -10,7 +10,7 @@ import { MediaSeries } from "../component/media/MediaSeries";
 import {
   IMediaItem, IMediaItemType,
   IQuery, IQueryMediaItemsArgs,
-} from "../graphql/types";
+} from "../graphql";
 import { checkQueryResult } from "../util/graphql";
 
 const QUERY_MEDIA_ITEMS = gql`

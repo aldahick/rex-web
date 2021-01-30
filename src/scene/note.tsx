@@ -6,7 +6,7 @@ import { useRouteMatch } from "react-router";
 import { Link as RouterLink } from "react-router-dom";
 
 import { EditNoteForm } from "../component/notes/EditNoteForm";
-import { IQuery, IQueryNoteArgs } from "../graphql/types";
+import { IQuery, IQueryNoteArgs } from "../graphql";
 import { checkQueryResult } from "../util/graphql";
 
 const QUERY_NOTE = gql`

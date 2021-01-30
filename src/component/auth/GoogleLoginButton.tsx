@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import React, { useState } from "react";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
 
-import { IAuthToken, IMutation, IMutationCreateAuthTokenGoogleArgs } from "../../graphql/types";
+import { IAuthToken, IMutation, IMutationCreateAuthTokenGoogleArgs } from "../../graphql";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
 

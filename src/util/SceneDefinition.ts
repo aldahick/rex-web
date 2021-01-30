@@ -1,5 +1,5 @@
 import { AuthCheck } from "../component/auth";
-import { NavbarGroupDefinition } from "../component/Navbar";
+import { SidebarGroupDefinition } from "../component/layout/sidebar";
 
 export interface SceneDefinition {
   component: React.ComponentType<unknown>;
@@ -7,6 +7,6 @@ export interface SceneDefinition {
   authCheck?: AuthCheck;
   navbar?: {
     title: string;
-    group?: NavbarGroupDefinition;
+    group?: SidebarGroupDefinition;
   };
 }

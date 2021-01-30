@@ -1,4 +1,4 @@
-import { MenuItem, Typography } from "@material-ui/core";
+import { ListItem, ListItemText } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 
 import { UserState } from "../auth";
@@ -14,10 +14,8 @@ export const LogoutButton: React.FC = () => {
   }, [shouldLogout]);
 
   return (
-    <MenuItem button onClick={() => setShouldLogout(true)}>
-      <Typography>
-        Log Out
-      </Typography>
-    </MenuItem>
+    <ListItem button onClick={() => setShouldLogout(true)}>
+      <ListItemText primary="Log Out" />
+    </ListItem>
   );
 };

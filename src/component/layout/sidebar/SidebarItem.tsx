@@ -4,7 +4,7 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { useStores } from "../../hook/useStores";
+import { useStores } from "../../../hook/useStores";
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -12,17 +12,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export interface NavbarItemProps {
+export interface SidebarItemProps {
   title: string | JSX.Element;
   url: string;
   icon?: JSX.Element;
   nested: boolean;
 }
 
-export const NavbarItem: React.FC<NavbarItemProps> = ({
+export const SidebarItem: React.FC<SidebarItemProps> = ({
   title, url, icon, nested,
 }) => {
-  const { navbarStore } = useStores();
+  const { sidebarStore } = useStores();
   const classes = useStyles();
 
   return (
@@ -31,7 +31,7 @@ export const NavbarItem: React.FC<NavbarItemProps> = ({
       component={Link}
       to={url}
       className={nested ? classes.nested : undefined}
-      onClick={() => navbarStore.setOpen(false)}
+      onClick={() => sidebarStore.setOpen(false)}
     >
       {icon && (
         <ListItemIcon>

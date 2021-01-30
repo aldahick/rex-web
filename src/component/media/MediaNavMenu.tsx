@@ -5,7 +5,7 @@ import {
 import * as _ from "lodash";
 import React, { useEffect, useState } from "react";
 
-import { IMediaItem, IMediaItemType } from "../../graphql/types";
+import { IMediaItem, IMediaItemType } from "../../graphql";
 
 const useStyles = makeStyles({
   breadcrumbLink: {

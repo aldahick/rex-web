@@ -5,15 +5,15 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { useState } from "react";
 
-import { NavbarGroupDefinition } from "./NavbarGroups";
-import { NavbarItem, NavbarItemProps } from "./NavbarItem";
+import { SidebarGroupDefinition } from "./sidebarGroups";
+import { SidebarItem, SidebarItemProps } from "./SidebarItem";
 
-interface NavbarGroupProps {
-  items: Omit<NavbarItemProps, "nested">[];
-  group: NavbarGroupDefinition;
+interface SidebarGroupProps {
+  items: Omit<SidebarItemProps, "nested">[];
+  group: SidebarGroupDefinition;
 }
 
-export const NavbarGroup: React.FC<NavbarGroupProps> = ({ items, group }) => {
+export const SidebarGroup: React.FC<SidebarGroupProps> = ({ items, group }) => {
   const [open, setOpen] = useState<boolean>(true);
 
   return (
@@ -29,7 +29,7 @@ export const NavbarGroup: React.FC<NavbarGroupProps> = ({ items, group }) => {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {items.map(props => <NavbarItem key={props.url} nested {...props} />)}
+          {items.map(props => <SidebarItem key={props.url} nested {...props} />)}
         </List>
       </Collapse>
     </>

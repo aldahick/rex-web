@@ -1,7 +1,7 @@
 import { AccessControl, Permission, Query } from "accesscontrol";
 import * as _ from "lodash";
 
-import { IRole } from "../../graphql/types";
+import { IRole } from "../../graphql";
 
 const TOKEN_KEY = "rex.auth.token";
 const ROLES_KEY = "rex.auth.roles";

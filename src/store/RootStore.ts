@@ -1,21 +1,19 @@
-import { computed } from "mobx";
+import { computed, makeObservable } from "mobx";
+import { singleton } from "tsyringe";
 
-import { NavbarStore } from "./NavbarStore";
-import { RummikubStore } from "./RummikubStore";
 import { SettingsStore } from "./SettingsStore";
-import { SocketStore } from "./SocketStore";
+import { SidebarStore } from "./SidebarStore";
 import { StatusStore } from "./StatusStore";
 
+@singleton()
 export class RootStore {
-  navbarStore = new NavbarStore();
-
-  rummikubStore = new RummikubStore();
-
-  settingsStore = new SettingsStore();
-
-  socketStore = new SocketStore(this);
-
-  statusStore = new StatusStore();
+  constructor(
+    readonly settingsStore: SettingsStore,
+    readonly sidebarStore: SidebarStore,
+    readonly statusStore: StatusStore
+  ) {
+    makeObservable(this);
+  }
 
   @computed
   get allStores(): Omit<RootStore, "allStores"> & { rootStore: Omit<RootStore, "allStores"> } {

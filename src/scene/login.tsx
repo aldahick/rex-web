@@ -5,7 +5,7 @@ import { UserState } from "../component/auth";
 import { GoogleLoginButton } from "../component/auth/GoogleLoginButton";
 import { LocalAuthForm } from "../component/auth/LocalAuthForm";
 import { config } from "../config";
-import { IAuthToken } from "../graphql/types";
+import { IAuthToken } from "../graphql";
 
 export const LoginScene: React.FC = () => {
   const onLogin = ({ token, user }: IAuthToken) => {

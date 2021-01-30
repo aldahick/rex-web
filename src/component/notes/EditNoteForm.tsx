@@ -5,7 +5,7 @@ import {
 import gql from "graphql-tag";
 import React, { useEffect, useState } from "react";
 
-import { IMutationUpdateNoteBodyArgs, INote } from "../../graphql/types";
+import { IMutationUpdateNoteBodyArgs, INote } from "../../graphql";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
 

@@ -4,7 +4,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import gql from "graphql-tag";
 import React from "react";
 
-import { IMutationRemoveNoteArgs } from "../../../graphql/types";
+import { IMutationRemoveNoteArgs } from "../../../graphql";
 import { useStores } from "../../../hook/useStores";
 import { callMutationSafe } from "../../../util/graphql";
 

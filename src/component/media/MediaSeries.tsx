@@ -3,7 +3,7 @@ import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import React, { useState } from "react";
 
-import { IMediaItem } from "../../graphql/types";
+import { IMediaItem } from "../../graphql";
 import { MediaContentView } from "./MediaContentView";
 
 interface MediaSeriesProps {

@@ -3,7 +3,7 @@ import { Button, Grid, TextField } from "@material-ui/core";
 import gql from "graphql-tag";
 import React, { useState } from "react";
 
-import { IAuthToken, IMutation, IMutationCreateAuthTokenLocalArgs } from "../../graphql/types";
+import { IAuthToken, IMutation, IMutationCreateAuthTokenLocalArgs } from "../../graphql";
 import { useStores } from "../../hook/useStores";
 import { callMutationSafe } from "../../util/graphql";
 

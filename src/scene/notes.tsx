@@ -9,7 +9,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { AddNoteForm } from "../component/notes/AddNoteForm";
 import { DeleteNoteButton } from "../component/notes/buttons/DeleteNoteButton";
 import { Table } from "../component/util/Table";
-import { IQuery } from "../graphql/types";
+import { IQuery } from "../graphql";
 import { checkQueryResult } from "../util/graphql";
 
 const QUERY_NOTES = gql`
