@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     marginLeft: "1em",
     flexGrow: 1,
   },
-  loginLink: {
+  link: {
     "&:hover": {
       textDecoration: "none",
     },
@@ -31,7 +31,9 @@ export const Navbar: React.FC = observer(() => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" color="inherit" className={classes.titleText}>
-          Rex
+          <Link component={RouterLink} to="/" color="inherit" className={classes.link}>
+            Alex Hicks
+          </Link>
         </Typography>
         <Grid item>
           <Grid container spacing={1} alignItems="center">
@@ -40,8 +42,8 @@ export const Navbar: React.FC = observer(() => {
             </Grid>
             {!authStore.isAuthenticated && (
               <Grid item>
-                <Button color="secondary" variant="contained">
-                  <Link component={RouterLink} to="/login" color="inherit" className={classes.loginLink}>
+                <Button color="secondary" variant="outlined">
+                  <Link component={RouterLink} to="/login" color="inherit" className={classes.link} style={{ fontWeight: 600 }}>
                     Log In
                   </Link>
                 </Button>

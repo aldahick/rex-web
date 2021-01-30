@@ -78,8 +78,8 @@ export const LocalAuthForm: React.FC<LocalAuthFormProps> = ({ onSuccess }) => {
           onKeyDown={checkEnterKey}
         />
       </Grid>
-      <Grid item>
-        <Button onClick={onSubmit} color="primary" variant="outlined">
+      <Grid item style={{ marginTop: "1em" }}>
+        <Button onClick={onSubmit} color="primary" variant="contained">
           Submit
         </Button>
       </Grid>

@@ -2,17 +2,18 @@ import { Grid } from "@material-ui/core";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import { container } from "tsyringe";
 
-import { config } from "../../config";
 import { IAuthToken } from "../../graphql";
 import { useStores } from "../../hooks";
+import { ConfigService } from "../utils/config.service";
 import { GoogleLoginButton } from "./components/GoogleLoginButton";
 import { LocalAuthForm } from "./components/LocalAuthForm";
 
 export const LoginPage: React.FC = observer(() => {
   const { authStore } = useStores();
   const [redirect, setRedirect] = useState(false);
-
+  const { googleClientId = "" } = container.resolve(ConfigService);
   const onLogin = ({ token, user }: IAuthToken) => {
     authStore.setToken({
       token,
@@ -22,7 +23,7 @@ export const LoginPage: React.FC = observer(() => {
   };
 
   if (redirect) {
-    return <Redirect to={config.baseUrl} />;
+    return <Redirect to="/" />;
   }
 
   return (
@@ -33,9 +34,9 @@ export const LoginPage: React.FC = observer(() => {
       <Grid container spacing={1}>
         <Grid item sm={6} />
         <Grid item sm={6}>
-          {config.googleClientId !== undefined && (
+          {googleClientId && (
             <GoogleLoginButton
-              clientId={config.googleClientId}
+              clientId={googleClientId}
               onSuccess={onLogin}
             />
           )}

@@ -1,14 +1,13 @@
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { createMuiTheme, CssBaseline, MuiThemeProvider, responsiveFontSizes } from "@material-ui/core";
 import { observer } from "mobx-react";
 import React from "react";
 
 import { useStores } from "../../hooks";
-import { fixMaterialTheme } from "../utils/fixMaterialTheme";
 
 export const ThemeProvider: React.FC = observer(({ children }) => {
   const { settingsStore } = useStores();
 
-  const theme = fixMaterialTheme(createMuiTheme({
+  const theme = responsiveFontSizes(createMuiTheme({
     typography: {
       fontFamily: "Open Sans",
       caption: {
@@ -24,6 +23,7 @@ export const ThemeProvider: React.FC = observer(({ children }) => {
 
   return (
     <MuiThemeProvider theme={theme}>
+      <CssBaseline />
       {children}
     </MuiThemeProvider>
   );

@@ -3,10 +3,11 @@ import * as mime from "mime";
 import { observer } from "mobx-react";
 import React from "react";
 import { isIOS } from "react-device-detect";
+import { container } from "tsyringe";
 
-import { config } from "../../../config";
 import { useStores } from "../../../hooks";
 import { FetchUrl } from "../../utils/components/FetchUrl";
+import { ConfigService } from "../../utils/config.service";
 
 const useStyles = makeStyles({
   text: {
@@ -24,6 +25,7 @@ interface MediaContentViewProps {
 
 export const MediaContentView: React.FC<MediaContentViewProps> = observer(({ onClick, selectedKey }) => {
   const { authStore } = useStores();
+  const config = container.resolve(ConfigService);
   const classes = useStyles();
 
   const mimeType = mime.getType(selectedKey);

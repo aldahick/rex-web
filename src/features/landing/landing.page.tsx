@@ -1,64 +1,45 @@
 import {
-  Grid, Link, Typography, TypographyProps,
+  Grid, Typography, useTheme,
 } from "@material-ui/core";
 import React from "react";
 
-import githubLogoUrl from "../../images/logos/github.png";
+import githubDarkLogoUrl from "../../images/logos/github-dark.png";
+import githubLightLogoUrl from "../../images/logos/github-light.png";
 import linkedInLogoUrl from "../../images/logos/linkedin.png";
 import { SocialBadge } from "../utils/components/SocialBadge";
 
-const Line = ({ children, ...props }: { children: React.ReactNode } & Omit<TypographyProps, "children">) => (
-  <Typography style={{ textAlign: "center" }} {...props}>
-    {children}
-  </Typography>
-);
+export const LandingPage: React.FC = () => {
+  const theme = useTheme();
 
-export const LandingPage: React.FC = () => (
-  <Grid container direction="column" alignItems="center">
-    <Grid item>
-      <Line variant="h5">
-        <Link href="https://github.com/aldahick">
-          Alex Hicks
-        </Link>
-      </Line>
-      <Line>
-        I&apos;m not a designer, forgive the atrocious visuals.
-      </Line>
-      <Line>
-        I
-        {" "}
-        <strong>
-          am
-        </strong>
-        {" "}
-        a software engineer.
-      </Line>
-      <Line>
-        This site is part of a small ecosystem of personal projects:
-      </Line>
-      <Line>
-        <Link href="https://github.com/search?q=user%3Aaldahick+rex-">
-          Rex
-        </Link>
-      </Line>
-    </Grid>
-    <Grid item style={{ marginTop: "1em" }}>
-      <Grid container justify="center" spacing={4}>
-        <Grid item>
-          <SocialBadge
-            imageUrl={githubLogoUrl}
-            url="https://github.com/aldahick"
-            label="@aldahick"
-          />
-        </Grid>
-        <Grid item>
-          <SocialBadge
-            imageUrl={linkedInLogoUrl}
-            url="https://linkedin.com/in/aldahick"
-            label="@aldahick"
-          />
+  return (
+    <Grid container direction="column" alignItems="center">
+      <Grid item>
+        <Typography variant="h1">
+          👋
+        </Typography>
+      </Grid>
+      <Grid item style={{ marginTop: "1em" }}>
+        <Grid container justify="center" spacing={4}>
+          <Grid item>
+            <SocialBadge
+              imageUrl={theme.palette.type === "dark"
+                ? githubDarkLogoUrl
+                : githubLightLogoUrl}
+              url="https://github.com/aldahick"
+              label="@aldahick"
+              textColor="textPrimary"
+            />
+          </Grid>
+          <Grid item>
+            <SocialBadge
+              imageUrl={linkedInLogoUrl}
+              url="https://linkedin.com/in/aldahick"
+              label="@aldahick"
+              textColor="textPrimary"
+            />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};
