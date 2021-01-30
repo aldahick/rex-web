@@ -11,7 +11,7 @@ import { SecureRoute, UserState } from "./component/auth";
 import { Layout } from "./component/layout/Layout";
 import { config } from "./config";
 import { scenes } from "./scenes";
-import { RootStore } from "./store/RootStore";
+import { RootStore } from "./store";
 
 const client = new ApolloClient({
   link: createHttpLink({

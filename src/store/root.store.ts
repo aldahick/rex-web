@@ -1,9 +1,9 @@
 import { computed, makeObservable } from "mobx";
 import { singleton } from "tsyringe";
 
-import { SettingsStore } from "./SettingsStore";
-import { SidebarStore } from "./SidebarStore";
-import { StatusStore } from "./StatusStore";
+import { SettingsStore } from "./settings.store";
+import { SidebarStore } from "./sidebar.store";
+import { StatusStore } from "./status.store";
 
 @singleton()
 export class RootStore {

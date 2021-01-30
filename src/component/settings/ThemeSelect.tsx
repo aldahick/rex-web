@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import React from "react";
 
 import { useStores } from "../../hook/useStores";
-import { Settings } from "../../store/SettingsStore";
+import { Settings } from "../../store";
 
 const useStyles = makeStyles({
   select: {

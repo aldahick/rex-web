@@ -11,7 +11,6 @@ export class SidebarStore {
 
   @action.bound
   setOpen(isOpen: boolean): void {
-    console.log({ isOpen });
     this.isOpen = isOpen;
   }
 }
