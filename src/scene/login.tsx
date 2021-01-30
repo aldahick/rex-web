@@ -1,17 +1,29 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import { observer } from "mobx-react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
-import { UserState } from "../component/auth";
 import { GoogleLoginButton } from "../component/auth/GoogleLoginButton";
 import { LocalAuthForm } from "../component/auth/LocalAuthForm";
 import { config } from "../config";
 import { IAuthToken } from "../graphql";
+import { useStores } from "../hook/useStores";
 
-export const LoginScene: React.FC = () => {
+export const LoginScene: React.FC = observer(() => {
+  const { authStore } = useStores();
+  const [redirect, setRedirect] = useState(false);
+
   const onLogin = ({ token, user }: IAuthToken) => {
-    UserState.setAuth(token, user.roles ?? []);
-    window.location.href = config.baseUrl;
+    authStore.setToken({
+      token,
+      roles: user.roles ?? []
+    });
+    setRedirect(true);
   };
+
+  if (redirect) {
+    return <Redirect to={config.baseUrl} />;
+  }
 
   return (
     <Grid container direction="column" alignItems="center">
@@ -31,4 +43,4 @@ export const LoginScene: React.FC = () => {
       </Grid>
     </Grid>
   );
-};
+});

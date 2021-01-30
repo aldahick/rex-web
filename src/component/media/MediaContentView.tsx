@@ -1,10 +1,11 @@
 import { makeStyles, Typography } from "@material-ui/core";
 import * as mime from "mime";
+import { observer } from "mobx-react";
 import React from "react";
 import { isIOS } from "react-device-detect";
 
 import { config } from "../../config";
-import { UserState } from "../auth";
+import { useStores } from "../../hook/useStores";
 import { FetchUrl } from "../util/FetchUrl";
 
 const useStyles = makeStyles({
@@ -21,11 +22,12 @@ interface MediaContentViewProps {
   onClick?: () => void;
 }
 
-export const MediaContentView: React.FC<MediaContentViewProps> = ({ onClick, selectedKey }) => {
+export const MediaContentView: React.FC<MediaContentViewProps> = observer(({ onClick, selectedKey }) => {
+  const { authStore } = useStores();
   const classes = useStyles();
 
   const mimeType = mime.getType(selectedKey);
-  const contentUrl = `${config.apiUrl}/v1/media/content?key=${selectedKey}&token=${UserState.token ?? ""}`;
+  const contentUrl = `${config.apiUrl}/v1/media/content?key=${selectedKey}&token=${authStore.token ?? ""}`;
 
   switch (mimeType) {
     case "audio/mp4":
@@ -85,4 +87,4 @@ export const MediaContentView: React.FC<MediaContentViewProps> = ({ onClick, sel
         </Typography>
       );
   }
-};
+});

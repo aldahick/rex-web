@@ -1,27 +1,31 @@
 import { Typography } from "@material-ui/core";
+import { observer } from "mobx-react";
 import React from "react";
 import { Redirect, Route, RouteComponentProps, RouteProps } from "react-router-dom";
 
-import { AuthCheck, UserState } from "./UserState";
+import { useStores } from "../../hook/useStores";
+import { AuthCheck } from "../../store";
 
 type SecureRouteProps = RouteProps & {
   check: AuthCheck;
   component: React.ComponentClass | React.FunctionComponent;
 };
 
-export const SecureRoute: React.FC<SecureRouteProps> = ({
+export const SecureRoute: React.FC<SecureRouteProps> = observer(({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   component: Component,
   check,
   ...rest
 }) => {
+  const { authStore } = useStores();
+
   const render = (props: RouteComponentProps) => {
     const component = () => <Component {...props} />;
 
-    if (!UserState.isAuthenticated) {
+    if (!authStore.isAuthenticated) {
       return <Redirect to="/login" />;
     }
-    return UserState.isAuthorized(check) ? component() : (
+    return authStore.isAuthorized(check) ? component() : (
       <Typography color="error">
         Access denied.
       </Typography>
@@ -31,4 +35,4 @@ export const SecureRoute: React.FC<SecureRouteProps> = ({
   return (
     <Route {...rest} render={render} />
   );
-};
+});

@@ -1,6 +1,9 @@
+import { ApolloProvider } from "@apollo/client";
 import { Grid, makeStyles, Toolbar } from "@material-ui/core";
+import { observer } from "mobx-react";
 import React from "react";
 
+import { useStores } from "../../hook/useStores";
 import { StatusMessages } from "../util/StatusMessages";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./sidebar";
@@ -12,20 +15,23 @@ const useStyles = makeStyles({
   },
 });
 
-export const Layout: React.FC = ({ children }) => {
+export const Layout: React.FC = observer(({ children }) => {
+  const { apolloStore } = useStores();
   const classes = useStyles();
 
   return (
-    <ThemeProvider>
-      <Navbar />
-      <Sidebar />
-      <StatusMessages />
-      <Grid container justify="center">
-        <Toolbar />
-        <Grid item className={classes.content}>
-          {children}
+    <ApolloProvider client={apolloStore.client}>
+      <ThemeProvider>
+        <Navbar />
+        <Sidebar />
+        <StatusMessages />
+        <Grid container justify="center">
+          <Toolbar />
+          <Grid item className={classes.content}>
+            {children}
+          </Grid>
         </Grid>
-      </Grid>
-    </ThemeProvider>
+      </ThemeProvider>
+    </ApolloProvider>
   );
-};
+});

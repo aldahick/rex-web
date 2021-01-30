@@ -1,17 +1,18 @@
 import { ListItem, ListItemText } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 
-import { UserState } from "../auth";
+import { useStores } from "../../hook/useStores";
 
 export const LogoutButton: React.FC = () => {
+  const { authStore } = useStores();
   const [shouldLogout, setShouldLogout] = useState<boolean>(false);
 
   useEffect(() => {
     if (shouldLogout) {
-      UserState.removeAuth();
+      authStore.removeAuth();
       window.location.href = "/";
     }
-  }, [shouldLogout]);
+  }, [authStore, shouldLogout]);
 
   return (
     <ListItem button onClick={() => setShouldLogout(true)}>

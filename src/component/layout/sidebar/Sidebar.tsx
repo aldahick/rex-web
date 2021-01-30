@@ -12,7 +12,6 @@ import React from "react";
 import { useStores } from "../../../hook/useStores";
 import { scenes } from "../../../scenes";
 import { SceneDefinition } from "../../../util/SceneDefinition";
-import { UserState } from "../../auth";
 import { LogoutButton } from "../../auth/LogoutButton";
 import { SidebarGroup } from "./SidebarGroup";
 import { SidebarItem, SidebarItemProps } from "./SidebarItem";
@@ -48,7 +47,7 @@ const toNavbarItemProps = (scene: SceneDefinition): SidebarItemProps => ({
 });
 
 export const Sidebar: React.FC = observer(() => {
-  const { sidebarStore } = useStores();
+  const { authStore, sidebarStore } = useStores();
   const classes = useStyles();
 
   return (
@@ -63,13 +62,13 @@ export const Sidebar: React.FC = observer(() => {
       >
         <div style={{ width: 250 }}>
           <List>
-            {!UserState.isAuthenticated && (
+            {!authStore.isAuthenticated && (
               <SidebarItem title="Log In" url="/login" nested={false} />
             )}
             {Object.entries(_.groupBy(scenes.filter(
               ({ navbar, authCheck }) => !!navbar && (
                 !authCheck
-                || UserState.isAuthorized(authCheck)
+                || authStore.isAuthorized(authCheck)
               ),
             ), s => s.navbar?.group?.title)).map(([, children]) => (
               ({
@@ -79,7 +78,7 @@ export const Sidebar: React.FC = observer(() => {
             )).map(({ group, items }) => (group
               ? <SidebarGroup key={group.title} group={group} items={items} />
               : items.map(props => <SidebarItem key={props.url} {...props} />)))}
-            {UserState.isAuthenticated && <LogoutButton />}
+            {authStore.isAuthenticated && <LogoutButton />}
           </List>
         </div>
       </SwipeableDrawer>
