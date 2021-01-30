@@ -62,9 +62,8 @@ export const Sidebar: React.FC = observer(() => {
               <SidebarItem title="Log In" url="/login" nested={false} />
             )}
             {pages.filter(
-              ({ navbar, authCheck }) => !!navbar && (
-                !authCheck
-                || authStore.isAuthorized(authCheck)
+              ({ navbar, permissions }) => !!navbar && (
+                permissions?.every(p => authStore.isAuthorized(p)) ?? true
               ),
             ).map(page => (
               <SidebarItem

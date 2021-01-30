@@ -3,18 +3,18 @@ import { observer } from "mobx-react";
 import React from "react";
 import { Redirect, Route, RouteComponentProps, RouteProps } from "react-router-dom";
 
+import { IAuthPermission } from "../../../graphql";
 import { useStores } from "../../../hooks";
-import { AuthCheck } from "../../../store";
 
 type SecureRouteProps = RouteProps & {
-  check: AuthCheck;
+  permissions: IAuthPermission[];
   component: React.ComponentClass | React.FunctionComponent;
 };
 
 export const SecureRoute: React.FC<SecureRouteProps> = observer(({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   component: Component,
-  check,
+  permissions,
   ...rest
 }) => {
   const { authStore } = useStores();
@@ -25,7 +25,7 @@ export const SecureRoute: React.FC<SecureRouteProps> = observer(({
     if (!authStore.isAuthenticated) {
       return <Redirect to="/login" />;
     }
-    return authStore.isAuthorized(check) ? component() : (
+    return permissions.every(p => authStore.isAuthorized(p)) ? component() : (
       <Typography color="error">
         Access denied.
       </Typography>

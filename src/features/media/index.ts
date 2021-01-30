@@ -1,3 +1,4 @@
+import { IAuthAction } from "../../graphql";
 import { IFeature } from "../../IFeature";
 import { MediaPage } from "./media.page";
 
@@ -6,7 +7,10 @@ export const mediaFeature: IFeature = {
     {
       route: "/media",
       component: MediaPage,
-      authCheck: can => can.read("mediaItem"),
+      permissions: [{
+        action: IAuthAction.ReadOwn,
+        resource: "mediaItem"
+      }],
       navbar: {
         title: "Media",
       },

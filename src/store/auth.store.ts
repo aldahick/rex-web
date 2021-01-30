@@ -1,9 +1,9 @@
-import { AccessControl, Permission, Query } from "accesscontrol";
+import { AccessControl } from "accesscontrol";
 import * as _ from "lodash";
 import { action, computed, makeObservable, observable } from "mobx";
 import { singleton } from "tsyringe";
 
-import { IRole } from "../graphql";
+import { IAuthPermission, IRole } from "../graphql";
 
 const TOKEN_KEY = "rex.auth.token/v2";
 interface AuthTokenData {
@@ -11,13 +11,9 @@ interface AuthTokenData {
   roles: IRole[];
 }
 
-export type AuthCheck = (can: Query) => Permission;
-
 @singleton()
 export class AuthStore {
   @observable private data?: AuthTokenData;
-
-  private accessControl?: AccessControl;
 
   constructor() {
     makeObservable(this);
@@ -36,13 +32,12 @@ export class AuthStore {
   setToken(token: AuthTokenData): void {
     localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
     this.data = token;
-    this.createAccessControl();
   }
 
   @action.bound
   removeAuth(): void {
     localStorage.removeItem(TOKEN_KEY);
-    this.data = this.accessControl = undefined;
+    this.data = undefined;
   }
 
   @computed
@@ -60,20 +55,20 @@ export class AuthStore {
     return this.data !== undefined && !!this.accessControl;
   }
 
-  isAuthorized(check: AuthCheck): boolean {
+  isAuthorized(permission: IAuthPermission): boolean {
     if (!this.roles) {
       return false;
     }
-    return this.roles.some(r => this.accessControl
-      && check(this.accessControl.can(r.name)).granted
+    return this.roles.some(r =>
+      this.accessControl?.can(r.name)[permission.action](permission.resource).granted
     ) || false;
   }
 
-  private createAccessControl() {
+  private get accessControl() {
     if (!this.roles) {
       return;
     }
-    this.accessControl = new AccessControl(_.flatten(
+    return new AccessControl(_.flatten(
       this.roles.map(role => role.permissions.map(permission => ({
         role: role.name,
         resource: permission.resource,

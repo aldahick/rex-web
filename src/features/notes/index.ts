@@ -1,3 +1,4 @@
+import { IAuthAction } from "../../graphql";
 import { IFeature } from "../../IFeature";
 import { NoteScene } from "./note.page";
 import { NotesScene } from "./notes.page";
@@ -7,7 +8,10 @@ export const notesFeature: IFeature = {
     {
       route: "/notes",
       component: NotesScene,
-      authCheck: can => can.readOwn("note"),
+      permissions: [{
+        action: IAuthAction.ReadOwn,
+        resource: "note"
+      }],
       navbar: {
         title: "Notes",
       },
@@ -15,7 +19,10 @@ export const notesFeature: IFeature = {
     {
       route: "/notes/:noteId",
       component: NoteScene,
-      authCheck: can => can.readOwn("note"),
+      permissions: [{
+        action: IAuthAction.ReadOwn,
+        resource: "note"
+      }]
     }
   ]
 };

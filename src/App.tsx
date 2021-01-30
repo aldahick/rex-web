@@ -9,7 +9,7 @@ import { container } from "tsyringe";
 
 import * as features from "./features";
 import { SecureRoute } from "./features/auth";
-import { Layout } from "./features/layout/Layout";
+import { Layout } from "./features/layout";
 import { RootStore } from "./store";
 
 export const App: React.FC = () => {
@@ -21,15 +21,15 @@ export const App: React.FC = () => {
       <MobxProvider {...rootStore.allStores}>
         <Layout>
           <Switch>
-            {pages.map(scene => {
+            {pages.map(page => {
               const props = {
-                key: scene.route,
+                key: page.route,
                 exact: true,
-                path: scene.route,
-                component: scene.component,
+                path: page.route,
+                component: page.component,
               };
-              return scene.authCheck
-                ? <SecureRoute {...props} check={scene.authCheck} />
+              return page.permissions
+                ? <SecureRoute {...props} permissions={page.permissions} />
                 : <Route {...props} />;
             })}
           </Switch>

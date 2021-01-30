@@ -1,9 +1,9 @@
-import { AuthCheck } from "./store";
+import { IAuthPermission } from "./graphql";
 
 export interface IPageDefinition {
   component: React.ComponentType<unknown>;
   route: string;
-  authCheck?: AuthCheck;
+  permissions?: IAuthPermission[];
   navbar?: {
     title: string;
   };
