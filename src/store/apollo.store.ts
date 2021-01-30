@@ -2,7 +2,7 @@ import { ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject } fr
 import { computed, makeObservable } from "mobx";
 import { singleton } from "tsyringe";
 
-import { ConfigService } from "../service";
+import { ConfigService } from "../features/utils/config.service";
 import { AuthStore } from "./auth.store";
 
 @singleton()
