@@ -3,8 +3,8 @@ import {
 } from "@material-ui/core";
 import React from "react";
 
-import githubLogoUrl from "../images/logos/github.png";
-import linkedInLogoUrl from "../images/logos/linkedin.png";
+import githubLogoUrl from "../../images/logos/github.png";
+import linkedInLogoUrl from "../../images/logos/linkedin.png";
 import { SocialBadge } from "../utils/components/SocialBadge";
 
 const Line = ({ children, ...props }: { children: React.ReactNode } & Omit<TypographyProps, "children">) => (
