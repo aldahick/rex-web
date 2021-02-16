@@ -12,6 +12,8 @@ COPY src ./src
 COPY public ./public
 RUN yarn build
 
-COPY scripts ./scripts
+# allow for rebuild on container first start
+RUN yarn clean
 
+COPY scripts ./scripts
 CMD yarn start:prod
