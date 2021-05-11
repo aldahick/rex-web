@@ -1,6 +1,7 @@
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Typography,
 } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import * as _ from "lodash";
 import React, { useState } from "react";
 
@@ -68,8 +69,13 @@ export const DialogForm = <FieldKey extends string>({ fields, title, onSubmit }:
     <>
       <AddButton onClick={() => setOpen(true)} />
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>
-          {title}
+        <DialogTitle disableTypography>
+          <Typography variant="h6">
+            {title}
+          </Typography>
+          <IconButton>
+            <CloseIcon />
+          </IconButton>
         </DialogTitle>
         <DialogContent>
           <Grid container direction="column" spacing={2}>
