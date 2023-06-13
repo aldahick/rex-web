@@ -21,7 +21,6 @@
   "bugs": {
     "url": "https://github.com/aldahick/rex-web/issues"
   },
-  "homepage": "https://github.com/aldahick/rex-web#readme",
   "browserslist": {
     "production": [
       ">0.2%",

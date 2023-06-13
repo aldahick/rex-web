@@ -1,8 +1,6 @@
-FROM node:12.18-alpine
+FROM node:12-alpine AS builder
 
-EXPOSE 5000
-
-WORKDIR /app
+EXPOSE 3000
 
 COPY package.json yarn.lock ./
 RUN yarn --frozen-lockfile
@@ -12,8 +10,10 @@ COPY src ./src
 COPY public ./public
 RUN yarn build
 
-# allow for rebuild on container first start
-RUN yarn clean
+FROM node:18-alpine AS server
 
-COPY scripts ./scripts
-CMD yarn start:prod
+RUN npm i -g serve
+
+COPY --from=builder build build
+COPY scripts scripts
+CMD sh scripts/serve.sh build

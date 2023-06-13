@@ -10,14 +10,16 @@ import { container } from "tsyringe";
 import * as features from "./features";
 import { SecureRoute } from "./features/auth";
 import { Layout } from "./features/layout";
+import { ConfigService } from "./features/utils/config.service";
 import { RootStore } from "./store";
 
 export const App: React.FC = () => {
+  const config = container.resolve(ConfigService);
   const rootStore = container.resolve(RootStore);
   const pages = _.flatten(Object.values(features).map(f => f.pages ?? []));
 
   return (
-    <BrowserRouter basename={process.env.REACT_APP_BASE_URL}>
+    <BrowserRouter basename={config.baseUrl}>
       <MobxProvider {...rootStore.allStores}>
         <Layout>
           <Switch>

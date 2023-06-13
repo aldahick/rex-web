@@ -1,10 +1,8 @@
 import { singleton } from "tsyringe";
 
-const optional = (key: string): string | undefined => process.env[key];
-
 const required = (key: string): string => {
-  const value = optional(key);
-  if (value === undefined) {
+  const value = process.env[`REACT_APP_${key}`] ?? document.body.getAttribute(`env-${key.split("_").join("-").toLowerCase()}`);
+  if (typeof value !== "string") {
     throw new Error(`Missing environment variable ${key}`);
   }
   return value;
@@ -12,9 +10,9 @@ const required = (key: string): string => {
 
 @singleton()
 export class ConfigService {
-  apiUrl = required("REACT_APP_API_URL");
+  apiUrl = required("API_URL");
 
-  baseUrl = required("REACT_APP_BASE_URL");
+  baseUrl = required("BASE_URL");
 
-  googleClientId = optional("REACT_APP_GOOGLE_CLIENT_ID");
+  googleClientId = required("GOOGLE_CLIENT_ID");
 }
